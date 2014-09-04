@@ -10,7 +10,7 @@
       <sprites name="Darius">
         <sprite>sprites\spr_Darius_Pistol</sprite>
         <sprite>sprites\spr_Darius_Machine_Gun</sprite>
-        <sprite>sprites\spr_Laser_Rifle</sprite>
+        <sprite>sprites\spr_Darius_Laser_Rifle</sprite>
         <sprite>sprites\spr_Darius_Shotgun</sprite>
       </sprites>
     </sprites>
@@ -68,6 +68,7 @@
     <objects name="Weapons">
       <objects name="Ammo">
         <object>objects\obj_bullet</object>
+        <object>objects\obj_laser</object>
       </objects>
       <objects name="Pistol">
         <object>objects\obj_Pistol</object>
@@ -80,13 +81,10 @@
         <object>objects\obj_Shotgun</object>
         <object>objects\obj_Shotgun_Pickup</object>
       </objects>
-<<<<<<< HEAD
       <objects name="Laser_Rifle">
         <object>objects\obj_Laser_Rifle</object>
         <object>objects\obj_Laser_Rifle_Pickup</object>
       </objects>
-=======
->>>>>>> parent of 9910640... Added Laser Rifle
     </objects>
     <objects name="System">
       <object>objects\Initializer</object>
@@ -105,11 +103,7 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="14">
-<<<<<<< HEAD
-    <constant name="GM_build_date">41886.8272165278</constant>
-=======
-    <constant name="GM_build_date">41886.6575478704</constant>
->>>>>>> parent of 9910640... Added Laser Rifle
+    <constant name="GM_build_date">41886.8473536343</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>
