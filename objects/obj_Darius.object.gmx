@@ -42,15 +42,14 @@ acceleration = 1;
 inventory_size = 9;
 inv_current_slot = 0;
 inv_prev_slot = -1;
-//Clear all inventory slots and add pistol
-for(var i = 0; i &lt; inventory_size; i++)
-{
-    inv[i] = -1;
-}
 inv[0] = instance_create(x,y,obj_Pistol);
 inv[0].owner = self.id;
 inv[0].bullet_x_offset = sprite_width - 14;
 inv[0].bullet_y_offset = 2;
+for(var i = 1; i &lt; inventory_size; i++)
+{
+    inv[i] = -1;
+}
 
 
 //Keybindings
@@ -81,7 +80,7 @@ mouse_fire = mb_left;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle += turn_towards(image_angle,look_target,1 / 180);
+            <string>image_angle = look_target;
 </string>
           </argument>
         </arguments>
@@ -242,8 +241,8 @@ if(inv_prev_slot != inv_current_slot)
     inv[laser_rifle] = instance_create(x,y,obj_Laser_Rifle);
     instance_deactivate_object(inv[laser_rifle]);
     inv[laser_rifle].owner = self.id;
-    inv[laser_rifle].bullet_x_offset = sprite_width - 14;
-    inv[laser_rifle].bullet_y_offset = -10;
+    inv[laser_rifle].bullet_x_offset = sprite_width - 10;
+    inv[laser_rifle].bullet_y_offset = -15;
     other.ammo = 0; //destroys pickup
     if(inv_current_slot &lt; laser_rifle)
     {
@@ -253,7 +252,7 @@ if(inv_prev_slot != inv_current_slot)
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
     text.Text = "Picked Up Laser Rifle";
-    text.color = c_lime;
+    text.color = c_green;
 }
 else
 {
@@ -312,7 +311,7 @@ else
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
     text.Text = "Picked Up Shotgun";
-    text.color = c_lime;
+    text.color = c_green;
 }
 else
 {
@@ -371,7 +370,7 @@ else
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
     text.Text = "Picked Up Machine Gun";
-    text.color = c_lime;
+    text.color = c_green;
 }
 else
 {
