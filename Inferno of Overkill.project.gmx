@@ -16,6 +16,9 @@
       <sprites name="Pistol">
         <sprite>sprites\spr_Pistol_Muzzle_Flash</sprite>
       </sprites>
+      <sprites name="Machine Gun">
+        <sprite>sprites\spr_Machine_Gun</sprite>
+      </sprites>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -55,7 +58,10 @@
       </objects>
       <objects name="Pistol">
         <object>objects\obj_Pistol</object>
+      </objects>
+      <objects name="Machine Gun">
         <object>objects\obj_Machine_Gun</object>
+        <object>objects\obj_Machine_Gun_Pickup</object>
       </objects>
     </objects>
     <objects name="System">
@@ -70,7 +76,7 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="14">
-    <constant name="GM_build_date">41886.192706088</constant>
+    <constant name="GM_build_date">41886.2171794213</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>

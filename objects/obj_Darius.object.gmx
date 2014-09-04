@@ -44,16 +44,11 @@ inv[0] = instance_create(x,y,obj_Pistol);
 inv[0].owner = self.id;
 inv[0].bullet_x_offset = sprite_width - 14;
 inv[0].bullet_y_offset = 2;
-/* Temporariy starting with machine gun
 for(var i = 1; i &lt; inventory_size; i++)
 {
     inv[i] = -1;
 }
-*/
-inv[1] = instance_create(x,y,obj_Machine_Gun);
-inv[1].owner = self.id;
-inv[1].bullet_x_offset = sprite_width;
-inv[1].bullet_y_offset = -15;
+
 
 //Keybindings
 key_up = ord('W');
@@ -188,12 +183,57 @@ if(inv_prev_slot != inv_current_slot)
     instance_activate_object(inv[inv_current_slot]);
     for(var i = 0; i &lt; inventory_size;i++)
     {
-        if(i != inv_current_slot)
+        if(i != inv_current_slot &amp;&amp; inv[i] != -1)
         {
             instance_deactivate_object(inv[i]);
         }
     }
     inv_prev_slot = inv_current_slot;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Machine_Gun_Pickup">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(inv[machine_gun] == -1)
+{
+    inv[machine_gun] = instance_create(x,y,obj_Machine_Gun);
+    instance_deactivate_object(inv[machine_gun]);
+    inv[machine_gun].owner = self.id;
+    inv[machine_gun].bullet_x_offset = sprite_width - 10;
+    inv[machine_gun].bullet_y_offset = -15;
+    other.ammo = 0; //destroys pickup
+}
+else
+{
+    if(inv[machine_gun].max_ammo != -1)
+    {
+        var amount = min(inv[machine_gun].max_ammo - inv[machine_gun].ammo,other.ammo);
+        inv[machine_gun].ammo += amount;
+        other.ammo -= amount;
+        show_debug_message(other.ammo);
+    }
+    else
+    {
+        other.ammo = 0;
+    }
 }
 </string>
           </argument>
