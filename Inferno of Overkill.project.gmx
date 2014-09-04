@@ -46,6 +46,7 @@
         <script>scripts\reset_view.gml</script>
         <script>scripts\fullscreen_toggle.gml</script>
       </scripts>
+      <script>scripts\turn_towards.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
@@ -77,6 +78,7 @@
       <object>objects\Initializer</object>
       <objects name="Controllers">
         <object>objects\obj_Game_Controller</object>
+        <object>objects\obj_Test_Controller</object>
       </objects>
       <objects name="UI">
         <object>objects\obj_UI</object>
@@ -89,7 +91,7 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="14">
-    <constant name="GM_build_date">41886.6187128935</constant>
+    <constant name="GM_build_date">41886.6575478704</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>

@@ -88,7 +88,7 @@ y -= move_speed;
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="64">
+    <event eventtype="8" enumb="73">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -111,7 +111,7 @@ var yy = a[1];
 draw_set_font(fnt_Main_Small);
 draw_set_color(color);
 draw_set_alpha(alpha);
-draw_text_outline(x - view_xview[0] + xx,y - view_yview[0] + yy,Text,1);
+draw_text_outline(x,y,Text,1);
 draw_set_alpha(1);
 </string>
           </argument>

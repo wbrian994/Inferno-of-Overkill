@@ -30,7 +30,7 @@ bullet_speed = 10;
 bullet_x_offset = -1;
 bullet_y_offset = -1;
 show_muzzle_flash = false;
-cooldown = 0.15 * room_speed; //seconds cooldown between shots
+cooldown = 0.2 * room_speed; //seconds cooldown between shots
 cooled_down = true;
 reload_time = 1 * room_speed; //1 second to reload
 reloading = false;
@@ -39,7 +39,7 @@ mag_ammo = mag_size; //Ammo in magazine
 max_ammo = -1 //-1 is infinite
 ammo = -1
 can_fire = true;
-accuracy = 1; //Higher numbers are worse, 0 hits cursor every time
+accuracy = 2; //Higher numbers are worse, 0 hits cursor every time
 name = "Pistol";
 
 owner = -1;
