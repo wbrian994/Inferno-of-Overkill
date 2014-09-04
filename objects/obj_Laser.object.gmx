@@ -5,10 +5,10 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_UI</parentName>
+  <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
-    <event eventtype="0" enumb="0">
+    <event eventtype="7" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -25,35 +25,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Initialize
-//options
-Text = "Text";
-color = c_white;
-show_time = 2 * room_speed;
-fade_time = 0.25 * room_speed;
-move_speed = 1;
-counter = 0;
-
-//Vars
-alpha = 1;
-var a = application_get_position();
-var xx = a[0];
-var yy = a[1];
-var ww = a[2] - a[0];
-var hh = a[3] - a[1];
-xPos = xx + ww / 2;
-yPos = yy + hh / 2;
-
-//States
-showing = 0;
-fading = 1;
-current_state = showing;
+            <string>instance_destroy();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -70,60 +48,10 @@ current_state = showing;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>switch(current_state)
-{
-    case showing:
-        counter++;
-        if(counter &gt;= show_time)
-        {
-            current_state++;
-            counter = 0;
-        }
-        break;
-    case fading:
-        alpha = lerp(1,0,counter / fade_time);
-        counter++;
-        if(counter &gt;= fade_time)
-        {
-            instance_destroy();
-        }
-        break;
-}
-yPos -= move_speed;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="64">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>var a = application_get_position();
-var xx = a[0];
-var yy = a[1];
-draw_set_font(fnt_Main_Small);
-draw_set_color(color);
-draw_set_alpha(alpha);
-draw_set_halign(fa_center);
-draw_set_valign(fa_middle);
-draw_text_outline(xPos,yPos,Text,1);
-draw_set_halign(fa_left);
-draw_set_valign(fa_top);
-draw_set_alpha(1);
+            <string>var hor = 5 * cos(degtorad(direction));
+var ver = 5 * -sin(degtorad(direction));
+draw_set_color(c_red);
+draw_line_width(x,y,x + hor,y + ver,2);
 </string>
           </argument>
         </arguments>

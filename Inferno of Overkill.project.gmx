@@ -10,6 +10,7 @@
       <sprites name="Darius">
         <sprite>sprites\spr_Darius_Pistol</sprite>
         <sprite>sprites\spr_Darius_Machine_Gun</sprite>
+        <sprite>sprites\spr_Darius_Laser_Rifle</sprite>
         <sprite>sprites\spr_Darius_Shotgun</sprite>
       </sprites>
     </sprites>
@@ -22,6 +23,10 @@
       </sprites>
       <sprites name="Shotgun">
         <sprite>sprites\spr_Shotgun</sprite>
+      </sprites>
+      <sprites name="Laser_Rifle">
+        <sprite>sprites\spr_Laser_Emitter_Flash</sprite>
+        <sprite>sprites\spr_Laser_Rifle</sprite>
       </sprites>
     </sprites>
   </sprites>
@@ -61,6 +66,7 @@
     <objects name="Weapons">
       <objects name="Ammo">
         <object>objects\obj_bullet</object>
+        <object>objects\obj_laser</object>
       </objects>
       <objects name="Pistol">
         <object>objects\obj_Pistol</object>
@@ -72,6 +78,10 @@
       <objects name="Shotgun">
         <object>objects\obj_Shotgun</object>
         <object>objects\obj_Shotgun_Pickup</object>
+      </objects>
+      <objects name="Laser_Rifle">
+        <object>objects\obj_Laser_Rifle</object>
+        <object>objects\obj_Laser_Rifle_Pickup</object>
       </objects>
     </objects>
     <objects name="System">
@@ -91,7 +101,7 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="14">
-    <constant name="GM_build_date">41886.6575478704</constant>
+    <constant name="GM_build_date">41886.8482584491</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>

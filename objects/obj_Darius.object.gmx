@@ -38,17 +38,19 @@ acceleration = 1;
     pistol = 0;
     machine_gun = 1;
     shotgun = 2;
-inventory_size = 3;
+    laser_rifle = 8;
+inventory_size = 9;
 inv_current_slot = 0;
 inv_prev_slot = -1;
+//Clear all inventory slots and add pistol
+for(var i = 0; i &lt; inventory_size; i++)
+{
+    inv[i] = -1;
+}
 inv[0] = instance_create(x,y,obj_Pistol);
 inv[0].owner = self.id;
 inv[0].bullet_x_offset = sprite_width - 14;
 inv[0].bullet_y_offset = 2;
-for(var i = 1; i &lt; inventory_size; i++)
-{
-    inv[i] = -1;
-}
 
 
 //Keybindings
@@ -79,7 +81,7 @@ mouse_fire = mb_left;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle = look_target;
+            <string>image_angle += turn_towards(image_angle,look_target,1 / 180);
 </string>
           </argument>
         </arguments>
@@ -177,6 +179,13 @@ if(keyboard_check_pressed(ord('3')))
         inv_current_slot = 2;
     }
 }
+if(keyboard_check_pressed(ord('9')))
+{
+    if(inv[8] != -1)
+    {
+        inv_current_slot = 8;
+    }
+}
 
 //Slot Changed
 if(inv_prev_slot != inv_current_slot)
@@ -192,6 +201,9 @@ if(inv_prev_slot != inv_current_slot)
         case 2:
             sprite_index = spr_Darius_Shotgun;
             break;
+        case 8:
+            sprite_index = spr_Darius_Laser_Rifle;
+            break;
     }
     instance_activate_object(inv[inv_current_slot]);
     for(var i = 0; i &lt; inventory_size;i++)
@@ -202,6 +214,65 @@ if(inv_prev_slot != inv_current_slot)
         }
     }
     inv_prev_slot = inv_current_slot;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Laser_Rifle_Pickup">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(inv[laser_rifle] == -1)
+{
+    inv[laser_rifle] = instance_create(x,y,obj_Laser_Rifle);
+    instance_deactivate_object(inv[laser_rifle]);
+    inv[laser_rifle].owner = self.id;
+    inv[laser_rifle].bullet_x_offset = sprite_width - 14;
+    inv[laser_rifle].bullet_y_offset = -10;
+    other.ammo = 0; //destroys pickup
+    if(inv_current_slot &lt; laser_rifle)
+    {
+        inv_current_slot = laser_rifle;
+    }
+    
+    //text
+    var text = instance_create(x,y,obj_Pickup_Text);
+    text.Text = "Picked Up Laser Rifle";
+    text.color = c_lime;
+}
+else
+{
+    if(inv[laser_rifle].max_ammo != -1)
+    {
+        var amount = min(inv[laser_rifle].max_ammo - inv[laser_rifle].ammo,other.ammo);
+        inv[laser_rifle].ammo += amount;
+        other.ammo -= amount;
+        if(amount &gt; 0)
+        {
+            var text = instance_create(x,y,obj_Pickup_Text);
+            text.Text = "+" + string(amount) + " Battery";
+            text.color = c_green;
+        }
+    }
+    else
+    {
+        other.ammo = 0;
+    }
 }
 </string>
           </argument>
@@ -241,7 +312,7 @@ if(inv_prev_slot != inv_current_slot)
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
     text.Text = "Picked Up Shotgun";
-    text.color = c_green;
+    text.color = c_lime;
 }
 else
 {
@@ -300,7 +371,7 @@ else
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
     text.Text = "Picked Up Machine Gun";
-    text.color = c_green;
+    text.color = c_lime;
 }
 else
 {
