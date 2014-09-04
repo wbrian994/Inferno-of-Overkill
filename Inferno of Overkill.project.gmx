@@ -10,6 +10,7 @@
       <sprites name="Darius">
         <sprite>sprites\spr_Darius_Pistol</sprite>
         <sprite>sprites\spr_Darius_Machine_Gun</sprite>
+        <sprite>sprites\spr_Laser_Rifle</sprite>
         <sprite>sprites\spr_Darius_Shotgun</sprite>
       </sprites>
     </sprites>
@@ -22,6 +23,9 @@
       </sprites>
       <sprites name="Shotgun">
         <sprite>sprites\spr_Shotgun</sprite>
+      </sprites>
+      <sprites name="Laser_Rifle">
+        <sprite>sprites\spr_Laser_Emitter_Flash</sprite>
       </sprites>
     </sprites>
   </sprites>
