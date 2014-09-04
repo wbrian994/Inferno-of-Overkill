@@ -10,6 +10,7 @@
       <sprites name="Darius">
         <sprite>sprites\spr_Darius_Pistol</sprite>
         <sprite>sprites\spr_Darius_Machine_Gun</sprite>
+        <sprite>sprites\spr_Darius_Shotgun</sprite>
       </sprites>
     </sprites>
     <sprites name="Weapons">
@@ -18,6 +19,9 @@
       </sprites>
       <sprites name="Machine Gun">
         <sprite>sprites\spr_Machine_Gun</sprite>
+      </sprites>
+      <sprites name="Shotgun">
+        <sprite>sprites\spr_Shotgun</sprite>
       </sprites>
     </sprites>
   </sprites>
@@ -46,6 +50,7 @@
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_main</font>
+    <font>fonts\fnt_Main_Small</font>
   </fonts>
   <objects name="objects">
     <objects name="Player">
@@ -63,11 +68,19 @@
         <object>objects\obj_Machine_Gun</object>
         <object>objects\obj_Machine_Gun_Pickup</object>
       </objects>
+      <objects name="Shotgun">
+        <object>objects\obj_Shotgun</object>
+        <object>objects\obj_Shotgun_Pickup</object>
+      </objects>
     </objects>
     <objects name="System">
       <object>objects\Initializer</object>
       <objects name="Controllers">
         <object>objects\obj_Game_Controller</object>
+      </objects>
+      <objects name="UI">
+        <object>objects\obj_UI</object>
+        <object>objects\obj_Pickup_Text</object>
       </objects>
     </objects>
   </objects>
@@ -76,7 +89,7 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="14">
-    <constant name="GM_build_date">41886.2171794213</constant>
+    <constant name="GM_build_date">41886.6187128935</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>

@@ -39,6 +39,8 @@ mag_ammo = mag_size; //Ammo in magazine
 max_ammo = -1 //-1 is infinite
 ammo = -1
 can_fire = true;
+accuracy = 1; //Higher numbers are worse, 0 hits cursor every time
+name = "Pistol";
 
 owner = -1;
 </string>
@@ -136,7 +138,7 @@ if(owner != -1)
     {
         var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
         var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
-        bullet.direction = owner.look_target;
+        bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
         bullet.speed = bullet_speed;
         cooled_down = false;
         alarm[0] = cooldown;
@@ -207,6 +209,7 @@ if(reloading)
     }
     else
     {
+        draw_set_color(c_red);
         str = "No Ammo!";
     }
     str_width = string_width(str);
