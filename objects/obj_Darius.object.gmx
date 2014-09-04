@@ -38,8 +38,7 @@ acceleration = 1;
     pistol = 0;
     machine_gun = 1;
     shotgun = 2;
-    laser_rifle = 8;
-inventory_size = 9;
+inventory_size = 3;
 inv_current_slot = 0;
 inv_prev_slot = -1;
 inv[0] = instance_create(x,y,obj_Pistol);
@@ -178,13 +177,6 @@ if(keyboard_check_pressed(ord('3')))
         inv_current_slot = 2;
     }
 }
-if(keyboard_check_pressed(ord('9')))
-{
-    if(inv[8] != -1)
-    {
-        inv_current_slot = 8;
-    }
-}
 
 //Slot Changed
 if(inv_prev_slot != inv_current_slot)
@@ -199,9 +191,6 @@ if(inv_prev_slot != inv_current_slot)
             break;
         case 2:
             sprite_index = spr_Darius_Shotgun;
-            break;
-        case 8:
-            sprite_index = spr_Darius_Laser_Rifle;
             break;
     }
     instance_activate_object(inv[inv_current_slot]);
