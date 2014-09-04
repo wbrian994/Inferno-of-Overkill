@@ -26,6 +26,7 @@
       </sprites>
       <sprites name="Laser_Rifle">
         <sprite>sprites\spr_Laser_Emitter_Flash</sprite>
+        <sprite>sprites\spr_Laser_Rifle</sprite>
       </sprites>
     </sprites>
   </sprites>
@@ -80,6 +81,7 @@
       </objects>
       <objects name="Laser_Rifle">
         <object>objects\obj_Laser_Rifle</object>
+        <object>objects\obj_Laser_Rifle_Pickup</object>
       </objects>
     </objects>
     <objects name="System">
@@ -99,7 +101,7 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="14">
-    <constant name="GM_build_date">41886.7613552662</constant>
+    <constant name="GM_build_date">41886.7918189931</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>

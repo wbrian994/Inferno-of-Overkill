@@ -219,6 +219,65 @@ if(inv_prev_slot != inv_current_slot)
         </arguments>
       </action>
     </event>
+    <event eventtype="4" ename="obj_Laser_Rifle_Pickup">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(inv[laser_rifle] == -1)
+{
+    inv[laser_rifle] = instance_create(x,y,obj_Laser_Rifle);
+    instance_deactivate_object(inv[laser_rifle]);
+    inv[laser_rifle].owner = self.id;
+    inv[laser_rifle].bullet_x_offset = sprite_width - 10;
+    inv[laser_rifle].bullet_y_offset = -15;
+    other.ammo = 0; //destroys pickup
+    if(inv_current_slot &lt; laser_rifle)
+    {
+        inv_current_slot = laser_rifle;
+    }
+    
+    //text
+    var text = instance_create(x,y,obj_Pickup_Text);
+    text.Text = "Picked Up Laser Rifle";
+    text.color = c_green;
+}
+else
+{
+    if(inv[laser_rifle].max_ammo != -1)
+    {
+        var amount = min(inv[laser_rifle].max_ammo - inv[laser_rifle].ammo,other.ammo);
+        inv[laser_rifle].ammo += amount;
+        other.ammo -= amount;
+        if(amount &gt; 0)
+        {
+            var text = instance_create(x,y,obj_Pickup_Text);
+            text.Text = "+" + string(amount) + " Battery";
+            text.color = c_green;
+        }
+    }
+    else
+    {
+        other.ammo = 0;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="4" ename="obj_Shotgun_Pickup">
       <action>
         <libid>1</libid>
@@ -391,65 +450,6 @@ var str = string(inv[inv_current_slot].name);
 draw_text_outline(ww / 2,hh,str,2);
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="10" enumb="76">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(inv[laser_rifle] == -1)
-{
-    inv[laser_rifle] = instance_create(x,y,obj_Laser_Rifle);
-    instance_deactivate_object(inv[laser_rifle]);
-    inv[laser_rifle].owner = self.id;
-    inv[laser_rifle].bullet_x_offset = sprite_width - 10;
-    inv[laser_rifle].bullet_y_offset = -15;
-    other.ammo = 0; //destroys pickup
-    if(inv_current_slot &lt; laser_rifle)
-    {
-        inv_current_slot = laser_rifle;
-    }
-    
-    //text
-    var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up Laser Rifle";
-    text.color = c_green;
-}
-else
-{
-    if(inv[laser_rifle].max_ammo != -1)
-    {
-        var amount = min(inv[laser_rifle].max_ammo - inv[laser_rifle].ammo,other.ammo);
-        inv[laser_rifle].ammo += amount;
-        other.ammo -= amount;
-        if(amount &gt; 0)
-        {
-            var text = instance_create(x,y,obj_Pickup_Text);
-            text.Text = "+" + string(amount) + " Laser Rifle Ammo";
-            text.color = c_green;
-        }
-    }
-    else
-    {
-        other.ammo = 0;
-    }
-}
 </string>
           </argument>
         </arguments>
