@@ -30,15 +30,17 @@ bullet_speed = 10;
 bullet_x_offset = -1;
 bullet_y_offset = -1;
 show_muzzle_flash = false;
-cooldown = 0.1 * room_speed; //seconds cooldown between shots
+cooldown = 0.05 * room_speed; //seconds cooldown between shots
 cooled_down = true;
 reload_time = 2 * room_speed; //1 second to reload
 reloading = false;
-mag_size = 50; //Magazine size
+mag_size = 100; //Magazine size
 mag_ammo = mag_size; //Ammo in magazine
-max_ammo = 255 //-1 is infinite
-ammo = 255
+max_ammo = 500 //-1 is infinite
+ammo = irandom_range(mag_size,max_ammo);
 can_fire = true;
+accuracy = 1; //Higher numbers are worse, 0 hits cursor every time
+name = "Laser Rifle";
 
 owner = -1;
 </string>
@@ -135,8 +137,8 @@ if(owner != -1)
     if(can_fire &amp;&amp; mouse_check_button(owner.mouse_fire))
     {
         var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-        var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
-        bullet.direction = owner.look_target;
+        var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_laser);
+        bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
         bullet.speed = bullet_speed;
         cooled_down = false;
         alarm[0] = cooldown;
@@ -207,6 +209,7 @@ if(reloading)
     }
     else
     {
+        draw_set_color(c_red);
         str = "No Ammo!";
     }
     str_width = string_width(str);
@@ -239,7 +242,7 @@ if(reloading)
             <string>if(show_muzzle_flash)
 {
     var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-    draw_sprite_ext(spr_Laser_Emiiter_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
+    draw_sprite_ext(spr_Laser_Emitter_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
     show_muzzle_flash = false;
 }
 </string>
