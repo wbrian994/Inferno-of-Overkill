@@ -248,7 +248,7 @@ if(reloading)
             <string>if(show_muzzle_flash)
 {
     var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-    draw_sprite_ext(spr_Shotgun_Muzzle_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
+    draw_sprite_ext(spr_Pistol_Muzzle_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
     show_muzzle_flash = false;
 }
 </string>

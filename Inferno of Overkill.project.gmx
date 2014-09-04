@@ -20,11 +20,9 @@
       </sprites>
       <sprites name="Machine Gun">
         <sprite>sprites\spr_Machine_Gun</sprite>
-        <sprite>sprites\spr_Machine_Gun_Muzzle_Flash</sprite>
       </sprites>
       <sprites name="Shotgun">
         <sprite>sprites\spr_Shotgun</sprite>
-        <sprite>sprites\spr_Shotgun_Muzzle_Flash</sprite>
       </sprites>
       <sprites name="Laser_Rifle">
         <sprite>sprites\spr_Laser_Emitter_Flash</sprite>
@@ -103,7 +101,7 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="14">
-    <constant name="GM_build_date">41886.8473536343</constant>
+    <constant name="GM_build_date">41886.8482584491</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>
