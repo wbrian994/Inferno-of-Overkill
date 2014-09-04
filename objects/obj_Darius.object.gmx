@@ -52,8 +52,8 @@ for(var i = 1; i &lt; inventory_size; i++)
 */
 inv[1] = instance_create(x,y,obj_Machine_Gun);
 inv[1].owner = self.id;
-inv[1].bullet_x_offset = sprite_width - 14;
-inv[1].bullet_y_offset = -10;
+inv[1].bullet_x_offset = sprite_width;
+inv[1].bullet_y_offset = -15;
 
 //Keybindings
 key_up = ord('W');

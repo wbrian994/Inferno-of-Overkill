@@ -70,8 +70,8 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="14">
-    <constant name="GM_build_date">41886.1713271412</constant>
-    <constant name="GM_version">'1.0.0.6'</constant>
+    <constant name="GM_build_date">41886.192706088</constant>
+    <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>
     <constant name="SECT_DATA">"DATA"</constant>
