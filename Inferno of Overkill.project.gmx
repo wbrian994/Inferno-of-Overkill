@@ -4,7 +4,13 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sounds name="Guns">
+      <sound>sound\snd_Pistol</sound>
+      <sound>sound\snd_Shotgun</sound>
+      <sound>sound\snd_Laser</sound>
+    </sounds>
+  </sounds>
   <sprites name="sprites">
     <sprites name="Characters">
       <sprites name="Darius">
@@ -29,9 +35,17 @@
         <sprite>sprites\spr_Laser_Rifle</sprite>
       </sprites>
     </sprites>
+    <sprites name="System">
+      <sprite>sprites\spr_bullet_mask</sprite>
+    </sprites>
+    <sprites name="Environment">
+      <sprite>sprites\spr_wall</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_desert</background>
+    <background>background\back_fog_one</background>
+    <background>background\back_smoke_one</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -52,6 +66,11 @@
         <script>scripts\fullscreen_toggle.gml</script>
       </scripts>
       <script>scripts\turn_towards.gml</script>
+      <script>scripts\instance_nth_nearest.gml</script>
+    </scripts>
+    <scripts name="AI">
+      <script>scripts\scr_AI_Find_Target.gml</script>
+      <script>scripts\scr_AI_Shoot_Target.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
@@ -59,6 +78,9 @@
     <font>fonts\fnt_Main_Small</font>
   </fonts>
   <objects name="objects">
+    <objects name="Environment">
+      <object>objects\obj_wall</object>
+    </objects>
     <objects name="Player">
       <object>objects\obj_Player</object>
       <object>objects\obj_Darius</object>
@@ -66,7 +88,6 @@
     <objects name="Weapons">
       <objects name="Ammo">
         <object>objects\obj_bullet</object>
-        <object>objects\obj_laser</object>
       </objects>
       <objects name="Pistol">
         <object>objects\obj_Pistol</object>
@@ -86,6 +107,8 @@
     </objects>
     <objects name="System">
       <object>objects\Initializer</object>
+      <object>objects\obj_Unit_Par</object>
+      <object>objects\obj_solid</object>
       <objects name="Controllers">
         <object>objects\obj_Game_Controller</object>
         <object>objects\obj_Test_Controller</object>
@@ -93,6 +116,14 @@
       <objects name="UI">
         <object>objects\obj_UI</object>
         <object>objects\obj_Pickup_Text</object>
+        <object>objects\obj_Generic_Text</object>
+      </objects>
+    </objects>
+    <objects name="AI">
+      <object>objects\obj_Enemy</object>
+      <object>objects\obj_Generic_Enemy</object>
+      <objects name="Guns">
+        <object>objects\obj_Enemy_Pistol</object>
       </objects>
     </objects>
   </objects>
@@ -100,8 +131,8 @@
     <room>rooms\rm_Init</room>
     <room>rooms\rm_Test</room>
   </rooms>
-  <constants number="14">
-    <constant name="GM_build_date">41886.8482584491</constant>
+  <constants number="17">
+    <constant name="GM_build_date">41892.0397177778</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>
@@ -115,6 +146,9 @@
     <constant name="KEY_X_FRES">"FullscreenXResolution"</constant>
     <constant name="KEY_Y_FRES">"FullscreenYResolution"</constant>
     <constant name="KEY_FULLSCREEN">"Fullscreen"</constant>
+    <constant name="TEAM_FRIENDLY">0</constant>
+    <constant name="TEAM_ENEMY">1</constant>
+    <constant name="TEAM_FREE_FOR_ALL">2</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

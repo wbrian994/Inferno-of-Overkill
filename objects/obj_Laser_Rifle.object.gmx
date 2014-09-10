@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>///Initialize
-bullet_speed = 10;
+bullet_speed = 20;
 bullet_x_offset = -1;
 bullet_y_offset = -1;
 show_muzzle_flash = false;
@@ -41,6 +41,8 @@ ammo = irandom_range(mag_size,max_ammo);
 can_fire = true;
 accuracy = 0; //Higher numbers are worse, 0 hits cursor every time
 name = "Laser Rifle";
+
+sound = snd_Laser;
 
 owner = -1;
 </string>
@@ -137,14 +139,23 @@ if(owner != -1)
     if(can_fire &amp;&amp; mouse_check_button(owner.mouse_fire))
     {
         var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-        var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_laser);
+        var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
         bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
         bullet.speed = bullet_speed;
+        bullet.owner = owner;
+        bullet.color = make_color_hsv(irandom(255),255,255);
+        bullet.damage = 10;
         cooled_down = false;
         alarm[0] = cooldown;
         show_muzzle_flash = true;
         owner.image_speed = 1;
         mag_ammo--;
+        
+        if(sound != -1)
+        {
+            var snd = audio_play_sound(sound,0.6,false);
+            audio_sound_pitch(snd,random_range(1,1.25));
+        }
     }
 }
 </string>
@@ -181,14 +192,14 @@ padding = 5;
 str_height = string_height("/");
 if(ammo != -1 &amp;&amp; max_ammo != -1)
 {
-    ammo_string = "Ammo: " + string(ammo) + " \ " + string(max_ammo);
+    ammo_string = "Spare Battery: " + string(ammo) + " \ " + string(max_ammo);
 }
 else
 {
-    ammo_string = "Ammo: inf. \ inf.";
+    ammo_string = "Spare Battery: inf. \ inf.";
 }
 
-mag_string = "Mag: " + string(mag_ammo) + " \ " + string(mag_size);
+mag_string = "Battery: " + string(mag_ammo) + " \ " + string(mag_size);
 
 str_width = string_width(ammo_string);
 xPos = xx + ww - str_width - padding;
@@ -205,12 +216,12 @@ if(reloading)
     var str;
     if(ammo &gt; 0 || ammo == -1)
     {
-        str = "Reloading ...";
+        str = "Replacing Battery ...";
     }
     else
     {
         draw_set_color(c_red);
-        str = "No Ammo!";
+        str = "No Battery!";
     }
     str_width = string_width(str);
     xPos = xx + ww - str_width - padding;
