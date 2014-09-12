@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>///Initialize
-bullet_speed = 10;
+bullet_speed = 15;
 bullet_x_offset = -1;
 bullet_y_offset = -1;
 show_muzzle_flash = false;
@@ -41,6 +41,8 @@ ammo = irandom_range(mag_size,max_ammo);
 can_fire = true;
 accuracy = 3; //Higher numbers are worse, 0 hits cursor every time
 name = "Machine Gun";
+
+sound = snd_Pistol;
 
 owner = -1;
 </string>
@@ -140,11 +142,18 @@ if(owner != -1)
         var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
         bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
         bullet.speed = bullet_speed;
+        bullet.owner = owner;
+        bullet.damage = 2;
         cooled_down = false;
         alarm[0] = cooldown;
         show_muzzle_flash = true;
         owner.image_speed = 1;
         mag_ammo--;
+        
+        if(sound != -1)
+        {
+            audio_play_sound(sound,0.6,false);
+        }
     }
 }
 </string>
@@ -242,7 +251,7 @@ if(reloading)
             <string>if(show_muzzle_flash)
 {
     var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-    draw_sprite_ext(spr_Machine_Gun_Muzzle_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
+    draw_sprite_ext(spr_Pistol_Muzzle_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
     show_muzzle_flash = false;
 }
 </string>
