@@ -4,10 +4,38 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>-1</persistent>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///initialize
+
+wave_Number = 0;
+wave_Enemies = 3; 
+wave_Started = 0; //wave status
+wave_Wait_Time = 500 //time between waves
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -25,46 +53,27 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(keyboard_check_pressed(vk_f3))
-{
-    if obj_Generic_Enemy.draw_debug_assists = false
+            <string>if wave_Started = 0
     {
-        obj_Generic_Enemy.draw_debug_assists = true
+    wave_Wait_Time -= 1;
+    
+    if wave_Wait_Time &lt;= 0
+        {
+        wave_Started = 1;
+        wave_Nimber += 1;
+        wave_Wait_Time = 500;
+        
+        for(i = 0; i &lt; wave * 3 + 12; i += 1)
+            {
+            instance_create(-40 - i * (50 - wave_Number * 3),200,obj_Generic_Enemy);
+            }
+        }
     }
-    else
+    
+if instance_number(obj_Generic_Enemy) = 0
     {
-        obj_Generic_Enemy.draw_debug_assists = false
+    wave_Started = 0;
     }
-}
-
-if(keyboard_check_pressed(vk_f11))
-{
-    fullscreen_toggle();
-    reset_window();
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="4">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>reset_view();
 </string>
           </argument>
         </arguments>

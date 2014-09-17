@@ -12,6 +12,10 @@
     </sounds>
   </sounds>
   <sprites name="sprites">
+    <sprites name="Vehicles">
+      <sprite>sprites\spr_Transport_Covered</sprite>
+      <sprite>sprites\spr_Transport_Uncovered</sprite>
+    </sprites>
     <sprites name="Characters">
       <sprites name="Darius">
         <sprite>sprites\spr_Darius_Pistol</sprite>
@@ -78,6 +82,10 @@
     <font>fonts\fnt_Main_Small</font>
   </fonts>
   <objects name="objects">
+    <objects name="Vehicles">
+      <object>objects\obj_Transport_Covered</object>
+      <object>objects\obj_Transport_Uncovered</object>
+    </objects>
     <objects name="Environment">
       <object>objects\obj_wall</object>
     </objects>
@@ -112,11 +120,15 @@
       <objects name="Controllers">
         <object>objects\obj_Game_Controller</object>
         <object>objects\obj_Test_Controller</object>
+        <object>objects\obj_Wave_Controller</object>
       </objects>
       <objects name="UI">
         <object>objects\obj_UI</object>
         <object>objects\obj_Pickup_Text</object>
         <object>objects\obj_Generic_Text</object>
+      </objects>
+      <objects name="Firefight">
+        <object>objects\obj_spawner</object>
       </objects>
     </objects>
     <objects name="AI">
@@ -130,9 +142,10 @@
   <rooms name="rooms">
     <room>rooms\rm_Init</room>
     <room>rooms\rm_Test</room>
+    <room>rooms\rm_FireFight</room>
   </rooms>
   <constants number="17">
-    <constant name="GM_build_date">41892.0397177778</constant>
+    <constant name="GM_build_date">41899.0973661343</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>

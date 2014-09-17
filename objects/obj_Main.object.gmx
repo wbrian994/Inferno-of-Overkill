@@ -4,11 +4,11 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>-1</persistent>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
-    <event eventtype="3" enumb="0">
+    <event eventtype="0" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -25,29 +25,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(keyboard_check_pressed(vk_f3))
-{
-    if obj_Generic_Enemy.draw_debug_assists = false
-    {
-        obj_Generic_Enemy.draw_debug_assists = true
-    }
-    else
-    {
-        obj_Generic_Enemy.draw_debug_assists = false
-    }
-}
-
-if(keyboard_check_pressed(vk_f11))
-{
-    fullscreen_toggle();
-    reset_window();
-}
+            <string>global.wave = 1;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="4">
+    <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -64,7 +48,7 @@ if(keyboard_check_pressed(vk_f11))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>reset_view();
+            <string>draw_text(0,0,"Wave =" + string(global.wave));
 </string>
           </argument>
         </arguments>

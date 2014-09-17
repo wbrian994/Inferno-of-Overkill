@@ -47,7 +47,7 @@ range_of_sight = 15;
 sight_distance = 300;
 
 //Debug
-draw_debug_assists = true;
+draw_debug_assists = false;
 </string>
           </argument>
         </arguments>
