@@ -2,6 +2,9 @@ global.paused = false;
 //seed randoms
 randomize();
 
+//Draw Debug
+global.draw_debug = false;
+
 //Create Needed Directories
 if(!directory_exists(working_directory + DIR_DATA))
 {
@@ -40,12 +43,24 @@ global.FYres = round(ini_read_real(SECT_SCREEN,KEY_Y_FRES,display_get_height()))
 
 ini_close();
 
+//Camera Default Zoom
+global.default_camera_zoom = 1;
+global.camera_zoom = 1;
+global.prev_zoom = global.camera_zoom;
+
 //volume
 audio_master_gain(global.volume);
+init_audio_groups();
+add_all_sounds();
+add_all_music();
 
 //Setup Window
 global.fullscreen = (global.fullscreen == "true");
 window_set_size(global.WXres,global.WYres);
+global.camera_offset[0] = 0;
+global.camera_offset[1] = 1;
+global.shake_camera = 0; //Time to shake screen
+global.shake_camera_amount = 32;
 
 //Setup Particles
 //init_particles();

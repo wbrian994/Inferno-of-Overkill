@@ -26,9 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>///Initialize
-bullet_speed = 20;
-bullet_x_offset = -1;
-bullet_y_offset = -1;
+bullet_speed = 25;
+bullet_x_offset = -5;
+bullet_y_offset = -2;
 show_muzzle_flash = false;
 cooldown = 0.05 * room_speed; //seconds cooldown between shots
 cooled_down = true;
@@ -40,7 +40,7 @@ max_ammo = 500 //-1 is infinite
 ammo = irandom_range(mag_size,max_ammo);
 can_fire = true;
 accuracy = 0; //Higher numbers are worse, 0 hits cursor every time
-name = "Laser Rifle";
+name = "Pulse Rifle";
 
 sound = snd_Laser;
 
@@ -80,6 +80,7 @@ else
     mag_ammo = mag_size;
 }
 reloading = false;
+instance_create(x,y,obj_bullet_casing);
 </string>
           </argument>
         </arguments>
@@ -143,6 +144,7 @@ if(owner != -1)
         bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
         bullet.speed = bullet_speed;
         bullet.owner = owner;
+        bullet.sprite_index = -1;
         bullet.color = make_color_hsv(irandom(255),255,255);
         bullet.damage = 10;
         cooled_down = false;
