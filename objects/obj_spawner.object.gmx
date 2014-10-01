@@ -26,6 +26,44 @@
           <argument>
             <kind>1</kind>
             <string>spawn = true
+wave_Number = 1
+wave_Status = 1 //1=active
+wave_Time = 60 //wave time
+wave_Rate = 70 //lower number = higher rate
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>spawn = false
+wave_Status = 0
+wave_Time += 20
+wave_rate -= 5
+alarm[0] = 20 * room_speed
+
+draw_set_font(fnt_main);
+draw_set_color(c_white);
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+draw_text(10,10,string("wave break"));
+draw_text_outline(10,10,string("wave break"),2);
 </string>
           </argument>
         </arguments>
@@ -49,6 +87,8 @@
           <argument>
             <kind>1</kind>
             <string>spawn = true
+wave_Number += 1
+wave_Status = 1
 </string>
           </argument>
         </arguments>
@@ -72,12 +112,12 @@
           <argument>
             <kind>1</kind>
             <string>var enemy = obj_Generic_Enemy
-var spawn_Rate = 60 //higher = lower rate
 
+//spawn control
 x = random(room_width);
 y = random(room_height);
 
-if instance_number(enemy) &gt;= 50
+if instance_number(enemy) &gt;= 250
 {
     spawn = false
 }
@@ -86,11 +126,11 @@ else
     spawn = true
 }
 
-if floor(random(spawn_Rate)) &lt; 1  &amp;&amp; spawn = true
+if floor(random(wave_Rate)) &lt; 1  &amp;&amp; spawn = true
 {
     instance_create(x,y,enemy)
     spawn = false
-    alarm[0]=30
+    alarm[1] = wave_Time * room_speed
 }
 </string>
           </argument>
