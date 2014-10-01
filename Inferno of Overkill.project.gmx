@@ -78,6 +78,7 @@
     <background>background\back_desert</background>
     <background>background\back_fog_one</background>
     <background>background\back_smoke_one</background>
+    <background>background\back_story_point_one</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -143,6 +144,7 @@
       </scripts>
       <script>scripts\cut_test.gml</script>
     </scripts>
+    <script>scripts\notes.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_main</font>
@@ -187,6 +189,7 @@
         <object>objects\obj_Test_Controller</object>
         <object>objects\obj_Tank_Test_Controller</object>
         <object>objects\obj_MainMenu_Controller</object>
+        <object>objects\object38</object>
         <object>objects\obj_test_cutscene_controller</object>
       </objects>
       <objects name="UI">
@@ -227,10 +230,11 @@
     <room>rooms\rm_Init</room>
     <room>rooms\rm_cutscene</room>
     <room>rooms\rm_Menu</room>
+    <room>rooms\rm_Play_Menu</room>
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="17">
-    <constant name="GM_build_date">41906.8710507986</constant>
+    <constant name="GM_build_date">41913.8617896644</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>

@@ -1,8 +1,8 @@
+cut_add_image(back_story_point_one,20 * room_speed,false);
+cut_add_text("In a world...",3 * room_speed,true);
+cut_add_wait(2 * room_speed);
+cut_add_text("...",5 * room_speed,true);
+cut_add_wait(3 * room_speed);
+cut_add_text("One thing led to another",3 * room_speed,true);
+cut_add_text("Darius...",2 * room_speed,true);
 cut_add_wait(0.5 * room_speed);
-cut_add_text("This is a test cutscene",4 * room_speed,true);
-cut_add_wait(0.5 * room_speed);
-cut_add_text("Creating cutscenes is somewhat easy", 5 * room_speed,true);
-cut_add_wait(0.5 * room_speed);
-cut_add_text("Cutscenes can be skipped by pressing escape", 7 * room_speed,true);
-cut_add_wait(0.5 * room_speed);
-cut_add_text("They also end on their own when they finish", 7 * room_speed,true);

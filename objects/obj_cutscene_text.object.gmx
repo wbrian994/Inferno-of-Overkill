@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -34,6 +34,13 @@ counter = 0;
 
 fade_in_time = 0.5 * room_speed;
 fade_out_time = 0.25 * room_speed;
+alpha = 0;
+
+// states
+fading_in = 0;
+displaying = 1;
+fading_out = 2;
+current_state = fading_in;
 </string>
           </argument>
         </arguments>
@@ -59,6 +66,29 @@ fade_out_time = 0.25 * room_speed;
             <string>if(counter &gt;= time)
 {
     instance_destroy();
+}
+switch(current_state)
+{
+    case fading_in:
+        alpha = lerp(0,1,(timer / fade_in_time));
+        timer++;
+        if(counter &gt; fade_in_time)
+        {
+            current_state = displaying;
+            alpha = 1;
+            timer = 0;
+        }
+        break;
+    case displaying:
+        if(counter &gt;= time - fade_out_time)
+        {
+            current_state = fading_out;
+        }
+        break;
+    case fading_out:
+        alpha = lerp(1,0,(timer / fade_out_time));
+        timer++;
+        break;
 }
 counter++;
 </string>
@@ -89,6 +119,8 @@ var yy = a[1];
 var ww = a[2] - a[0];
 var hh = a[3] - a[1];
 
+draw_set_alpha(alpha);
+
 draw_set_font(fnt_main);
 draw_set_halign(fa_center);
 draw_set_valign(fa_bottom);
@@ -98,6 +130,8 @@ draw_text(xx + ww / 2,yy + hh - 10,text);
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
+
+draw_set_alpha(1);
 </string>
           </argument>
         </arguments>

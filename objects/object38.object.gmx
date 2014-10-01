@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>1</depth>
+  <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,45 +25,19 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Initialize
-cutscene_name = "&lt;Name Missing&gt;";
-events = ds_list_create();
-event_data = ds_list_create();
-event_times = ds_list_create();
-event_index = 0;
-time_counter = 0;
-timer = 0; //Used universally
+            <string>var a = application_get_position();
+var xx = a[0];
+var yy = a[1];
+var ww = a[2] - a[0];
+var hh = a[3] - a[1];
+story_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
+story_button.Text = "Story";
+story_button.Init = true;
+fire_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
+fire_button.Text = "Firefight";
+fire_button.Init = true;
 
-//states
-running_events = 0;
-waiting = 1;
-current_state = running_events;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="1" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// cleanup data structures
-ds_list_destroy(events);
-ds_list_destroy(event_times);
-ds_list_destroy(event_data);
+play_music(snd_MainMenu_Music,true);
 </string>
           </argument>
         </arguments>
@@ -86,55 +60,13 @@ ds_list_destroy(event_data);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-switch(current_state)
+            <string>if(story_button.leftreleased)
 {
-    case running_events:
-        if(event_index &lt; ds_list_size(events))
-        {
-            var current_event = ds_list_find_value(events,event_index);
-            timer = ds_list_find_value(event_times,event_index);
-            var data = ds_list_find_value(event_data,event_index);
-            if(current_event == "wait")
-            {
-                current_state = waiting;
-                show_debug_message("cutscene, " + string(cutscene_name) + ", is waiting for " + string(timer) + " steps");
-            }
-            else if(current_event == "text")
-            {
-                show_debug_message("cutscene, " + string(cutscene_name) + ", is displaying text '" + string(data) + "'");
-                var text = instance_create(0,0,obj_cutscene_text);
-                text.time = timer;
-                text.text = data;
-            }
-            else if(current_event == "image")
-            {
-                show_debug_message("cutscene, " + string(cutscene_name) + ", is displaying image '" + string(data));
-                var image = instance_create(0,0,obj_cutscene_image);
-                image.time = timer;
-                image.background = data;
-            }
-            else
-            {
-                show_debug_message("Failed to run event " + string(event_index) + " in cutscene " + string(cutscene_name) + ".");
-            }
-            
-            event_index++;
-        }
-        else
-        {
-            show_debug_message("cutscene ending...");
-            instance_destroy();
-        }
-        break;
-    case waiting:
-        time_counter++;
-        if(time_counter &gt;= timer)
-        {
-            current_state = running_events;
-            time_counter = 0;
-        }
-        break;
+    room_goto(rm_Test);
+}
+if(fire_button.leftreleased)
+{
+    
 }
 </string>
           </argument>
@@ -158,10 +90,7 @@ switch(current_state)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// cleanup data structures
-ds_list_destroy(events);
-ds_list_destroy(event_times);
-ds_list_destroy(event_data);
+            <string>stop_all_music();
 </string>
           </argument>
         </arguments>
@@ -189,12 +118,8 @@ var xx = a[0];
 var yy = a[1];
 var ww = a[2] - a[0];
 var hh = a[3] - a[1];
-
-var bar_height =  hh * 0.1;
-
-draw_set_color(c_black);
-draw_rectangle(0,yy + hh - bar_height,xx + ww,yy + hh,false);
-draw_rectangle(0,0,xx + ww,yy + bar_height,false);
+var scale = 0.75;
+draw_sprite_ext(spr_Title,0,xx + ww / 2 - ((sprite_get_width(spr_Title) * scale) / 2), yy + 5,scale,scale,0,c_white,1);
 </string>
           </argument>
         </arguments>
