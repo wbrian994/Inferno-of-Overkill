@@ -49,7 +49,7 @@ for(var i = 0; i &lt; inventory_size; i++)
     inv[i] = -1;
 }
 
-max_hp = 100;
+max_hp = 175;
 hp = max_hp;
 
 inv[0] = instance_create(x,y,obj_Pistol);
@@ -99,6 +99,100 @@ v_camera_zoom_amount = 1.5;
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// CHEATS
+god_mode = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Damage Overlay
+//overlay
+dmg_overlay = spr_Damage_Overlay;
+overlay_alpha = 0;
+
+//damage flash
+dmg_time = 0.25 * room_speed;
+dmg_counter = dmg_time;
+dmg_alpha_max = 0.4;
+dmg_alpha_min = 0;
+dmg_alpha = dmg_alpha_min;
+dmg_flash = false;
+
+//health flash
+hlt_time = 1.5 * room_speed;
+hlt_counter = hlt_time;
+hlt_alpha_max = 0.9;
+hlt_alpha_min = 0;
+hlt_alpha = hlt_alpha_min;
+hlt_flash = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>for(var i = 0; i &lt; inventory_size;i++)
+{
+    if(inv[i] != -1)
+    {
+        with(inv[i])
+        {
+            instance_destroy();
+        }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="3" enumb="2">
       <action>
@@ -117,7 +211,18 @@ v_camera_zoom_amount = 1.5;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle += turn_towards(image_angle,look_target,45);
+            <string>/// Image Angle / Check if dead
+image_angle += turn_towards(image_angle,look_target,45);
+
+if(hp &lt;= 0 &amp;&amp; !god_mode)
+{
+    instance_change(obj_Darius_Dead,true);
+}
+
+if(god_mode)
+{
+    hp = max_hp;
+}
 </string>
           </argument>
         </arguments>
@@ -356,15 +461,7 @@ if(in_vehicle != noone)
     
     if(keyboard_check_pressed(key_action))
     {
-        visible = true;
-        
-        v_entering = false;
-        v_exiting = true;
-        
-        in_vehicle.driver = noone;
-        in_vehicle = noone;
-        if(inv[inv_current_slot] != -1)
-            instance_activate_object(inv[inv_current_slot]);
+        exit_vehicle();
     }
 }
 if(can_enter_vehicle != noone &amp;&amp; keyboard_check_pressed(key_action))
@@ -398,6 +495,63 @@ if(v_exiting)
         v_camera_zoom_counter = 0;
         v_exiting = false;
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Health_Pack">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(hp &lt; max_hp)
+{
+    with(other)
+    {
+        instance_destroy();
+    }
+    hp = max_hp;
+    hlt_flash = true;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Ammo">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(other.owner != self.id)
+{
+    dmg_flash = true;
 }
 </string>
           </argument>
@@ -593,6 +747,70 @@ else
           <argument>
             <kind>1</kind>
             <string>image_speed = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="74">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Damage overlay
+var a = application_get_position();
+var xx = a[0];
+var yy = a[1];
+var ww = a[2] - a[0];
+var hh = a[3] - a[1];
+
+//Draw flash
+if(dmg_flash)
+{
+    dmg_counter = 0;
+    dmg_flash = false;
+}
+draw_set_alpha(lerp(dmg_alpha_max,dmg_alpha_min,(dmg_counter / dmg_time)));
+draw_set_color(c_red);
+draw_rectangle(xx,yy,xx + ww,yy + hh,false);
+draw_set_alpha(1);
+if(dmg_counter &lt; dmg_time)
+{
+    dmg_counter++;
+}
+
+//Draw health flash
+if(hlt_flash)
+{
+    hlt_counter = 0;
+    hlt_flash = false;
+}
+draw_set_alpha(lerp(hlt_alpha_max,hlt_alpha_min,(hlt_counter / hlt_time)));
+draw_set_color(c_white);
+draw_rectangle(xx,yy,xx + ww,yy + hh,false);
+draw_set_alpha(1);
+if(hlt_counter &lt; hlt_time)
+{
+    hlt_counter++;
+}
+
+//Draw overlay
+overlay_alpha = lerp(1,0,(clamp(hp,0,max_hp / 4) / (max_hp / 4)));
+var spr_width = sprite_get_width(dmg_overlay);
+var spr_height = sprite_get_height(dmg_overlay);
+draw_sprite_ext(dmg_overlay,0,xx,yy,ww / spr_width,hh / spr_height,0,c_white,overlay_alpha);
 </string>
           </argument>
         </arguments>

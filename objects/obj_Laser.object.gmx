@@ -5,10 +5,10 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>obj_Ammo</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
-    <event eventtype="7" enumb="0">
+    <event eventtype="0" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -25,7 +25,118 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>instance_destroy();
+            <string>owner = noone;
+damage = 1;
+
+color = c_red;
+min_width = 1;
+max_width = 5;
+width = 1;
+grow_time = 0.1 * room_speed;
+grow_counter = 0;
+growing = 0;
+shrinking = 1;
+grow_state = growing;
+
+length = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>length = 2000;
+with(obj_collidable)
+{
+    var obj = collision_line(other.x,other.y,other.x + lengthdir_x(other.length,other.direction),other.y + lengthdir_y(other.length,other.direction),obj_collidable,false,false);
+    if(obj != noone &amp;&amp; obj != other.owner)
+    {
+        var len = point_distance(other.x,other.y,obj.x,obj.y);
+        if(other.length &gt; len)
+        {
+            other.length = len;
+        }
+    }
+}
+with(obj_Unit_Par)
+{
+    var obj = collision_line(other.x,other.y,other.x + lengthdir_x(other.length,other.direction),other.y + lengthdir_y(other.length,other.direction),obj_Unit_Par,false,false);
+    if(obj != noone &amp;&amp; obj != other.owner)
+    {
+        obj.hp--;
+        var text = instance_create(obj.x,obj.y,obj_Generic_Text);
+        if(other.damage &lt; 0)
+        {
+            text.color = c_green;
+            text.Text = "+ " + string(other.damage);
+        }
+        else
+        {
+            text.color = c_red;
+            text.Text = "- " + string(other.damage);
+        }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Grow/Shrink
+switch(grow_state)
+{
+    case growing:
+        width = lerp(min_width,max_width,(grow_counter / grow_time));
+        grow_counter++;
+        if(grow_counter &gt;= grow_time)
+        {
+            grow_counter = 0;
+            grow_state = shrinking;
+        }
+        break;
+    case shrinking:
+        width = lerp(max_width,min_width,(grow_counter / grow_time));
+        grow_counter++;
+        if(grow_counter &gt;= grow_time)
+        {
+            grow_counter = 0;
+            grow_state = growing;
+        }
+        break;
+}
 </string>
           </argument>
         </arguments>
@@ -48,10 +159,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var hor = 5 * cos(degtorad(direction));
-var ver = 5 * -sin(degtorad(direction));
-draw_set_color(c_red);
-draw_line_width(x,y,x + hor,y + ver,2);
+            <string>draw_set_color(color);
+draw_line_width(x,y,x + lengthdir_x(length,direction),y + lengthdir_y(length,direction),width);
 </string>
           </argument>
         </arguments>

@@ -112,6 +112,26 @@ image_speed = (speed * (1 / room_speed)) * 3;
       </action>
       <action>
         <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>instance_exists(turret)</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
         <id>603</id>
         <kind>7</kind>
         <userelative>0</userelative>
@@ -187,6 +207,47 @@ if(foundCollision)
     {
         move_contact_solid(180,-hspeed);
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Check if destroyed
+if(hp &lt;= 0)
+{
+    //Destroy Tank
+    with(turret)
+    {
+        instance_change(obj_Tank_Turret_Destroyed,true);
+    }
+    if(obj_Player.in_vehicle == self.id)
+    {
+        with(obj_Player)
+        {
+            exit_vehicle();
+        }
+    }
+    if(driver != noone)
+    {
+        driver.in_vehicle = noone;
+    }
+    instance_change(obj_Tank_Destroyed,true);
 }
 </string>
           </argument>

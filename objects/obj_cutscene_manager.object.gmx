@@ -34,6 +34,8 @@ event_index = 0;
 time_counter = 0;
 timer = 0; //Used universally
 
+current_music = -1;
+
 //states
 running_events = 0;
 waiting = 1;
@@ -64,6 +66,8 @@ current_state = running_events;
 ds_list_destroy(events);
 ds_list_destroy(event_times);
 ds_list_destroy(event_data);
+stop_all_music();
+change_music_volume(1,0);
 </string>
           </argument>
         </arguments>
@@ -109,10 +113,22 @@ switch(current_state)
             }
             else if(current_event == "image")
             {
-                show_debug_message("cutscene, " + string(cutscene_name) + ", is displaying image '" + string(data));
+                show_debug_message("cutscene, " + string(cutscene_name) + ", is displaying image '" + string(data) + "'");
                 var image = instance_create(0,0,obj_cutscene_image);
                 image.time = timer;
                 image.background = data;
+            }
+            else if(current_event == "music")
+            {
+                show_debug_message("cutscene, " + string(cutscene_name) + ", is playing music '" + string(data) + "'");
+                current_music = play_music(data,false);
+            }
+            else if(current_event == "volume")
+            {
+                if(current_music != -1)
+                {
+                    audio_sound_gain(current_music,data,(timer / room_speed) * 1000);
+                }
             }
             else
             {
@@ -162,6 +178,8 @@ switch(current_state)
 ds_list_destroy(events);
 ds_list_destroy(event_times);
 ds_list_destroy(event_data);
+stop_all_music();
+change_music_volume(1,0);
 </string>
           </argument>
         </arguments>

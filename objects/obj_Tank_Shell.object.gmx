@@ -53,23 +53,10 @@ range = 1000;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>effect_create_above(ef_explosion,x,y,1,c_orange);
-effect_create_below(ef_explosion,x,y,2,c_yellow);
-
-global.shake_camera_amount = 20;
-global.shake_camera = 8;
-
-with(obj_Unit_Par)
-{
-    if(point_distance(x,y,other.x,other.y) &lt;= other.explosion_radius)
-    {
-        hp -= other.explosion_power;
-        if(hp &lt;= 0)
-        {
-            direction = point_direction(x,y,other.x,other.y);
-        }
-    }
-}
+            <string>var explosion = instance_create(x,y,obj_Explosion);
+explosion.image_xscale = 4;
+explosion.image_yscale = 4;
+explosion.explosion_radius *= 4;
 </string>
           </argument>
         </arguments>

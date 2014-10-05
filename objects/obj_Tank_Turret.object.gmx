@@ -150,7 +150,7 @@ turret_tip_y = y + tip_offset[1];
 
 turret_tip_off_x = (sprite_width - sprite_xoffset);
 
-too_close = (collision_circle(mouse_x,mouse_y,explosion_accuracy,obj_Tank,false,false) != noone);
+too_close = (collision_circle(mouse_x,mouse_y,explosion_accuracy,obj_Tank,false,false) == tank);
 
 can_fire = cooled_down &amp;&amp; !too_close;
 

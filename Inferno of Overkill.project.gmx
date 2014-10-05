@@ -13,6 +13,7 @@
     <sounds name="Music">
       <sound>sound\snd_MainMenu_Music</sound>
       <sound>sound\snd_Game_Music</sound>
+      <sound>sound\snd_Cutscene_Music</sound>
     </sounds>
     <sounds name="Vehicles">
       <sounds name="Tank">
@@ -25,6 +26,7 @@
       <sprites name="Darius">
         <sprite>sprites\spr_Darius_Pistol</sprite>
         <sprite>sprites\spr_Darius_Machine_Gun</sprite>
+        <sprite>sprites\spr_Darius_Dead</sprite>
         <sprite>sprites\spr_Darius_Laser_Rifle</sprite>
         <sprite>sprites\spr_Darius_Shotgun</sprite>
         <sprite>sprites\spr_Darius_Mask</sprite>
@@ -58,6 +60,8 @@
           <sprite>sprites\spr_Tank_Turret</sprite>
           <sprite>sprites\spr_Tank_Muzzle_Flash</sprite>
           <sprite>sprites\spr_Tank_Shell</sprite>
+          <sprite>sprites\spr_Tank_Hull_Destroyed</sprite>
+          <sprite>sprites\spr_Tank_Turret_Destroyed</sprite>
         </sprites>
       </sprites>
       <sprite>sprites\spr_bullet</sprite>
@@ -72,13 +76,20 @@
     </sprites>
     <sprites name="Environment">
       <sprite>sprites\spr_wall</sprite>
+      <sprite>sprites\spr_explosion</sprite>
+      <sprite>sprites\spr_Health_Pack</sprite>
+    </sprites>
+    <sprites name="HUD">
+      <sprite>sprites\spr_Damage_Overlay</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_desert</background>
     <background>background\back_fog_one</background>
     <background>background\back_smoke_one</background>
+    <background>background\back_story_point_three</background>
     <background>background\back_story_point_one</background>
+    <background>background\back_story_point_two</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -140,11 +151,15 @@
         <script>scripts\cut_add_image.gml</script>
         <script>scripts\cut_add_text.gml</script>
         <script>scripts\cut_add_wait.gml</script>
+        <script>scripts\cut_add_vol_fade.gml</script>
+        <script>scripts\cut_add_music.gml</script>
         <script>scripts\cut_show_text.gml</script>
       </scripts>
       <script>scripts\cut_test.gml</script>
+      <script>scripts\cut_intro.gml</script>
     </scripts>
     <script>scripts\notes.gml</script>
+    <script>scripts\exit_vehicle.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_main</font>
@@ -154,14 +169,20 @@
   <objects name="objects">
     <objects name="Environment">
       <object>objects\obj_wall</object>
+      <object>objects\obj_Health_Pack</object>
     </objects>
     <objects name="Player">
       <object>objects\obj_Player</object>
       <object>objects\obj_Darius</object>
+      <object>objects\obj_Darius_Dead</object>
     </objects>
     <objects name="Weapons">
       <objects name="Ammo">
+        <object>objects\obj_Ammo</object>
         <object>objects\obj_bullet</object>
+        <object>objects\obj_Explosion</object>
+        <object>objects\obj_Tank_Shell</object>
+        <object>objects\obj_Laser</object>
       </objects>
       <objects name="Pistol">
         <object>objects\obj_Pistol</object>
@@ -182,14 +203,15 @@
     </objects>
     <objects name="System">
       <object>objects\Initializer</object>
+      <object>objects\obj_collidable</object>
       <object>objects\obj_Unit_Par</object>
       <object>objects\obj_solid</object>
       <objects name="Controllers">
         <object>objects\obj_Game_Controller</object>
         <object>objects\obj_Test_Controller</object>
         <object>objects\obj_Tank_Test_Controller</object>
+        <object>objects\obj_PlayMenu_Controller</object>
         <object>objects\obj_MainMenu_Controller</object>
-        <object>objects\object38</object>
         <object>objects\obj_test_cutscene_controller</object>
       </objects>
       <objects name="UI">
@@ -217,7 +239,8 @@
       <objects name="Tank">
         <object>objects\obj_Tank</object>
         <object>objects\obj_Tank_Turret</object>
-        <object>objects\obj_Tank_Shell</object>
+        <object>objects\obj_Tank_Destroyed</object>
+        <object>objects\obj_Tank_Turret_Destroyed</object>
       </objects>
     </objects>
     <objects name="Cutscenes">
@@ -234,7 +257,7 @@
     <room>rooms\rm_Test</room>
   </rooms>
   <constants number="17">
-    <constant name="GM_build_date">41913.8617896644</constant>
+    <constant name="GM_build_date">41917.074074838</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>

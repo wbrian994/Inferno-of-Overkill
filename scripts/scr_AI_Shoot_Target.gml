@@ -34,11 +34,11 @@ if(target != -1)
     //if(hp >= target.hp / 2 || hp > max_hp / 0.25)
     {
         //Follow Target
-        if(point_distance(x,y,target.x,target.y) > 232 || collision_line(x,y,target.x,target.y,obj_solid,false,true))
+        if(point_distance(x,y,target.x,target.y) > 252 || collision_line(x,y,target.x,target.y,obj_solid,false,true))
         {
             mp_potential_step_object(target.x,target.y,4,obj_solid);
         }
-        if(point_distance(x,y,target.x,target.y) < 192 && !collision_line(x,y,target.x,target.y,obj_solid,false,true))
+        if(point_distance(x,y,target.x,target.y) < 212 && !collision_line(x,y,target.x,target.y,obj_solid,false,true))
         {
             mp_potential_step_object(target.x,target.y,-4,obj_solid);
         }

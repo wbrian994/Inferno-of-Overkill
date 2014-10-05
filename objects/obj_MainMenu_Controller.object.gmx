@@ -70,35 +70,12 @@ play_music(snd_MainMenu_Music,true);
             <kind>1</kind>
             <string>if(play_button.leftreleased)
 {
-    room_goto(rm_Test);
+    room_goto(rm_Play_Menu);
 }
 if(quit_button.leftreleased)
 {
     game_end();
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="5">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>stop_all_music();
 </string>
           </argument>
         </arguments>

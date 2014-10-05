@@ -27,8 +27,8 @@
             <kind>1</kind>
             <string>///Initialize
 bullet_speed = 30;
-bullet_x_offset = 34;
-bullet_y_offset = -35;
+bullet_x_offset = 46;
+bullet_y_offset = -23;
 show_muzzle_flash = false;
 cooldown = 1 * room_speed; //seconds cooldown between shots
 cooled_down = true;
@@ -154,7 +154,7 @@ if(owner != -1)
             bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
             bullet.speed = bullet_speed;
             bullet.owner = owner;
-            bullet.damage = 3;
+            bullet.damage = 4;
             bullet.range /= 2;
             bullet.sprite_index = -1;
         }

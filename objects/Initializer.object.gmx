@@ -53,11 +53,15 @@ if(!global.fullscreen)
 {
     room_set_width(rm_Menu,global.WXres);
     room_set_height(rm_Menu,global.WYres);
+    room_set_width(rm_Play_Menu,global.WXres);
+    room_set_height(rm_Play_Menu,global.WYres);
 }
 else
 {
     room_set_width(rm_Menu,global.FXres);
     room_set_height(rm_Menu,global.FYres);
+    room_set_width(rm_Play_Menu,global.FXres);
+    room_set_height(rm_Play_Menu,global.FYres);
 }
 </string>
           </argument>
