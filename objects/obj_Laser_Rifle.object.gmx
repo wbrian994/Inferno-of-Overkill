@@ -26,9 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>///Initialize
-bullet_speed = 20;
-bullet_x_offset = -1;
-bullet_y_offset = -1;
+bullet_speed = 25;
+bullet_x_offset = 45;
+bullet_y_offset = 0;
 show_muzzle_flash = false;
 cooldown = 0.05 * room_speed; //seconds cooldown between shots
 cooled_down = true;
@@ -40,11 +40,43 @@ max_ammo = 500 //-1 is infinite
 ammo = irandom_range(mag_size,max_ammo);
 can_fire = true;
 accuracy = 0; //Higher numbers are worse, 0 hits cursor every time
-name = "Laser Rifle";
+name = "Pulse Rifle";
 
 sound = snd_Laser;
 
 owner = -1;
+
+//Laser Only
+laser = noone;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(laser != noone)
+{
+    with(laser)
+    {
+        instance_destroy();
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -80,6 +112,7 @@ else
     mag_ammo = mag_size;
 }
 reloading = false;
+instance_create(x,y,obj_bullet_casing);
 </string>
           </argument>
         </arguments>
@@ -104,6 +137,36 @@ reloading = false;
             <kind>1</kind>
             <string>///Cool Down
 cooled_down = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Move Laser
+if(laser != noone)
+{
+    var offset = get_offset(owner.image_angle,bullet_x_offset,bullet_y_offset);
+    laser.x = owner.x + offset[0];
+    laser.y = owner.y + offset[1];
+    laser.direction = owner.image_angle;
+}
 </string>
           </argument>
         </arguments>
@@ -136,6 +199,7 @@ if(owner != -1)
         reloading = true;
     }
     
+    /*
     if(can_fire &amp;&amp; mouse_check_button(owner.mouse_fire))
     {
         var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
@@ -143,6 +207,7 @@ if(owner != -1)
         bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
         bullet.speed = bullet_speed;
         bullet.owner = owner;
+        bullet.sprite_index = -1;
         bullet.color = make_color_hsv(irandom(255),255,255);
         bullet.damage = 10;
         cooled_down = false;
@@ -156,6 +221,26 @@ if(owner != -1)
             var snd = audio_play_sound(sound,0.6,false);
             audio_sound_pitch(snd,random_range(1,1.25));
         }
+    }
+    */
+    if(mouse_check_button(mb_left))
+    {
+        if(laser == noone)
+        {
+            var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
+            laser = instance_create(owner.x + offset[0],owner.y + offset[1],obj_Laser);
+            laser.owner = owner;
+            show_muzzle_flash = true;
+        }
+    }
+    else
+    {
+        with(laser)
+        {
+            instance_destroy();
+        }
+        laser = noone;
+        show_muzzle_flash = false;
     }
 }
 </string>
@@ -254,7 +339,6 @@ if(reloading)
 {
     var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
     draw_sprite_ext(spr_Laser_Emitter_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
-    show_muzzle_flash = false;
 }
 </string>
           </argument>

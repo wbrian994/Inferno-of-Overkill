@@ -10,18 +10,30 @@
       <sound>sound\snd_Shotgun</sound>
       <sound>sound\snd_Laser</sound>
     </sounds>
+    <sounds name="Music">
+      <sound>sound\snd_MainMenu_Music</sound>
+      <sound>sound\snd_Game_Music</sound>
+      <sound>sound\snd_Cutscene_Music</sound>
+    </sounds>
+    <sounds name="Vehicles">
+      <sounds name="Tank">
+        <sound>sound\snd_Tank_Fire</sound>
+      </sounds>
+    </sounds>
   </sounds>
   <sprites name="sprites">
-    <sprites name="Vehicles">
-      <sprite>sprites\spr_Transport_Covered</sprite>
-      <sprite>sprites\spr_Transport_Uncovered</sprite>
-    </sprites>
     <sprites name="Characters">
       <sprites name="Darius">
         <sprite>sprites\spr_Darius_Pistol</sprite>
         <sprite>sprites\spr_Darius_Machine_Gun</sprite>
+        <sprite>sprites\spr_Darius_Dead</sprite>
         <sprite>sprites\spr_Darius_Laser_Rifle</sprite>
         <sprite>sprites\spr_Darius_Shotgun</sprite>
+        <sprite>sprites\spr_Darius_Mask</sprite>
+      </sprites>
+      <sprites name="Generic Twat">
+        <sprite>sprites\spr_Generic_Enemy</sprite>
+        <sprite>sprites\spr_Generic_Enemy_Dead</sprite>
       </sprites>
     </sprites>
     <sprites name="Weapons">
@@ -38,18 +50,47 @@
         <sprite>sprites\spr_Laser_Emitter_Flash</sprite>
         <sprite>sprites\spr_Laser_Rifle</sprite>
       </sprites>
+      <sprite>sprites\spr_bullet_casing</sprite>
+      <sprite>sprites\spr_small_bullet_casing</sprite>
+      <sprite>sprites\spr_battery</sprite>
+      <sprite>sprites\spr_shotgun_shell</sprite>
+      <sprites name="Vehicles">
+        <sprites name="Tank">
+          <sprite>sprites\spr_Tank_Hull</sprite>
+          <sprite>sprites\spr_Tank_Turret</sprite>
+          <sprite>sprites\spr_Tank_Muzzle_Flash</sprite>
+          <sprite>sprites\spr_Tank_Shell</sprite>
+          <sprite>sprites\spr_Tank_Hull_Destroyed</sprite>
+          <sprite>sprites\spr_Tank_Turret_Destroyed</sprite>
+        </sprites>
+      </sprites>
+      <sprite>sprites\spr_bullet</sprite>
     </sprites>
     <sprites name="System">
       <sprite>sprites\spr_bullet_mask</sprite>
+      <sprites name="UI">
+        <sprite>sprites\spr_Title</sprite>
+        <sprite>sprites\spr_Play_Button</sprite>
+        <sprite>sprites\spr_Quit_Button</sprite>
+        <sprite>sprites\spr_Options_Button</sprite>
+      </sprites>
     </sprites>
     <sprites name="Environment">
       <sprite>sprites\spr_wall</sprite>
+      <sprite>sprites\spr_explosion</sprite>
+      <sprite>sprites\spr_Health_Pack</sprite>
+    </sprites>
+    <sprites name="HUD">
+      <sprite>sprites\spr_Damage_Overlay</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_desert</background>
     <background>background\back_fog_one</background>
     <background>background\back_smoke_one</background>
+    <background>background\back_story_point_three</background>
+    <background>background\back_story_point_one</background>
+    <background>background\back_story_point_two</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -68,34 +109,86 @@
         <script>scripts\reset_window.gml</script>
         <script>scripts\reset_view.gml</script>
         <script>scripts\fullscreen_toggle.gml</script>
+        <script>scripts\update_camera.gml</script>
+        <script>scripts\reset_camera.gml</script>
       </scripts>
       <script>scripts\turn_towards.gml</script>
       <script>scripts\instance_nth_nearest.gml</script>
+      <script>scripts\color_lerp.gml</script>
+      <script>scripts\shake_screen.gml</script>
+      <script>scripts\range_finder.gml</script>
+      <script>scripts\init_particles.gml</script>
+      <script>scripts\clear_particles.gml</script>
+      <script>scripts\draw_circle_border.gml</script>
     </scripts>
     <scripts name="AI">
       <script>scripts\scr_AI_Find_Target.gml</script>
       <script>scripts\scr_AI_Shoot_Target.gml</script>
     </scripts>
+    <scripts name="Audio">
+      <script>scripts\init_audio_groups.gml</script>
+      <script>scripts\change_sound_volume.gml</script>
+      <script>scripts\change_music_volume.gml</script>
+      <script>scripts\add_sound.gml</script>
+      <script>scripts\add_music.gml</script>
+      <script>scripts\add_all_sounds.gml</script>
+      <script>scripts\add_all_music.gml</script>
+      <script>scripts\play_music.gml</script>
+      <script>scripts\stop_all_music.gml</script>
+      <script>scripts\stop_all_sounds.gml</script>
+    </scripts>
+    <scripts name="HUD">
+      <script>scripts\draw_player_health.gml</script>
+    </scripts>
+    <scripts name="Lighting">
+      <script>scripts\lightmap_init.gml</script>
+      <script>scripts\lightmap_update.gml</script>
+      <script>scripts\lightmap_draw.gml</script>
+      <script>scripts\light_init.gml</script>
+      <script>scripts\light_update.gml</script>
+      <script>scripts\light_draw.gml</script>
+      <script>scripts\caster_init.gml</script>
+      <script>scripts\cleanup_lighting.gml</script>
+    </scripts>
+    <scripts name="Cutscenes">
+      <script>scripts\play_cutscene.gml</script>
+      <scripts name="Management">
+        <script>scripts\cut_add_image.gml</script>
+        <script>scripts\cut_add_text.gml</script>
+        <script>scripts\cut_add_wait.gml</script>
+        <script>scripts\cut_add_vol_fade.gml</script>
+        <script>scripts\cut_add_music.gml</script>
+        <script>scripts\cut_show_text.gml</script>
+      </scripts>
+      <script>scripts\cut_test.gml</script>
+      <script>scripts\cut_intro.gml</script>
+    </scripts>
+    <script>scripts\notes.gml</script>
+    <script>scripts\exit_vehicle.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_main</font>
     <font>fonts\fnt_Main_Small</font>
+    <font>fonts\fnt_Main_Tiny</font>
+    <font>fonts\fnt_UI_Button</font>
   </fonts>
   <objects name="objects">
-    <objects name="Vehicles">
-      <object>objects\obj_Transport_Covered</object>
-      <object>objects\obj_Transport_Uncovered</object>
-    </objects>
     <objects name="Environment">
       <object>objects\obj_wall</object>
+      <object>objects\obj_Health_Pack</object>
     </objects>
     <objects name="Player">
       <object>objects\obj_Player</object>
       <object>objects\obj_Darius</object>
+      <object>objects\obj_Darius_Dead</object>
     </objects>
     <objects name="Weapons">
       <objects name="Ammo">
+        <object>objects\obj_Ammo</object>
         <object>objects\obj_bullet</object>
+        <object>objects\obj_Explosion</object>
+        <object>objects\obj_Tank_Shell</object>
+        <object>objects\obj_Laser</object>
       </objects>
       <objects name="Pistol">
         <object>objects\obj_Pistol</object>
@@ -112,40 +205,77 @@
         <object>objects\obj_Laser_Rifle</object>
         <object>objects\obj_Laser_Rifle_Pickup</object>
       </objects>
+      <object>objects\obj_bullet_casing</object>
     </objects>
     <objects name="System">
       <object>objects\Initializer</object>
+      <object>objects\obj_collidable</object>
       <object>objects\obj_Unit_Par</object>
       <object>objects\obj_solid</object>
       <objects name="Controllers">
         <object>objects\obj_Game_Controller</object>
         <object>objects\obj_Test_Controller</object>
-        <object>objects\obj_Wave_Controller</object>
+        <object>objects\obj_Tank_Test_Controller</object>
+        <object>objects\obj_MainMenu_Controller</object>
+        <object>objects\obj_test_cutscene_controller</object>
       </objects>
       <objects name="UI">
         <object>objects\obj_UI</object>
         <object>objects\obj_Pickup_Text</object>
         <object>objects\obj_Generic_Text</object>
+        <object>objects\obj_UI_Button</object>
+        <object>objects\obj_UI_Label</object>
+        <object>objects\obj_UI_Slider</object>
+        <object>objects\obj_UI_Checkbox</object>
+        <object>objects\obj_Showcase</object>
       </objects>
-      <objects name="Firefight">
-        <object>objects\obj_spawner</object>
+      <objects name="Menus">
+        <object>objects\obj_Options_Menu</object>
+        <object>objects\obj_Play_Menu</object>
+        <object>objects\obj_Main_Menu</object>
       </objects>
+      <object>objects\obj_spawner</object>
     </objects>
     <objects name="AI">
       <object>objects\obj_Enemy</object>
       <object>objects\obj_Generic_Enemy</object>
+      <object>objects\obj_Generic_Enemy_Dead</object>
       <objects name="Guns">
         <object>objects\obj_Enemy_Pistol</object>
       </objects>
     </objects>
+    <objects name="Lighting">
+      <object>objects\obj_lightmap</object>
+      <object>objects\obj_light</object>
+    </objects>
+    <objects name="Vehicles">
+      <object>objects\obj_Vehicle</object>
+      <objects name="Tank">
+        <object>objects\obj_Tank</object>
+        <object>objects\obj_Tank_Turret</object>
+        <object>objects\obj_Tank_Destroyed</object>
+        <object>objects\obj_Tank_Turret_Destroyed</object>
+      </objects>
+    </objects>
+    <objects name="Cutscenes">
+      <object>objects\obj_cutscene_manager</object>
+      <object>objects\obj_cutscene_text</object>
+      <object>objects\obj_cutscene_image</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_Init</room>
-    <room>rooms\rm_Test</room>
-    <room>rooms\rm_FireFight</room>
+    <room>rooms\rm_cutscene</room>
+    <rooms name="Menus">
+      <room>rooms\rm_Menu</room>
+    </rooms>
+    <rooms name="Story">
+      <room>rooms\rm_Test</room>
+    </rooms>
+    <room>rooms\rm_Firefight</room>
   </rooms>
-  <constants number="17">
-    <constant name="GM_build_date">41899.0973661343</constant>
+  <constants number="19">
+    <constant name="GM_build_date">41920.8598819329</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>
@@ -153,7 +283,9 @@
     <constant name="SECT_AUDIO">"AUDIO"</constant>
     <constant name="SECT_SCREEN">"SCREEN"</constant>
     <constant name="KEY_FIRST_RUN">"FirstRun"</constant>
-    <constant name="KEY_VOLUME">"Volume"</constant>
+    <constant name="KEY_VOLUME">"MasterVolume"</constant>
+    <constant name="KEY_M_VOLUME">"MusicVolume"</constant>
+    <constant name="KEY_S_VOLUME">"SoundVolume</constant>
     <constant name="KEY_X_WRES">"WindowedXResolution"</constant>
     <constant name="KEY_Y_WRES">"WindowedYResolution"</constant>
     <constant name="KEY_X_FRES">"FullscreenXResolution"</constant>

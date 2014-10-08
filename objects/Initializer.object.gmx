@@ -49,6 +49,16 @@
           <argument>
             <kind>1</kind>
             <string>reset_window();
+if(!global.fullscreen)
+{
+    room_set_width(rm_Menu,global.WXres);
+    room_set_height(rm_Menu,global.WYres);
+}
+else
+{
+    room_set_width(rm_Menu,global.FXres);
+    room_set_height(rm_Menu,global.FYres);
+}
 </string>
           </argument>
         </arguments>

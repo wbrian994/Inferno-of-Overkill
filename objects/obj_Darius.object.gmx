@@ -6,7 +6,7 @@
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>obj_Player</parentName>
-  <maskName>&lt;undefined&gt;</maskName>
+  <maskName>spr_Darius_Mask</maskName>
   <events>
     <event eventtype="0" enumb="0">
       <action>
@@ -49,13 +49,11 @@ for(var i = 0; i &lt; inventory_size; i++)
     inv[i] = -1;
 }
 
-max_hp = 50;
+max_hp = 175;
 hp = max_hp;
 
 inv[0] = instance_create(x,y,obj_Pistol);
 inv[0].owner = self.id;
-inv[0].bullet_x_offset = sprite_width - 14;
-inv[0].bullet_y_offset = 2;
 
 
 //Keybindings
@@ -63,7 +61,134 @@ key_up = ord('W');
 key_down = ord('S');
 key_left = ord('A');
 key_right = ord('D');
+key_action = ord('E');
 mouse_fire = mb_left;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Vehicle stuff
+in_vehicle = noone;
+vehicle_radius = 200;
+can_enter_vehicle = noone;
+
+//on enter/exit
+v_entering = false;
+v_exiting = false;
+v_camera_zoom_time = 0.5 * room_speed;
+v_camera_zoom_counter = 0;
+v_camera_zoom_start = global.camera_zoom;
+v_camera_zoom_amount = 1.5;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// CHEATS
+god_mode = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Damage Overlay
+//overlay
+dmg_overlay = spr_Damage_Overlay;
+overlay_alpha = 0;
+
+//damage flash
+dmg_time = 0.25 * room_speed;
+dmg_counter = dmg_time;
+dmg_alpha_max = 0.4;
+dmg_alpha_min = 0;
+dmg_alpha = dmg_alpha_min;
+dmg_flash = false;
+
+//health flash
+hlt_time = 1 * room_speed;
+hlt_counter = hlt_time;
+hlt_alpha_max = 0.9;
+hlt_alpha_min = 0;
+hlt_alpha = hlt_alpha_min;
+hlt_flash = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>for(var i = 0; i &lt; inventory_size;i++)
+{
+    if(inv[i] != -1)
+    {
+        with(inv[i])
+        {
+            instance_destroy();
+        }
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -86,7 +211,93 @@ mouse_fire = mb_left;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle += turn_towards(image_angle,look_target,45);
+            <string>/// Image Angle / Check if dead
+image_angle += turn_towards(image_angle,look_target,45);
+
+if(hp &lt;= 0 &amp;&amp; !god_mode)
+{
+    if(in_vehicle != noone)
+    {
+        exit_vehicle();
+    }
+    instance_change(obj_Darius_Dead,true);
+}
+
+if(god_mode)
+{
+    hp = max_hp;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Experimental Manual Collision Resolution
+
+
+//keep collisions axis aligned
+var oldia = image_angle;
+image_angle = 0;
+
+var foundCollision = collision_rectangle(bbox_left + min(0, -hspeed), bbox_top + min(0, -vspeed), bbox_right + max(0, -hspeed), bbox_bottom + max(0, -vspeed), obj_solid, false, true);
+
+image_angle = oldia;
+
+if(foundCollision)
+{
+    //return to previous position
+    x = xprevious;
+    y = yprevious;
+    
+    //advance position to meet obstruction
+    if(vspeed &gt; 0)
+    {
+        move_contact_solid(270,vspeed);
+        if(!place_free(x,y+1))
+        {
+            vspeed = 0;
+        }
+    }
+    else if(vspeed &lt; 0)
+    {
+        move_contact_solid(90,-vspeed);
+        if(!place_free(x,y-1))
+        {
+            vspeed = 0;
+        }
+    }
+    if(hspeed &gt; 0)
+    {
+        move_contact_solid(0,hspeed);
+        if(!place_free(x+1,y))
+        {
+            hspeed = 0;
+        }
+    }
+    else if(hspeed &lt; 0)
+    {
+        move_contact_solid(180,-hspeed);
+        if(!place_free(x-1,y))
+        {
+            hspeed = 0;
+        }
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -163,35 +374,37 @@ if(keyboard_check(key_right))
             <kind>1</kind>
             <string>///Handle Inventory
 //Keys
-if(keyboard_check_pressed(ord('1')))
+if(in_vehicle == noone)
 {
-    if(inv[0] != -1)
+    if(keyboard_check_pressed(ord('1')))
     {
-        inv_current_slot = 0;
+        if(inv[0] != -1)
+        {
+            inv_current_slot = 0;
+        }
+    }
+    if(keyboard_check_pressed(ord('2')))
+    {
+        if(inv[1] != -1)
+        {
+            inv_current_slot = 1;
+        }
+    }
+    if(keyboard_check_pressed(ord('3')))
+    {
+        if(inv[2] != -1)
+        {
+            inv_current_slot = 2;
+        }
+    }
+    if(keyboard_check_pressed(ord('9')))
+    {
+        if(inv[8] != -1)
+        {
+            inv_current_slot = 8;
+        }
     }
 }
-if(keyboard_check_pressed(ord('2')))
-{
-    if(inv[1] != -1)
-    {
-        inv_current_slot = 1;
-    }
-}
-if(keyboard_check_pressed(ord('3')))
-{
-    if(inv[2] != -1)
-    {
-        inv_current_slot = 2;
-    }
-}
-if(keyboard_check_pressed(ord('9')))
-{
-    if(inv[8] != -1)
-    {
-        inv_current_slot = 8;
-    }
-}
-
 //Slot Changed
 if(inv_prev_slot != inv_current_slot)
 {
@@ -215,6 +428,13 @@ if(inv_prev_slot != inv_current_slot)
     {
         if(i != inv_current_slot &amp;&amp; inv[i] != -1)
         {
+            if(i == 8 &amp;&amp; inv[i].laser != noone)
+            {
+                with(inv[i].laser)
+                {
+                    instance_destroy();
+                }
+            }
             instance_deactivate_object(inv[i]);
         }
     }
@@ -224,8 +444,6 @@ if(inv_prev_slot != inv_current_slot)
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="4" ename="obj_solid">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -242,9 +460,53 @@ if(inv_prev_slot != inv_current_slot)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//GET OUT OF SOLIDS!
-x += lengthdir_x(6,point_direction(other.x+32,other.y+32,x,y)-5+random(10));
-y += lengthdir_y(6,point_direction(other.x+32,other.y+32,x,y)-5+random(10));
+            <string>/// Vehicle Stuff
+can_enter_vehicle = collision_circle(x,y,vehicle_radius,obj_Vehicle,false,true);
+if(in_vehicle != noone)
+{
+    can_enter_vehicle = noone;
+    
+    visible = false;
+    x = in_vehicle.x;
+    y = in_vehicle.y;
+    
+    if(keyboard_check_pressed(key_action))
+    {
+        exit_vehicle();
+    }
+}
+if(can_enter_vehicle != noone &amp;&amp; keyboard_check_pressed(key_action))
+{
+    v_camera_zoom_counter = 0;
+    v_entering = true;
+    v_exiting = false;
+    in_vehicle = can_enter_vehicle;
+    in_vehicle.driver = self.id;
+    if(inv[inv_current_slot] != -1)
+        instance_deactivate_object(inv[inv_current_slot]);
+}
+
+if(v_entering)
+{
+    global.camera_zoom = lerp(v_camera_zoom_start,v_camera_zoom_amount,(v_camera_zoom_counter / v_camera_zoom_time));
+    v_camera_zoom_counter++;
+    if(global.camera_zoom == v_camera_zoom_amount)
+    {
+        v_camera_zoom_counter = 0;
+        v_entering = false;
+    }
+}
+
+if(v_exiting)
+{
+    global.camera_zoom = lerp(v_camera_zoom_amount,v_camera_zoom_start,(v_camera_zoom_counter / v_camera_zoom_time));
+    v_camera_zoom_counter++;
+    if(global.camera_zoom == v_camera_zoom_start)
+    {
+        v_camera_zoom_counter = 0;
+        v_exiting = false;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -272,8 +534,6 @@ y += lengthdir_y(6,point_direction(other.x+32,other.y+32,x,y)-5+random(10));
     inv[laser_rifle] = instance_create(x,y,obj_Laser_Rifle);
     instance_deactivate_object(inv[laser_rifle]);
     inv[laser_rifle].owner = self.id;
-    inv[laser_rifle].bullet_x_offset = sprite_width - 14;
-    inv[laser_rifle].bullet_y_offset = -10;
     other.ammo = 0; //destroys pickup
     if(inv_current_slot &lt; laser_rifle)
     {
@@ -282,7 +542,7 @@ y += lengthdir_y(6,point_direction(other.x+32,other.y+32,x,y)-5+random(10));
     
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up Laser Rifle";
+    text.Text = "Picked Up ???";
     text.color = c_lime;
 }
 else
@@ -331,8 +591,6 @@ else
     inv[shotgun] = instance_create(x,y,obj_Shotgun);
     instance_deactivate_object(inv[shotgun]);
     inv[shotgun].owner = self.id;
-    inv[shotgun].bullet_x_offset = sprite_width - 10;
-    inv[shotgun].bullet_y_offset = -15;
     other.ammo = 0; //destroys pickup
     if(inv_current_slot &lt; shotgun)
     {
@@ -341,7 +599,7 @@ else
     
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up Shotgun";
+    text.Text = "Picked Up Badass Shotgun of Super Overkilledness";
     text.color = c_lime;
 }
 else
@@ -390,8 +648,6 @@ else
     inv[machine_gun] = instance_create(x,y,obj_Machine_Gun);
     instance_deactivate_object(inv[machine_gun]);
     inv[machine_gun].owner = self.id;
-    inv[machine_gun].bullet_x_offset = sprite_width - 10;
-    inv[machine_gun].bullet_y_offset = -15;
     other.ammo = 0; //destroys pickup
     if(inv_current_slot &lt; machine_gun)
     {
@@ -400,7 +656,7 @@ else
     
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up Machine Gun";
+    text.Text = "Picked Up Crazy Carbine... (Machine Gun)";
     text.color = c_lime;
 }
 else
@@ -427,6 +683,63 @@ else
         </arguments>
       </action>
     </event>
+    <event eventtype="4" ename="obj_Ammo">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(other.owner != self.id)
+{
+    dmg_flash = true;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Health_Pack">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(hp &lt; max_hp)
+{
+    with(other)
+    {
+        instance_destroy();
+    }
+    hp = max_hp;
+    hlt_flash = true;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="7">
       <action>
         <libid>1</libid>
@@ -445,6 +758,70 @@ else
           <argument>
             <kind>1</kind>
             <string>image_speed = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="74">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Damage overlay
+var a = application_get_position();
+var xx = a[0];
+var yy = a[1];
+var ww = a[2] - a[0];
+var hh = a[3] - a[1];
+
+//Draw flash
+if(dmg_flash)
+{
+    dmg_counter = 0;
+    dmg_flash = false;
+}
+draw_set_alpha(lerp(dmg_alpha_max,dmg_alpha_min,(dmg_counter / dmg_time)));
+draw_set_color(c_red);
+draw_rectangle(xx,yy,xx + ww,yy + hh,false);
+draw_set_alpha(1);
+if(dmg_counter &lt; dmg_time)
+{
+    dmg_counter++;
+}
+
+//Draw health flash
+if(hlt_flash)
+{
+    hlt_counter = 0;
+    hlt_flash = false;
+}
+draw_set_alpha(lerp(hlt_alpha_max,hlt_alpha_min,power(hlt_counter / hlt_time,2)));
+draw_set_color(c_white);
+draw_rectangle(xx,yy,xx + ww,yy + hh,false);
+draw_set_alpha(1);
+if(hlt_counter &lt; hlt_time)
+{
+    hlt_counter++;
+}
+
+//Draw overlay
+overlay_alpha = lerp(1,0,(clamp(hp,0,max_hp / 3) / (max_hp / 3)));
+var spr_width = sprite_get_width(dmg_overlay);
+var spr_height = sprite_get_height(dmg_overlay);
+draw_sprite_ext(dmg_overlay,0,xx,yy,ww / spr_width,hh / spr_height,0,c_white,overlay_alpha);
 </string>
           </argument>
         </arguments>
@@ -481,6 +858,60 @@ var str = string(inv[inv_current_slot].name);
 draw_text_outline(ww / 2,hh,str,2);
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
+
+if(can_enter_vehicle != noone)
+{
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_text_outline(ww / 2, hh / 2,"Press 'E' to enter " + string(can_enter_vehicle.name),2);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(global.draw_debug)
+{   
+    if(can_enter_vehicle != noone)
+    {
+        draw_set_color(c_green);
+    }
+    else
+    {
+        draw_set_color(c_red);
+    }
+    draw_set_alpha(0.45);
+    draw_circle(x,y,vehicle_radius,false);
+    draw_set_alpha(1);
+    draw_circle(x,y,vehicle_radius,true);
+    
+    //draw bbox
+    var oldia = image_angle;
+    image_angle = 0;
+    draw_set_color(c_black);
+    draw_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,true);
+    image_angle = oldia;
+}
+draw_self();
 </string>
           </argument>
         </arguments>

@@ -31,31 +31,27 @@ if(target != -1)
             exit;
         }
     }
-    if(hp >= target.hp / 2 || hp > max_hp / 0.25)
+    //if(hp >= target.hp / 2 || hp > max_hp / 0.25)
     {
         //Follow Target
-        if(point_distance(x,y,target.x,target.y) > 128 || collision_line(x,y,target.x,target.y,obj_solid,false,true))
+        if(point_distance(x,y,target.x,target.y) > 252 || collision_line(x,y,target.x,target.y,obj_solid,false,true))
         {
-            mp_potential_step_object(target.x,target.y,4,obj_solid);
+            mp_potential_step_object(target.x,target.y,4,obj_collidable);
         }
-        if(point_distance(x,y,target.x,target.y) < 64 && !collision_line(x,y,target.x,target.y,obj_solid,false,true))
+        if(point_distance(x,y,target.x,target.y) < 212 && !collision_line(x,y,target.x,target.y,obj_solid,false,true))
         {
-            mp_potential_step_object(target.x,target.y,-4,obj_solid);
+            mp_potential_step_object(target.x,target.y,-4,obj_collidable);
         }
     }
-    else
+    /*else
     {
         //Get cover if health is too low
         var nearest_wall = instance_nearest(x,y,obj_solid);
         var wall_dir = point_direction(target.x,target.y,nearest_wall.x + 16,nearest_wall.y + 16);
         mp_potential_step_object(nearest_wall.x + lengthdir_x(32,wall_dir),y + lengthdir_y(32,wall_dir),4,obj_solid);
-    }
+    }*/
 }
 else
 {
     //No target
-    if(alarm[0] == -1)
-    {
-        alarm[0] = 5 * room_speed;
-    }
 }

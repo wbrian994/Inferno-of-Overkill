@@ -29,7 +29,7 @@
 wave_Number = 1
 wave_Status = 1 //1=active
 wave_Time = 60 //wave time
-wave_Rate = 70 //lower number = higher rate
+wave_Rate = 40 //lower number = higher rate
 </string>
           </argument>
         </arguments>

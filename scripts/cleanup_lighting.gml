@@ -1,0 +1,16 @@
+with(obj_light)
+{
+    if(surface_exists(lightsurface))
+    {
+        surface_free(lightsurface);
+    }
+    instance_destroy();
+}
+with(obj_lightmap)
+{
+    if(surface_exists(lightmap))
+    {
+        surface_free(lightmap);
+    }
+    instance_destroy();
+}

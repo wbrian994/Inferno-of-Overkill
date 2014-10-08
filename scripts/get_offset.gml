@@ -10,6 +10,7 @@ vOffX = lengthdir_x(y_dist,dir + 90);
 vOffY = lengthdir_y(y_dist,dir + 90);
 
 var offsets;
+offsets[1] = 0;
 offsets[0] = hOffX + vOffX;
 offsets[1] = hOffY + vOffY;
 return offsets;

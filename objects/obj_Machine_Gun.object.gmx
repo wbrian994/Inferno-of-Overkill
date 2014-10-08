@@ -26,21 +26,21 @@
           <argument>
             <kind>1</kind>
             <string>///Initialize
-bullet_speed = 15;
-bullet_x_offset = -1;
-bullet_y_offset = -1;
+bullet_speed = 20;
+bullet_x_offset = 48;
+bullet_y_offset = -18;
 show_muzzle_flash = false;
 cooldown = 0.05 * room_speed; //seconds cooldown between shots
 cooled_down = true;
 reload_time = 2 * room_speed; //1 second to reload
 reloading = false;
-mag_size = 50; //Magazine size
+mag_size = 30; //Magazine size
 mag_ammo = mag_size; //Ammo in magazine
 max_ammo = 500 //-1 is infinite
 ammo = irandom_range(mag_size,max_ammo);
 can_fire = true;
 accuracy = 3; //Higher numbers are worse, 0 hits cursor every time
-name = "Machine Gun";
+name = "M4";
 
 sound = snd_Pistol;
 
@@ -129,6 +129,11 @@ cooled_down = true;
             <string>///Update
 if(owner != -1)
 {
+    if(keyboard_check(vk_f1))
+    {
+        bullet_x_offset--;
+    }
+
     can_fire = cooled_down &amp;&amp; !reloading &amp;&amp; (mag_ammo &gt; 0);
     if((mag_ammo &lt;= 0 || (keyboard_check_pressed(ord('R')) &amp;&amp; mag_ammo &lt; mag_size)) &amp;&amp; !reloading)
     {
@@ -138,21 +143,28 @@ if(owner != -1)
     
     if(can_fire &amp;&amp; mouse_check_button(owner.mouse_fire))
     {
-        var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
+        var offset = get_offset(owner.look_target,bullet_x_offset / 2,bullet_y_offset);
+        var casing = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet_casing);
+        casing.speed = bullet_speed;
+        casing.direction = owner.look_target - random_range(80,100);
+        offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
         var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
         bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
         bullet.speed = bullet_speed;
         bullet.owner = owner;
-        bullet.damage = 2;
+        bullet.damage = 4;
         cooled_down = false;
         alarm[0] = cooldown;
         show_muzzle_flash = true;
         owner.image_speed = 1;
         mag_ammo--;
+        global.shake_camera_amount = 5;
+        global.shake_camera = 1;
         
         if(sound != -1)
         {
-            audio_play_sound(sound,0.6,false);
+            var snd = audio_play_sound(sound,0.6,false);
+            audio_sound_pitch(snd,0.8);
         }
     }
 }

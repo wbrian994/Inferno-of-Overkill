@@ -1,0 +1,17 @@
+cut_add_music(snd_Cutscene_Music,false);
+cut_add_image(back_story_point_one,12.5 * room_speed,false);
+cut_add_text("The year is 2015",2 * room_speed,true);
+cut_add_wait(1.5 * room_speed);
+cut_add_text("It was done...",3 * room_speed,true);
+cut_add_wait(room_speed);
+cut_add_text("Nuclear war has destroyed civilization as we knew it",5 * room_speed,true);
+cut_add_wait(room_speed);
+cut_add_text("Everyone thought that there was no hope for humanity",5 * room_speed,true);
+cut_add_wait(0.5 * room_speed);
+cut_add_image(back_story_point_two,5.5 * room_speed,false);
+cut_add_wait(0.5 * room_speed);
+cut_add_text("But one thing led to another",3 * room_speed,true);
+cut_add_vol_fade(0,3.5 * room_speed);
+cut_add_text("Darius...",2 * room_speed,true);
+cut_add_text("And thats all, bye",room_speed,true);
+cut_add_wait(0.5 * room_speed);
