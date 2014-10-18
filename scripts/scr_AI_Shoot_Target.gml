@@ -9,7 +9,7 @@ if(target != -1)
         gun.shoot = true;
     }
     //check if player is dead
-    if(!instance_exists(target))
+    if(!instance_exists(target) || target.team == TEAM_NONE)
     {
         target = -1;
         exit;
@@ -36,11 +36,11 @@ if(target != -1)
         //Follow Target
         if(point_distance(x,y,target.x,target.y) > 252 || collision_line(x,y,target.x,target.y,obj_solid,false,true))
         {
-            mp_potential_step_object(target.x,target.y,4,obj_solid);
+            mp_potential_step_object(target.x,target.y,4,obj_collidable);
         }
         if(point_distance(x,y,target.x,target.y) < 212 && !collision_line(x,y,target.x,target.y,obj_solid,false,true))
         {
-            mp_potential_step_object(target.x,target.y,-4,obj_solid);
+            mp_potential_step_object(target.x,target.y,-4,obj_collidable);
         }
     }
     /*else

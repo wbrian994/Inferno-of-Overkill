@@ -117,6 +117,7 @@ v_camera_zoom_amount = 1.5;
             <kind>1</kind>
             <string>/// CHEATS
 god_mode = false;
+ghost_mode = false;
 </string>
           </argument>
         </arguments>
@@ -151,7 +152,7 @@ dmg_alpha = dmg_alpha_min;
 dmg_flash = false;
 
 //health flash
-hlt_time = 1.5 * room_speed;
+hlt_time = 1 * room_speed;
 hlt_counter = hlt_time;
 hlt_alpha_max = 0.9;
 hlt_alpha_min = 0;
@@ -211,17 +212,45 @@ hlt_flash = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Image Angle / Check if dead
+            <string>/// Image Angle / Check if dead / cheats
 image_angle += turn_towards(image_angle,look_target,45);
 
 if(hp &lt;= 0 &amp;&amp; !god_mode)
 {
+    if(in_vehicle != noone)
+    {
+        exit_vehicle();
+    }
     instance_change(obj_Darius_Dead,true);
 }
 
 if(god_mode)
 {
     hp = max_hp;
+}
+
+if(keyboard_check(vk_f3))
+{
+    if(keyboard_check_pressed(ord('G')))
+    {
+        god_mode = !god_mode;
+    }
+    if(keyboard_check_pressed(ord('H')))
+    {
+        ghost_mode = !ghost_mode;
+    }
+}
+
+if(ghost_mode &amp;&amp; team != TEAM_NONE)
+{
+    team = TEAM_NONE;
+    image_blend = c_dkgray;
+}
+
+if(!ghost_mode &amp;&amp; team == TEAM_NONE)
+{
+    team = TEAM_FRIENDLY;
+    image_blend = c_white;
 }
 </string>
           </argument>
@@ -424,6 +453,13 @@ if(inv_prev_slot != inv_current_slot)
     {
         if(i != inv_current_slot &amp;&amp; inv[i] != -1)
         {
+            if(i == 8 &amp;&amp; inv[i].laser != noone)
+            {
+                with(inv[i].laser)
+                {
+                    instance_destroy();
+                }
+            }
             instance_deactivate_object(inv[i]);
         }
     }
@@ -495,63 +531,6 @@ if(v_exiting)
         v_camera_zoom_counter = 0;
         v_exiting = false;
     }
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="4" ename="obj_Health_Pack">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(hp &lt; max_hp)
-{
-    with(other)
-    {
-        instance_destroy();
-    }
-    hp = max_hp;
-    hlt_flash = true;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="4" ename="obj_Ammo">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(other.owner != self.id)
-{
-    dmg_flash = true;
 }
 </string>
           </argument>
@@ -729,6 +708,63 @@ else
         </arguments>
       </action>
     </event>
+    <event eventtype="4" ename="obj_Ammo">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(other.owner != self.id)
+{
+    dmg_flash = true;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Health_Pack">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(hp &lt; max_hp)
+{
+    with(other)
+    {
+        instance_destroy();
+    }
+    hp = max_hp;
+    hlt_flash = true;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="7">
       <action>
         <libid>1</libid>
@@ -797,7 +833,7 @@ if(hlt_flash)
     hlt_counter = 0;
     hlt_flash = false;
 }
-draw_set_alpha(lerp(hlt_alpha_max,hlt_alpha_min,(hlt_counter / hlt_time)));
+draw_set_alpha(lerp(hlt_alpha_max,hlt_alpha_min,power(hlt_counter / hlt_time,2)));
 draw_set_color(c_white);
 draw_rectangle(xx,yy,xx + ww,yy + hh,false);
 draw_set_alpha(1);
@@ -807,7 +843,7 @@ if(hlt_counter &lt; hlt_time)
 }
 
 //Draw overlay
-overlay_alpha = lerp(1,0,(clamp(hp,0,max_hp / 4) / (max_hp / 4)));
+overlay_alpha = lerp(1,0,(clamp(hp,0,max_hp / 3) / (max_hp / 3)));
 var spr_width = sprite_get_width(dmg_overlay);
 var spr_height = sprite_get_height(dmg_overlay);
 draw_sprite_ext(dmg_overlay,0,xx,yy,ww / spr_width,hh / spr_height,0,c_white,overlay_alpha);

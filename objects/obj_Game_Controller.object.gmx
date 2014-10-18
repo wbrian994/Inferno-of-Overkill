@@ -8,6 +8,29 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>prev_fullscreen = global.fullscreen;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -36,7 +59,12 @@ update_camera();
 if(keyboard_check_pressed(vk_f11))
 {
     fullscreen_toggle();
+}
+
+if(prev_fullscreen != global.fullscreen)
+{
     reset_window();
+    prev_fullscreen = global.fullscreen;
 }
 
 if(instance_exists(obj_Player))
@@ -49,6 +77,19 @@ if(instance_exists(obj_Player))
 if(instance_exists(obj_lightmap) &amp;&amp; mouse_check_button_pressed(mb_right))
 {
     instance_create(window_mouse_get_x(),window_mouse_get_y(),obj_light);
+}
+
+//Volume
+audio_master_gain(global.volume);
+if(global.prev_m_volume != global.music_volume)
+{
+    change_music_volume(global.music_volume,0);
+    global.prev_m_volume = global.music_volume;
+}
+if(global.prev_s_volume != global.snd_volume)
+{
+    change_sound_volume(global.snd_volume,0);
+    global.prev_s_volume = global.snd_volume;
 }
 </string>
           </argument>
@@ -73,7 +114,27 @@ if(instance_exists(obj_lightmap) &amp;&amp; mouse_check_button_pressed(mb_right)
           <argument>
             <kind>1</kind>
             <string>cleanup_lighting();
+clear_particles();
 reset_camera();
+
+//Menu Stuff
+if(!global.fullscreen)
+{
+    room_set_width(rm_Menu,global.WXres);
+    room_set_height(rm_Menu,global.WYres);
+}
+else
+{
+    room_set_width(rm_Menu,global.FXres);
+    room_set_height(rm_Menu,global.FYres);
+}
+
+//Audio
+change_music_volume(global.music_volume,0);
+global.prev_m_volume = global.music_volume;
+
+change_sound_volume(global.snd_volume,0);
+global.prev_s_volume = global.snd_volume;
 </string>
           </argument>
         </arguments>

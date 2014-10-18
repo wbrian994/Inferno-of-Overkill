@@ -170,6 +170,9 @@ if(can_fire &amp;&amp; mouse_check_button_pressed(mouse_fire))
     global.shake_camera_amount = 40;
     global.shake_camera = 3;
     
+    part_type_direction(global.part_spark,direction - 45,direction + 45,0,0);
+    part_particles_create(global.part_system_above,turret_tip_x,turret_tip_y,global.part_spark,20);
+    
     alarm[1] = 1; //Smoke Effects
 }
 

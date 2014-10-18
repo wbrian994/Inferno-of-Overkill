@@ -25,56 +25,50 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var a = application_get_position();
-var xx = a[0];
-var yy = a[1];
-var ww = a[2] - a[0];
-var hh = a[3] - a[1];
-play_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
-play_button.Text = "Play";
-play_button.sprite = spr_Play_Button;
-play_button.xScale = 0.3;
-play_button.yScale = 0.3;
-play_button.grow_scale = 0.05;
-play_button.Init = true;
-quit_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
-quit_button.Text = "Quit";
-quit_button.sprite = spr_Quit_Button;
-quit_button.xScale = 0.3;
-quit_button.yScale = 0.3;
-quit_button.grow_scale = 0.05;
-quit_button.Init = true;
+            <string>instance_create(0,0,obj_Main_Menu);
 
-play_music(snd_MainMenu_Music,true);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="3" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(play_button.leftreleased)
+//Christmas Mode
+var ww,hh;
+if(global.fullscreen)
 {
-    room_goto(rm_Play_Menu);
+    ww = global.FXres;
+    hh = global.FYres;
 }
-if(quit_button.leftreleased)
+else
 {
-    game_end();
+    ww = global.WXres;
+    hh = global.WYres;
+}
+
+title_sprite = -1;
+
+if(global.is_christmas)
+{
+    instance_create(0,0,obj_lightmap);
+    repeat(10)
+    {
+        instance_create(irandom(ww),irandom(hh),obj_twinkle_light);
+    }
+    background_index[1] = back_snow;
+    background_index[2] = back_snow;
+    
+    var snd = play_music(snd_MainMenu_Music_Christmas,true);
+    audio_sound_gain(snd,0,0);
+    audio_sound_gain(snd,global.music_volume,1000);
+    
+    title_sprite = spr_Christmas_Title;
+}
+else
+{
+    cleanup_lighting();
+    background_index[1] = back_smoke_one;
+    background_index[2] = back_smoke_one;
+    
+    var snd = play_music(snd_MainMenu_Music,true);
+    audio_sound_gain(snd,0,0);
+    audio_sound_gain(snd,global.music_volume,1000);
+    
+    title_sprite = spr_Title;
 }
 </string>
           </argument>
@@ -103,8 +97,12 @@ var xx = a[0];
 var yy = a[1];
 var ww = a[2] - a[0];
 var hh = a[3] - a[1];
-var scale = 0.75;
-draw_sprite_ext(spr_Title,0,xx + ww / 2 - ((sprite_get_width(spr_Title) * scale) / 2), yy + 5,scale,scale,0,c_white,1);
+
+if(title_sprite != -1)
+{
+    var scale = ((view_wview[0] - 40) / sprite_get_width(title_sprite));
+    draw_sprite_ext(title_sprite,0,xx + ww / 2 - ((sprite_get_width(title_sprite) * scale) / 2), yy + 5,scale,scale,0,c_white,1);
+}
 </string>
           </argument>
         </arguments>

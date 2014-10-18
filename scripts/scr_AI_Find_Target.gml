@@ -20,7 +20,7 @@ if(irandom(10) == 0)
         {
             target_counter++;
             temp_target = instance_nth_nearest(x,y,obj_Unit_Par,target_counter);
-            if(temp_target.team != team)
+            if(temp_target.team != team && temp_target.team != TEAM_NONE)
             {
                 if(point_distance(x,y,temp_target.x,temp_target.y) > sight_distance + 20)
                 {
@@ -44,7 +44,7 @@ if(irandom(10) == 0)
             {
                 target_counter++;
                 temp_target = instance_nth_nearest(x,y,obj_Unit_Par,target_counter);
-                if(temp_target.team != team)
+                if(temp_target.team != team && temp_target.team != TEAM_NONE)
                 {
                     if(point_distance(x,y,temp_target.x,temp_target.y) > sight_distance + 20)
                     {

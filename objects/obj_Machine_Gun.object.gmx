@@ -32,7 +32,7 @@ bullet_y_offset = -18;
 show_muzzle_flash = false;
 cooldown = 0.05 * room_speed; //seconds cooldown between shots
 cooled_down = true;
-reload_time = 2 * room_speed; //1 second to reload
+reload_time = 2 * room_speed;
 reloading = false;
 mag_size = 30; //Magazine size
 mag_ammo = mag_size; //Ammo in magazine
@@ -43,6 +43,9 @@ accuracy = 3; //Higher numbers are worse, 0 hits cursor every time
 name = "M4";
 
 sound = snd_Pistol;
+reload_sound = snd_MachineGun_Reload;
+
+crosshair = spr_Crosshair;
 
 owner = -1;
 </string>
@@ -139,6 +142,8 @@ if(owner != -1)
     {
         alarm[1] = reload_time;
         reloading = true;
+        if(ammo != 0)
+            audio_play_sound(reload_sound,0.6,false);
     }
     
     if(can_fire &amp;&amp; mouse_check_button(owner.mouse_fire))
@@ -166,6 +171,10 @@ if(owner != -1)
             var snd = audio_play_sound(sound,0.6,false);
             audio_sound_pitch(snd,0.8);
         }
+    }
+    else if(cooled_down &amp;&amp; ammo == 0 &amp;&amp; mouse_check_button_pressed(owner.mouse_fire))
+    {
+        audio_play_sound(snd_No_Ammo_Click,0.6,false);
     }
 }
 </string>
@@ -238,6 +247,28 @@ if(reloading)
     yPos = yPos - str_height - padding;
     draw_text_outline(xPos,yPos,str,2);
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw Crosshair
+draw_sprite(crosshair,0,window_mouse_get_x(),window_mouse_get_y());
 </string>
           </argument>
         </arguments>

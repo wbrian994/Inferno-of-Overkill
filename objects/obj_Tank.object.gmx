@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>/// Setup Tank
 image_speed = 0;
-accel = 0.25;
+accel = 0.15;
 decel = 0.2;
 top_speed = 8;
 top_speed_reverse = 6;
@@ -36,6 +36,7 @@ turn_speed = 45 / room_speed;
 turret_offset_x = 2 * image_xscale;
 turret_offset_y = -2 * image_yscale;
 
+team = TEAM_NONE;
 driver = noone;
 can_drive = false;
 
@@ -47,6 +48,11 @@ hp = max_hp;
 team = TEAM_FRIENDLY;
 
 name = "Tank";
+
+//sounds
+start_sound = -1;
+engine_sound = -1;
+engine_pitch = 1;
 
 //Keys
 key_forward = ord('W');
@@ -105,7 +111,7 @@ turret.image_angle = image_angle;
           <argument>
             <kind>1</kind>
             <string>/// Animation Control
-image_speed = (speed * (1 / room_speed)) * 3;
+image_speed = (speed * (1 / room_speed)) * 6;
 </string>
           </argument>
         </arguments>
@@ -271,7 +277,32 @@ if(hp &lt;= 0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>can_drive = driver != noone;
+            <string>/// Driver / sound
+can_drive = driver != noone;
+if(team != driver.team &amp;&amp; can_drive)
+{
+    team = driver.team;
+    start_sound = audio_play_sound(snd_Tank_Start,0.4,false);
+}
+if(!can_drive &amp;&amp; team != TEAM_NONE)
+{
+    team = TEAM_NONE;
+}
+
+engine_pitch = lerp(1,1.5,(abs(speed) / top_speed));
+if(audio_is_playing(engine_sound) &amp;&amp; !audio_is_playing(start_sound))
+{
+    audio_sound_pitch(engine_sound,engine_pitch);
+}
+
+if(!audio_is_playing(engine_sound) &amp;&amp; can_drive)
+{
+    engine_sound = audio_play_sound(snd_Tank_Engine,0.4,true);
+}
+if(!can_drive &amp;&amp; audio_is_playing(engine_sound))
+{
+    audio_stop_sound(engine_sound);
+}
 </string>
           </argument>
         </arguments>
@@ -361,6 +392,45 @@ image_angle = direction;
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Dust Particles
+if(background_index[0] == back_desert)
+{
+    if(image_speed != 0)
+    {
+        for(var i = 0; i &lt; (sprite_width - (14 * image_xscale)); i += 40)
+        {
+            var off1 = get_offset(direction,(sprite_width - sprite_xoffset) - i,sprite_yoffset);
+            var off2 = get_offset(direction,(sprite_width - sprite_xoffset) - i,-1 * (sprite_height - sprite_yoffset));
+            
+            var color1 = make_color_rgb(164,133,87);
+            var color2 = make_color_rgb(192,148,111);
+            part_type_color2(global.part_dust,color2,color1);
+            
+            part_particles_create(global.part_system_below,x + off1[0],y + off1[1],global.part_dust,1);
+            part_particles_create(global.part_system_below,x + off2[0],y + off2[1],global.part_dust,1);
+        }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="4" ename="obj_Unit_Par">
       <action>
@@ -383,6 +453,35 @@ image_angle = direction;
 {
     other.hp = 0;
     other.direction = point_direction(other.x,other.y,x,y);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_self();
+if(global.draw_debug)
+{
+    draw_set_color(c_white);
+    draw_set_font(fnt_Main_Small);
+    draw_text_outline(x,y - sprite_height / 2 + 5,"Team: " + string(team),2);
 }
 </string>
           </argument>

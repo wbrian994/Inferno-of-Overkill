@@ -2,6 +2,9 @@ global.paused = false;
 //seed randoms
 randomize();
 
+//Christmas
+global.is_christmas = (current_day == 25 && current_month == 12);
+
 //Draw Debug
 global.draw_debug = false;
 
@@ -32,10 +35,16 @@ if(!ini_section_exists(SECT_SCREEN))
 if(!ini_section_exists(SECT_AUDIO))
 {
     ini_write_real(SECT_AUDIO,KEY_VOLUME,1);
+    ini_write_real(SECT_AUDIO,KEY_M_VOLUME,1);
+    ini_write_real(SECT_AUDIO,KEY_S_VOLUME,1);
 }
 
 global.fullscreen = ini_read_string(SECT_SCREEN,KEY_FULLSCREEN,"false");
 global.volume = clamp(ini_read_real(SECT_AUDIO,KEY_VOLUME,1),0,1);
+global.music_volume = clamp(ini_read_real(SECT_AUDIO,KEY_M_VOLUME,1),0,1);
+global.snd_volume = clamp(ini_read_real(SECT_AUDIO,KEY_S_VOLUME,1),0,1);
+global.prev_m_volume = -1;
+global.prev_s_volume = -1;
 global.WXres = round(ini_read_real(SECT_SCREEN,KEY_X_WRES,1280));
 global.WYres = round(ini_read_real(SECT_SCREEN,KEY_Y_WRES,720));
 global.FXres = round(ini_read_real(SECT_SCREEN,KEY_X_FRES,display_get_width()));
@@ -63,7 +72,7 @@ global.shake_camera = 0; //Time to shake screen
 global.shake_camera_amount = 32;
 
 //Setup Particles
-//init_particles();
+init_particles();
 
 //Audio
 audio_falloff_set_model(audio_falloff_linear_distance);

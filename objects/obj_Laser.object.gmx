@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>obj_Ammo</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>owner = noone;
-damage = 1;
+damage = 2;
 
 color = c_red;
 min_width = 1;
@@ -61,36 +61,30 @@ length = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>length = 2000;
-with(obj_collidable)
+            <string>/// Laseryish things
+//determine length
+with(obj_Player)
 {
-    var obj = collision_line(other.x,other.y,other.x + lengthdir_x(other.length,other.direction),other.y + lengthdir_y(other.length,other.direction),obj_collidable,false,false);
-    if(obj != noone &amp;&amp; obj != other.owner)
-    {
-        var len = point_distance(other.x,other.y,obj.x,obj.y);
-        if(other.length &gt; len)
-        {
-            other.length = len;
-        }
-    }
+    other.length = range_finder(other.x,other.y,other.direction,2000,obj_collidable,false,true);
 }
-with(obj_Unit_Par)
+
+//kill bitches
+instance_deactivate_object(owner);
+var obj = collision_line(x,y,x + lengthdir_x(length + 5,direction),y + lengthdir_y(length + 5,direction),obj_Unit_Par,false,true);
+instance_activate_object(owner);
+if(obj != noone &amp;&amp; obj != owner)
 {
-    var obj = collision_line(other.x,other.y,other.x + lengthdir_x(other.length,other.direction),other.y + lengthdir_y(other.length,other.direction),obj_Unit_Par,false,false);
-    if(obj != noone &amp;&amp; obj != other.owner)
+    obj.hp -= damage;
+    var text = instance_create(obj.x,obj.y,obj_Generic_Text);
+    if(damage &lt; 0)
     {
-        obj.hp--;
-        var text = instance_create(obj.x,obj.y,obj_Generic_Text);
-        if(other.damage &lt; 0)
-        {
-            text.color = c_green;
-            text.Text = "+ " + string(other.damage);
-        }
-        else
-        {
-            text.color = c_red;
-            text.Text = "- " + string(other.damage);
-        }
+        text.color = c_green;
+        text.Text = "+ " + string(damage);
+    }
+    else
+    {
+        text.color = c_red;
+        text.Text = "- " + string(damage);
     }
 }
 </string>

@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>image_blend= c_red;
+friction = 1;
 </string>
           </argument>
         </arguments>

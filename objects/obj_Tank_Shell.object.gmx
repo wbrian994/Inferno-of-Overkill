@@ -3,7 +3,7 @@
   <spriteName>spr_Tank_Shell</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -56,7 +56,7 @@ range = 1000;
             <string>var explosion = instance_create(x,y,obj_Explosion);
 explosion.image_xscale = 4;
 explosion.image_yscale = 4;
-explosion.explosion_radius *= 4;
+explosion.explosion_radius *= 2;
 </string>
           </argument>
         </arguments>

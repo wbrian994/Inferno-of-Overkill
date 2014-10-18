@@ -3,7 +3,7 @@
   <spriteName>spr_bullet</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>obj_Ammo</parentName>
   <maskName>spr_bullet_mask</maskName>
@@ -32,6 +32,31 @@ damage = 5;
 range = 1000;
 distance = 0;
 knockback = 5;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var dist = range_finder(x,y,direction,100,obj_collidable,false,true);
+if(dist != 100)
+    instance_create(x + lengthdir_x(dist,direction),y + lengthdir_y(dist,direction),obj_Bullet_Hit);
 </string>
           </argument>
         </arguments>

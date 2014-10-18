@@ -6,4 +6,6 @@ for(var i = 0; i < global.numMusic; i++)
     audio_stop_sound(global.audioMusic[i]);
 }
 
-return audio_play_sound(music,0.5,loop);
+global.currentMusic = music;
+
+return audio_play_sound(music,1,loop);

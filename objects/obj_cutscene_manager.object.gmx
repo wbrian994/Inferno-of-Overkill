@@ -67,7 +67,6 @@ ds_list_destroy(events);
 ds_list_destroy(event_times);
 ds_list_destroy(event_data);
 stop_all_music();
-change_music_volume(1,0);
 </string>
           </argument>
         </arguments>
@@ -179,7 +178,6 @@ ds_list_destroy(events);
 ds_list_destroy(event_times);
 ds_list_destroy(event_data);
 stop_all_music();
-change_music_volume(1,0);
 </string>
           </argument>
         </arguments>
