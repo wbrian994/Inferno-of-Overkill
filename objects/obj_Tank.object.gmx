@@ -26,15 +26,20 @@
           <argument>
             <kind>1</kind>
             <string>/// Setup Tank
+if(global.is_christmas)
+{
+    sprite_index = spr_Christmas_Tank_Hull;
+}
 image_speed = 0;
 accel = 0.15;
 decel = 0.2;
-top_speed = 8;
+top_speed = 12;
 top_speed_reverse = 6;
 brake_power = 2;
 turn_speed = 45 / room_speed;
 turret_offset_x = 2 * image_xscale;
 turret_offset_y = -2 * image_yscale;
+direction = image_angle;
 
 team = TEAM_NONE;
 driver = noone;
@@ -93,6 +98,33 @@ turret.image_angle = image_angle;
         </arguments>
       </action>
     </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Take care of sound
+if(engine_sound != -1)
+{
+    audio_stop_sound(engine_sound);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="2">
       <action>
         <libid>1</libid>
@@ -111,7 +143,7 @@ turret.image_angle = image_angle;
           <argument>
             <kind>1</kind>
             <string>/// Animation Control
-image_speed = (speed * (1 / room_speed)) * 6;
+image_speed = clamp(abs((speed * (1 / room_speed)) * 6),0,1);
 </string>
           </argument>
         </arguments>
@@ -180,60 +212,6 @@ turret.y = y + offset[1];
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Experimental Manual Collision Resolution
-
-//keep collisions axis aligned
-var oldia = image_angle;
-image_angle = 0;
-
-var foundCollision = collision_rectangle(bbox_left + min(0, -hspeed), bbox_top + min(0, -vspeed), bbox_right + max(0, -hspeed), bbox_bottom + max(0, -vspeed), obj_solid, false, true);
-
-image_angle = oldia;
-
-if(foundCollision)
-{
-    //return to previous position
-    x = xprevious;
-    y = yprevious;
-    
-    //advance position to meet obstruction
-    if(vspeed &gt; 0)
-    {
-        move_contact_solid(270,vspeed);
-    }
-    else if(vspeed &lt; 0)
-    {
-        move_contact_solid(90,-vspeed);
-    }
-    if(hspeed &gt; 0)
-    {
-        move_contact_solid(0,hspeed);
-    }
-    else if(hspeed &lt; 0)
-    {
-        move_contact_solid(180,-hspeed);
-    }
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
             <string>/// Check if destroyed
 if(hp &lt;= 0)
 {
@@ -255,6 +233,70 @@ if(hp &lt;= 0)
     }
     instance_change(obj_Tank_Destroyed,true);
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Collision Resolution
+var prev_dir = direction;
+//direction = 0;
+
+if(place_meeting(x,y,obj_solid))
+{
+    x = xprevious;
+    y = yprevious;    
+
+    //advance position to meet obstruction
+    if(vspeed &gt; 0)
+    {
+        move_contact_solid(270,vspeed);
+        if(!place_free(x,y+1))
+        {
+            vspeed = 0;
+        }
+    }
+    else if(vspeed &lt; 0)
+    {
+        move_contact_solid(90,-vspeed);
+        if(!place_free(x,y-1))
+        {
+            vspeed = 0;
+        }
+    }
+    if(hspeed &gt; 0)
+    {
+        move_contact_solid(0,hspeed);
+        if(!place_free(x+1,y))
+        {
+            hspeed = 0;
+        }
+    }
+    else if(hspeed &lt; 0)
+    {
+        move_contact_solid(180,-hspeed);
+        if(!place_free(x-1,y))
+        {
+            hspeed = 0;
+        }
+    }
+} 
+direction = prev_dir;
 </string>
           </argument>
         </arguments>
@@ -295,13 +337,14 @@ if(audio_is_playing(engine_sound) &amp;&amp; !audio_is_playing(start_sound))
     audio_sound_pitch(engine_sound,engine_pitch);
 }
 
-if(!audio_is_playing(engine_sound) &amp;&amp; can_drive)
+if(engine_sound == -1 &amp;&amp; can_drive)
 {
     engine_sound = audio_play_sound(snd_Tank_Engine,0.4,true);
 }
 if(!can_drive &amp;&amp; audio_is_playing(engine_sound))
 {
     audio_stop_sound(engine_sound);
+    engine_sound = -1;
 }
 </string>
           </argument>
@@ -354,6 +397,10 @@ if(keyboard_check(key_backward))
 {
     speed = max(speed - (accel + friction),-top_speed);
 }
+
+image_angle = direction;
+var pre_rot = place_meeting(x,y,obj_wall);
+var prev_dir = direction;
 if(keyboard_check(key_left))
 {
     direction += turn_speed;
@@ -374,6 +421,24 @@ if(keyboard_check(key_right))
     }
     image_speed = 1;
 }
+
+image_angle = direction;
+var post_rot = place_meeting(x,y,obj_wall);
+if(!pre_rot &amp;&amp; post_rot)
+{
+    var post_dir = direction;
+    direction = prev_dir;
+    for(var i = prev_dir;i &lt; post_dir;i++)
+    {
+        direction = i;
+        image_angle = direction;
+        if(place_meeting(x,y,obj_wall))
+        {
+            direction = i - 1;
+        }
+    }
+}
+
 if(keyboard_check(key_brake))
 {
     friction = brake_power;

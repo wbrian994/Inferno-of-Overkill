@@ -29,15 +29,21 @@
 
 waiting = 0;
 fading = 1;
+text_show = 3;
+text_fade = 4;
 currentState = waiting;
 
 image_angle += 180;
 
 wait_time = 1.5 * room_speed;
 fade_time = 4 * room_speed;
+show_time = 2 * room_speed;
+text_fade_time = room_speed;
 change_music_volume(0,wait_time + fade_time);
+change_sound_volume(0,wait_time + fade_time);
 timer = 0;
 alpha = 0;
+text_alpha = 0;
 </string>
           </argument>
         </arguments>
@@ -75,7 +81,25 @@ switch(currentState)
     case fading:
         timer++
         alpha = lerp(0,1,(timer / fade_time));
+        text_alpha = alpha;
         if(timer &gt;= fade_time)
+        {
+            currentState = text_show;
+            timer = 0;
+        }
+        break;
+    case text_show:
+        timer++;
+        if(timer &gt;= show_time)
+        {
+            currentState = text_fade;
+            timer = 0;
+        }
+        break;
+    case text_fade:
+        timer++;
+        text_alpha = lerp(1,0,(timer / text_fade_time));
+        if(timer &gt;= text_fade_time)
         {
             room_goto(rm_Menu);
         }
@@ -104,6 +128,7 @@ switch(currentState)
           <argument>
             <kind>1</kind>
             <string>change_music_volume(global.music_volume,0);
+change_sound_volume(global.snd_volume,0);
 </string>
           </argument>
         </arguments>
@@ -135,6 +160,14 @@ var hh = a[3] - a[1];
 draw_set_alpha(alpha);
 draw_set_color(c_black);
 draw_rectangle(xx,yy,xx + ww,yy + hh,false);
+draw_set_alpha(text_alpha);
+draw_set_color(c_red);
+draw_set_font(fnt_Main_Large);
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_text_outline(ww / 2,hh / 2,"DEAD",2);
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
 draw_set_alpha(1);
 </string>
           </argument>

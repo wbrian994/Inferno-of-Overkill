@@ -28,16 +28,9 @@
             <string>destroy = false;
 recreate = false;
 
-if(global.fullscreen)
-{
-    ww = global.FXres;
-    hh = global.FYres;
-}
-else
-{
-    ww = global.WXres;
-    hh = global.WYres;
-}
+ww = view_wview[0];
+hh = view_hview[0];
+
 master_vol = instance_create(ww / 2 - 250,hh / 2 - 20,obj_UI_Slider);
 master_vol.percentage = global.volume * 100;
 master_vol.set_val = true;
@@ -55,6 +48,18 @@ sound_vol.percentage = global.snd_volume * 100;
 sound_vol.set_val = true;
 sound_vol_label = instance_create(ww / 2 - 250 + music_vol.width + 20,hh / 2 + 10,obj_UI_Label);
 sound_vol_label.Text = "Sound Volume:";
+
+back_button = instance_create(10,hh,obj_UI_Button);
+back_button.y -= back_button.Height;
+back_button.Text = "Back";
+back_button.grow_scale = 0.1;
+back_button.init = true;
+
+save_label = instance_create(ww / 2,hh - 10,obj_UI_Label);
+save_label.Text = "Settings are saved automagically";
+save_label.halign = fa_center;
+save_label.valign = fa_bottom;
+save_label.color = c_yellow;
 
 full_checkbox = instance_create(ww / 2 - 250,hh / 2 + 80,obj_UI_Checkbox);
 full_checkbox.has_label = true;
@@ -76,6 +81,12 @@ christmas_checkbox.has_label = true;
 christmas_checkbox.label_text = "Christmas Mode";
 christmas_checkbox.checked = global.is_christmas;
 christmas_checkbox.Init = true;
+
+intro_checkbox = instance_create(ww / 2 - 250 + music_vol.width + 20,hh / 2 + 110,obj_UI_Checkbox);
+intro_checkbox.has_label = true;
+intro_checkbox.label_text = "Do NOT Show Opening Cutscene";
+intro_checkbox.checked = !global.show_intro;
+intro_checkbox.Init = true;
 </string>
           </argument>
         </arguments>
@@ -109,6 +120,14 @@ if(fullscreen)
 else
 {
     ini_write_string(SECT_SCREEN,KEY_FULLSCREEN,"false");
+}
+if(global.show_intro)
+{
+    ini_write_string(SECT_DATA,KEY_SHOW_INTRO,"true");
+}
+else
+{
+    ini_write_string(SECT_DATA,KEY_SHOW_INTRO,"false");
 }
 ini_close();
 
@@ -182,8 +201,10 @@ if(full_checkbox.state_changed)
     {
         fullscreen_toggle();
     }
-    destroy = true;
-    recreate = true;
+}
+if(intro_checkbox.state_changed)
+{
+    global.show_intro = !intro_checkbox.checked;
 }
 if(christmas_checkbox.state_changed)
 {
@@ -228,7 +249,13 @@ if(christmas_checkbox.state_changed)
     recreate = true;
 }
 
-if(keyboard_check_pressed(vk_escape))
+if(global.fullscreen_changed)
+{
+    destroy = true;
+    recreate = true;
+}
+
+if(keyboard_check_pressed(vk_escape) || back_button.leftreleased)
 {
     with(obj_UI)
     {

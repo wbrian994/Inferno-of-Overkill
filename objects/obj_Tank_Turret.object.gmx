@@ -26,6 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>/// Setup Turret
+if(global.is_christmas)
+{
+    sprite_index = spr_Christmas_Tank_Turret;
+}
 tank = noone;
 angle_target = 0;
 turn_speed = 60 / room_speed;
@@ -161,7 +165,7 @@ if(can_fire &amp;&amp; mouse_check_button_pressed(mouse_fire))
     shell.direction = direction;
     shell.range = point_distance(turret_tip_x,turret_tip_y,mouse_x,mouse_y) + random_range(-explosion_accuracy,explosion_accuracy);
 
-    image_speed = 1;
+    image_speed = 0.75;
     cooled_down = false;
     alarm[0] = cooldown_time;
     audio_play_sound(snd_Tank_Fire,0.6,false);

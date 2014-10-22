@@ -26,16 +26,15 @@
           <argument>
             <kind>1</kind>
             <string>destroy = false;
-
-UI[2] = -1;
+recreate = false;
 
 var a = application_get_position();
 var xx = a[0];
 var yy = a[1];
-var ww = a[2] - a[0];
-var hh = a[3] - a[1];
+
+var ww = view_wview[0];
+var hh = max(view_hview[0],a[3] - a[1]);
 play_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
-UI[0] = play_button;
 play_button.Text = "Play";
 play_button.sprite = spr_Play_Button;
 play_button.xScale = 0.3;
@@ -43,7 +42,6 @@ play_button.yScale = 0.3;
 play_button.grow_scale = 0.05;
 play_button.Init = true;
 options_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
-UI[1] = options_button;
 options_button.Text = "Options";
 options_button.sprite = spr_Options_Button;
 options_button.xScale = 0.3;
@@ -52,7 +50,6 @@ options_button.grow_scale = 0.05;
 options_button.enabled = true;
 options_button.Init = true;
 quit_button = instance_create(20,yy + hh / 2 + 150,obj_UI_Button);
-UI[2] = quit_button;
 quit_button.Text = "Quit";
 quit_button.sprite = spr_Quit_Button;
 quit_button.xScale = 0.3;
@@ -81,12 +78,9 @@ quit_button.Init = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for(var i = 0; i &lt; array_length_1d(UI); i++)
+            <string>if(recreate)
 {
-    with(UI[i])
-    {
-        instance_destroy();
-    }
+    var new = instance_create(0,0,obj_Main_Menu);
 }
 </string>
           </argument>
@@ -112,6 +106,10 @@ quit_button.Init = true;
             <kind>1</kind>
             <string>if(destroy)
 {
+    with(obj_UI)
+    {
+        instance_destroy();
+    }
     instance_destroy();
 }
 </string>
@@ -138,17 +136,33 @@ quit_button.Init = true;
             <kind>1</kind>
             <string>if(play_button.leftreleased)
 {
+    with(obj_UI)
+    {
+        instance_destroy();
+    }
     instance_create(0,0,obj_Play_Menu);
-    destroy = true;
+    instance_destroy();
+    exit;
 }
 if(options_button.leftreleased)
 {
+    with(obj_UI)
+    {
+        instance_destroy();
+    }
     instance_create(0,0,obj_Options_Menu);
-    destroy = true;
+    instance_destroy();
+    exit;
 }
 if(quit_button.leftreleased)
 {
     game_end();
+}
+
+if(global.fullscreen_changed)
+{
+    destroy = true;
+    recreate = true;
 }
 </string>
           </argument>

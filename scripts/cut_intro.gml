@@ -5,7 +5,7 @@ cut_add_text("The year is 2015",2.5 * room_speed,true);
 cut_add_wait(1.5 * room_speed);
 cut_add_text("It was done...",3 * room_speed,true);
 cut_add_wait(room_speed);
-cut_add_text("War broke out cascading into an out of control nuclear appocalypse",5 * room_speed,true);
+cut_add_text("War broke out cascading into an out of control nuclear apocalypse",5 * room_speed,true);
 cut_add_wait(room_speed);
 cut_add_text("Civilization was destroyed",2.5 * room_speed,true);
 cut_add_wait(0.5 * room_speed);

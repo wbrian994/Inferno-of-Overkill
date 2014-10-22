@@ -194,7 +194,7 @@ if(laser != noone)
             <string>///Update
 if(owner != -1)
 {
-    can_fire = cooled_down &amp;&amp; !reloading &amp;&amp; (mag_ammo &gt; 0);
+    can_fire = !reloading &amp;&amp; (mag_ammo &gt; 0);
     if((mag_ammo &lt;= 0 || (keyboard_check_pressed(ord('R')) &amp;&amp; mag_ammo &lt; mag_size)) &amp;&amp; !reloading)
     {
         alarm[1] = reload_time;
@@ -225,7 +225,7 @@ if(owner != -1)
         }
     }
     */
-    if(mouse_check_button(mb_left))
+    if(can_fire &amp;&amp; mouse_check_button(mb_left))
     {
         if(laser == noone)
         {
@@ -235,14 +235,18 @@ if(owner != -1)
             show_muzzle_flash = true;
         }
     }
-    else
+    if(laser != noone)
     {
-        with(laser)
+        mag_ammo -= 0.25;
+        if(!mouse_check_button(mb_left) || mag_ammo &lt;= 0)
         {
-            instance_destroy();
+            with(laser)
+            {
+                instance_destroy();
+            }
+            laser = noone;
+            show_muzzle_flash = false;
         }
-        laser = noone;
-        show_muzzle_flash = false;
     }
 }
 </string>
@@ -286,7 +290,7 @@ else
     ammo_string = "Spare Battery: inf. \ inf.";
 }
 
-mag_string = "Battery: " + string(mag_ammo) + " \ " + string(mag_size);
+mag_string = "Battery: " + string(round(mag_ammo)) + " \ " + string(mag_size);
 
 str_width = string_width(ammo_string);
 xPos = xx + ww - str_width - padding;

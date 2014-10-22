@@ -61,7 +61,7 @@ exploded = false;
     {
         var dist = point_distance(x,y,other.x,other.y);
         var damage = lerp(other.explosion_power,5,(dist / other.explosion_radius));
-        if(dist &lt;= other.explosion_radius)
+        if(dist &lt;= other.explosion_radius &amp;&amp; in_vehicle == noone)
         {
             hp -= damage;
             if(hp &lt;= 0)

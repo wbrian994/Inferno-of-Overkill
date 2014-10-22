@@ -147,9 +147,14 @@ cooled_down = true;
 if(owner != -1)
 {
     can_fire = cooled_down &amp;&amp; (mag_ammo &gt; 0);
-    if((mag_ammo &lt;= 0 || (keyboard_check_pressed(ord('R')) &amp;&amp; mag_ammo &lt; mag_size)) &amp;&amp; !reloading)
+    if(mag_ammo &lt;= 0 &amp;&amp; !reloading)
     {
         alarm[1] = reload_time;
+        reloading = true;
+    }
+    if((keyboard_check_pressed(ord('R')) &amp;&amp; mag_ammo &lt; mag_size) &amp;&amp; !reloading)
+    {
+        alarm[1] = 1;
         reloading = true;
     }
     

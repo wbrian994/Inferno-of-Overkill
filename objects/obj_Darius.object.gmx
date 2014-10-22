@@ -31,8 +31,8 @@ team = TEAM_FRIENDLY;
 
 //Vars
 friction = 1;
-maxWalkSpeed = 5;
-acceleration = 1;
+maxWalkSpeed = 8;
+acceleration = 1.25;
 
 //Inventory
     //Constants
@@ -281,8 +281,6 @@ image_angle = 0;
 
 var foundCollision = collision_rectangle(bbox_left + min(0, -hspeed), bbox_top + min(0, -vspeed), bbox_right + max(0, -hspeed), bbox_bottom + max(0, -vspeed), obj_solid, false, true);
 
-image_angle = oldia;
-
 if(foundCollision)
 {
     //return to previous position
@@ -323,6 +321,8 @@ if(foundCollision)
         }
     }
 }
+
+image_angle = oldia;
 </string>
           </argument>
         </arguments>
@@ -487,6 +487,14 @@ if(inv_prev_slot != inv_current_slot)
             <kind>1</kind>
             <string>/// Vehicle Stuff
 can_enter_vehicle = collision_circle(x,y,vehicle_radius,obj_Vehicle,false,true);
+if(can_enter_vehicle != noone)
+{
+    var test = collision_line(x,y,can_enter_vehicle.x,can_enter_vehicle.y,obj_solid,false,true);
+    if(test)
+    {
+        can_enter_vehicle = noone;
+    }
+}
 if(in_vehicle != noone)
 {
     can_enter_vehicle = noone;
@@ -567,7 +575,7 @@ if(v_exiting)
     
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up ???";
+    text.Text = "Picked Up Laser Pistol";
     text.color = c_lime;
 }
 else
@@ -624,7 +632,7 @@ else
     
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up Badass Shotgun of Super Overkilledness";
+    text.Text = "Picked Up Shotgun";
     text.color = c_lime;
 }
 else
@@ -681,7 +689,7 @@ else
     
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up Crazy Carbine... (Machine Gun)";
+    text.Text = "Picked Up Machine Gun";
     text.color = c_lime;
 }
 else

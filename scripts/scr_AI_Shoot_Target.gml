@@ -2,7 +2,7 @@ var bullet_counter, num_bullets, bullet_to_dodge;
 if(target != -1)
 {
     //Lead Player with aim
-    image_angle += sin(degtorad((point_direction(x,y,target.x+lengthdir_x(target.speed*point_distance(x,y,target.x,target.y)*0.1,target.direction),target.y+lengthdir_y(target.speed*point_distance(x,y,target.x,target.y)*0.1,target.direction)))-image_angle))*12;
+    image_angle += clamp(sin(degtorad((point_direction(x,y,target.x+lengthdir_x(target.speed*point_distance(x,y,target.x,target.y)*(1 / 20),target.direction),target.y+lengthdir_y(target.speed*point_distance(x,y,target.x,target.y)*(1 / 20),target.direction)))-image_angle))*12,-45,45);
     if(!collision_line(x,y,target.x,target.y,obj_solid,false,true))
     {
         //shoot
@@ -34,11 +34,11 @@ if(target != -1)
     //if(hp >= target.hp / 2 || hp > max_hp / 0.25)
     {
         //Follow Target
-        if(point_distance(x,y,target.x,target.y) > 252 || collision_line(x,y,target.x,target.y,obj_solid,false,true))
+        if(point_distance(x,y,target.x,target.y) > 320 || collision_line(x,y,target.x,target.y,obj_solid,false,true))
         {
             mp_potential_step_object(target.x,target.y,4,obj_collidable);
         }
-        if(point_distance(x,y,target.x,target.y) < 212 && !collision_line(x,y,target.x,target.y,obj_solid,false,true))
+        if(point_distance(x,y,target.x,target.y) < 250 && !collision_line(x,y,target.x,target.y,obj_solid,false,true))
         {
             mp_potential_step_object(target.x,target.y,-4,obj_collidable);
         }

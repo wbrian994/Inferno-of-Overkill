@@ -78,6 +78,12 @@
           <sprite>sprites\spr_Tank_Hull_Destroyed</sprite>
           <sprite>sprites\spr_Tank_Turret_Destroyed</sprite>
         </sprites>
+        <sprites name="Christmas Tank">
+          <sprite>sprites\spr_Christmas_Tank_Hull</sprite>
+          <sprite>sprites\spr_Christmas_Tank_Turret</sprite>
+          <sprite>sprites\spr_Christmas_Tank_Hull_Destroyed</sprite>
+          <sprite>sprites\spr_Christmas_Tank_Turret_Destroyed</sprite>
+        </sprites>
       </sprites>
       <sprite>sprites\spr_bullet</sprite>
       <sprite>sprites\spr_bullet_hit</sprite>
@@ -188,11 +194,17 @@
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_main</font>
+    <font>fonts\fnt_Main_Large</font>
     <font>fonts\fnt_Main_Small</font>
     <font>fonts\fnt_Main_Tiny</font>
     <font>fonts\fnt_UI_Button</font>
   </fonts>
   <objects name="objects">
+    <objects name="Player">
+      <object>objects\obj_Player</object>
+      <object>objects\obj_Darius</object>
+      <object>objects\obj_Darius_Dead</object>
+    </objects>
     <objects name="Environment">
       <object>objects\obj_wall</object>
       <object>objects\obj_Health_Pack</object>
@@ -251,6 +263,12 @@
         <object>objects\obj_Main_Menu</object>
       </objects>
       <object>objects\obj_spawner</object>
+      <objects name="Lighting">
+        <object>objects\obj_lightmap</object>
+        <object>objects\obj_light</object>
+        <object>objects\obj_twinkle_light</object>
+      </objects>
+      <object>objects\obj_permanence</object>
     </objects>
     <objects name="AI">
       <object>objects\obj_Enemy</object>
@@ -259,16 +277,6 @@
       <objects name="Guns">
         <object>objects\obj_Enemy_Pistol</object>
       </objects>
-      <objects name="Player">
-        <object>objects\obj_Player</object>
-        <object>objects\obj_Darius</object>
-        <object>objects\obj_Darius_Dead</object>
-      </objects>
-    </objects>
-    <objects name="Lighting">
-      <object>objects\obj_lightmap</object>
-      <object>objects\obj_light</object>
-      <object>objects\obj_twinkle_light</object>
     </objects>
     <objects name="Vehicles">
       <object>objects\obj_Vehicle</object>
@@ -296,14 +304,15 @@
     </rooms>
     <room>rooms\rm_Firefight</room>
   </rooms>
-  <constants number="20">
-    <constant name="GM_build_date">41927.8570617361</constant>
+  <constants number="21">
+    <constant name="GM_build_date">41934.8576452083</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>
     <constant name="SECT_DATA">"DATA"</constant>
     <constant name="SECT_AUDIO">"AUDIO"</constant>
     <constant name="SECT_SCREEN">"SCREEN"</constant>
+    <constant name="KEY_SHOW_INTRO">"ShowIntro"</constant>
     <constant name="KEY_FIRST_RUN">"FirstRun"</constant>
     <constant name="KEY_VOLUME">"MasterVolume"</constant>
     <constant name="KEY_M_VOLUME">"MusicVolume"</constant>

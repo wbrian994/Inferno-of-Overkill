@@ -23,6 +23,12 @@ if(global.FirstRun == "true")
     ini_write_string(SECT_DATA,KEY_FIRST_RUN,"false");
 }
 
+if(!ini_key_exists(SECT_DATA,KEY_SHOW_INTRO))
+{
+    ini_write_string(SECT_DATA,KEY_SHOW_INTRO,"true");
+}
+global.show_intro = (ini_read_string(SECT_DATA,KEY_SHOW_INTRO,"true") == "true");
+
 //write initial ini values
 if(!ini_section_exists(SECT_SCREEN))
 {
@@ -65,6 +71,7 @@ add_all_music();
 
 //Setup Window
 global.fullscreen = (global.fullscreen == "true");
+global.fullscreen_changed = false;
 window_set_size(global.WXres,global.WYres);
 global.camera_offset[0] = 0;
 global.camera_offset[1] = 1;

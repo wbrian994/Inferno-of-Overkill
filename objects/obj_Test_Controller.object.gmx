@@ -26,6 +26,19 @@
           <argument>
             <kind>1</kind>
             <string>play_music(snd_Game_Music,true);
+if(global.is_christmas)
+{
+    var light = instance_create(0,0,obj_lightmap);
+    light.ambient_light = 0.5;
+    background_visible[1] = true;
+    background_visible[2] = true;
+    background_foreground[1] = true;
+    background_foreground[2] = true;
+    background_x[1] = 200;
+    background_y[1] = 100;
+    background_index[1] = back_snow;
+    background_index[2] = back_snow;
+}
 </string>
           </argument>
         </arguments>
