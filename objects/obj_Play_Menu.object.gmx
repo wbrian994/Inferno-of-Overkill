@@ -34,22 +34,17 @@ var yy = a[1];
 
 var ww = view_wview[0];
 var hh = view_hview[0];
-if(global.is_christmas)
-{
-    christmas_story_button = instance_create(20,yy + hh / 2 + 150,obj_UI_Button);
-    christmas_story_button.Text = "Christmas Campaign";
-    christmas_story_button.grow_scale = 0.1;
-    christmas_story_button.enabled = false;
-    christmas_story_button.Init = true;
-}
-story_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
-story_button.Text = "Test Level";
-story_button.grow_scale = 0.1;
-story_button.Init = true;
-fire_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
-fire_button.Text = "Firefight";
-fire_button.grow_scale = 0.1;
-fire_button.Init = true;
+
+single_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
+single_button.Text = "Singleplayer";
+single_button.grow_scale = 0.1;
+single_button.Init = true;
+
+multi_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
+multi_button.Text = "Multiplayer";
+multi_button.grow_scale = 0.1;
+multi_button.enabled = false;
+multi_button.Init = true;
 </string>
           </argument>
         </arguments>
@@ -128,21 +123,26 @@ fire_button.Init = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.is_christmas)
+            <string>if(single_button.leftreleased)
 {
-    if(christmas_story_button.leftreleased)
+    with(obj_UI)
     {
-        show_debug_message("Christmas Story Button Pushed");
+        instance_destroy();
     }
+    instance_create(0,0,obj_Singleplayer_Menu);
+    instance_destroy();
+    exit;
 }
 
-if(story_button.leftreleased)
+if(multi_button.leftreleased)
 {
-    room_goto(rm_Test);
-}
-if(fire_button.leftreleased)
-{
-    room_goto(rm_Firefight);
+    with(obj_UI)
+    {
+        instance_destroy();
+    }
+    instance_create(0,0,obj_Multiplayer_Menu);
+    instance_destroy();
+    exit;
 }
 
 if(global.fullscreen_changed)

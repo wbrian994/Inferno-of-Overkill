@@ -40,6 +40,7 @@ max_ammo = -1 //-1 is infinite
 ammo = -1
 can_fire = true;
 accuracy = 2; //Higher numbers are worse, 0 hits cursor every time
+recoil = 2;
 name = "M1911";
 
 sound = snd_Pistol;
@@ -174,21 +175,26 @@ if(owner != -1)
     if(can_fire &amp;&amp; mouse_check_button_pressed(owner.mouse_fire))
     {
         var offset = get_offset(owner.look_target,bullet_x_offset / 2,bullet_y_offset);
-        var casing = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet_casing);
-        casing.speed = bullet_speed;
-        casing.direction = owner.look_target - random_range(80,100);
-        casing.sprite_index = spr_small_bullet_casing;
-        offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-        var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
-        bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
-        bullet.speed = bullet_speed;
-        bullet.owner = owner;
-        bullet.damage = 7;
+        if(collision_line(owner.x,owner.y,owner.x + offset[0],owner.y + offset[1],obj_solid,false,true) == noone)
+        {
+            var casing = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet_casing);
+            casing.speed = bullet_speed;
+            casing.direction = owner.look_target - random_range(80,100);
+            casing.sprite_index = spr_small_bullet_casing;
+            offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
+            var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
+            bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
+            bullet.speed = bullet_speed;
+            bullet.owner = owner;
+            bullet.damage = 7;
+        }
         cooled_down = false;
         alarm[0] = cooldown;
         show_muzzle_flash = true;
         owner.image_speed = 0.5;
         mag_ammo--;
+        owner.x += lengthdir_x(recoil,owner.image_angle + 180);
+        owner.y += lengthdir_y(recoil,owner.image_angle + 180);
         global.shake_camera_amount = 5;
         global.shake_camera = 2;
         

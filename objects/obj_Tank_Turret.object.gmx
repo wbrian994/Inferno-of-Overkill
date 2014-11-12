@@ -3,7 +3,7 @@
   <spriteName>spr_Tank_Turret</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-1</depth>
+  <depth>1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -263,6 +263,7 @@ if(show_muzzle_flash)
 {
     draw_sprite_ext(spr_Tank_Muzzle_Flash,0,turret_tip_x,turret_tip_y,1,1,direction,c_white,1);
     show_muzzle_flash = false;
+    tank.show_muzzle_flash = true;
 }
 </string>
           </argument>

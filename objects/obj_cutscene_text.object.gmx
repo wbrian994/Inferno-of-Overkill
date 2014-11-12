@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>-1</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>obj_curscene_object</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -34,6 +34,7 @@ counter = 0;
 
 fade_in_time = 0.5 * room_speed;
 fade_out_time = 0.25 * room_speed;
+fade_repeat = false;
 alpha = 0;
 
 // states
@@ -63,7 +64,7 @@ current_state = fading_in;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(counter &gt;= time)
+            <string>if(time != -1 &amp;&amp; counter &gt;= time)
 {
     instance_destroy();
 }

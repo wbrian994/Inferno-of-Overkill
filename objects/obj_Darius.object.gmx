@@ -39,6 +39,7 @@ acceleration = 1.25;
     pistol = 0;
     machine_gun = 1;
     shotgun = 2;
+    crazy_gun = 7;
     laser_rifle = 8;
 inventory_size = 9;
 inv_current_slot = 0;
@@ -87,6 +88,7 @@ mouse_fire = mb_left;
 in_vehicle = noone;
 vehicle_radius = 200;
 can_enter_vehicle = noone;
+on_vehicle = false;
 
 //on enter/exit
 v_entering = false;
@@ -217,11 +219,30 @@ image_angle += turn_towards(image_angle,look_target,45);
 
 if(hp &lt;= 0 &amp;&amp; !god_mode)
 {
+    //Dead
     if(in_vehicle != noone)
     {
         exit_vehicle();
     }
-    instance_change(obj_Darius_Dead,true);
+    var body = instance_create(x,y,obj_Darius_Dead);
+    body.owner = self.id;
+    hspeed = 0;
+    vspeed = 0;
+    for(var i = 0; i &lt; inventory_size;i++)
+    {
+        if(inv[i] != -1)
+        {
+            if(i == 8 &amp;&amp; inv[i].laser != noone)
+            {
+                with(inv[i].laser)
+                {
+                    instance_destroy();
+                }
+            }
+            instance_deactivate_object(inv[i]);
+        }
+    }
+    instance_deactivate_object(self);
 }
 
 if(god_mode)
@@ -327,6 +348,33 @@ image_angle = oldia;
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Make not immune to vehicles lol
+
+var foundCollision = collision_rectangle(bbox_left + min(0, -hspeed), bbox_top + min(0, -vspeed), bbox_right + max(0, -hspeed), bbox_bottom + max(0, -vspeed), obj_Vehicle, false, true);
+if(foundCollision == noone)
+{
+    on_vehicle = false;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="3" enumb="0">
       <action>
@@ -422,11 +470,18 @@ if(in_vehicle == noone)
             inv_current_slot = 2;
         }
     }
+    if(keyboard_check_pressed(ord('8')))
+    {
+        if(inv[crazy_gun] != -1)
+        {
+            inv_current_slot = crazy_gun;
+        }
+    }
     if(keyboard_check_pressed(ord('9')))
     {
-        if(inv[8] != -1)
+        if(inv[laser_rifle] != -1)
         {
-            inv_current_slot = 8;
+            inv_current_slot = laser_rifle;
         }
     }
 }
@@ -435,16 +490,19 @@ if(inv_prev_slot != inv_current_slot)
 {
     switch(inv_current_slot)
     {
-        case 0:
+        case pistol:
             sprite_index = spr_Darius_Pistol;
             break;
-        case 1:
+        case machine_gun:
             sprite_index = spr_Darius_Machine_Gun;
             break;
-        case 2:
+        case shotgun:
             sprite_index = spr_Darius_Shotgun;
             break;
-        case 8:
+        case crazy_gun:
+            sprite_index = spr_Darius_Large_Gun;
+            break;
+        case laser_rifle:
             sprite_index = spr_Darius_Laser_Rifle;
             break;
     }
@@ -538,6 +596,63 @@ if(v_exiting)
     {
         v_camera_zoom_counter = 0;
         v_exiting = false;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Crazy_Pickup">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(inv[crazy_gun] == -1)
+{
+    inv[crazy_gun] = instance_create(x,y,obj_Crazy_Gun);
+    instance_deactivate_object(inv[crazy_gun]);
+    inv[crazy_gun].owner = self.id;
+    other.ammo = 0; //destroys pickup
+    if(inv_current_slot &lt; crazy_gun)
+    {
+        inv_current_slot = crazy_gun;
+    }
+    
+    //text
+    var text = instance_create(x,y,obj_Pickup_Text);
+    text.Text = "Picked Up Badassery";
+    text.color = c_lime;
+}
+else
+{
+    if(inv[crazy_gun].max_ammo != -1)
+    {
+        var amount = min(inv[crazy_gun].max_ammo - inv[crazy_gun].ammo,other.ammo);
+        inv[crazy_gun].ammo += amount;
+        other.ammo -= amount;
+        if(amount &gt; 0)
+        {
+            var text = instance_create(x,y,obj_Pickup_Text);
+            text.Text = "+" + string(amount) + " Shotgun Shells";
+            text.color = c_green;
+        }
+    }
+    else
+    {
+        other.ammo = 0;
     }
 }
 </string>
@@ -877,7 +992,8 @@ draw_sprite_ext(dmg_overlay,0,xx,yy,ww / spr_width,hh / spr_height,0,c_white,ove
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var a = application_get_position();
+            <string>/// Draw HUD
+var a = application_get_position();
 var xx = a[0];
 var yy = a[1];
 var ww = a[2] - a[0];
@@ -899,6 +1015,80 @@ if(can_enter_vehicle != noone)
     draw_text_outline(ww / 2, hh / 2,"Press 'E' to enter " + string(can_enter_vehicle.name),2);
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
+}
+
+if(global.player_max_lives != -1)
+{
+    for(var i = 0; i &lt; global.player_max_lives; i++)
+    {
+        if(i &lt; global.player_lives)
+        {
+            draw_set_color(c_lime);
+        }
+        else
+        {
+            draw_set_color(c_green);
+        }
+        var start_x = 0 + (i * 20);
+        var width = 10;
+        var height = 20;
+        draw_rectangle(start_x,0,start_x + width,height,false);
+    }
+}
+
+if(in_vehicle == noone)
+{
+    var width, height, str_width,draw_scale;
+    draw_scale = 0.75;
+    str_width = string_width("--") * draw_scale;
+    width = sprite_get_width(spr_Gun_Shower_Thing) * draw_scale;
+    height = sprite_get_height(spr_Gun_Shower_Thing) * draw_scale;
+    draw_sprite_ext(spr_Gun_Shower_Thing,0,0,hh,draw_scale,draw_scale,0,c_white,1);
+    draw_set_valign(fa_bottom);
+    for(i = 0; i &lt; inventory_size; i++)
+    {
+        var scale = draw_scale;
+        if(i == inv_current_slot)
+        {
+            draw_set_color(c_orange);
+            scale += 0.25 * draw_scale;
+        }
+        else if(inv[i] == -1)
+        {
+            draw_set_color(c_gray);
+        }
+        else
+        {
+            draw_set_color(c_red);
+        }
+        draw_text_outline_transformed(1 + (i * str_width),hh,string(i + 1),2,scale,scale,0);
+    }
+    draw_set_valign(fa_top);
+    
+    //draw gun
+    var sprite;
+    switch(inv_current_slot)
+    {
+        case pistol:
+            sprite = spr_Pistol_Showcase;
+            break;
+        case machine_gun:
+            sprite = spr_Machine_Gun_Showcase;
+            break;
+        case shotgun:
+            sprite = spr_Shotgun_Showcase;
+            break;
+        case crazy_gun:
+            sprite = spr_Crazy_Gun_Showcase;
+            break;
+        case laser_rifle:
+            sprite = spr_Laser_Rifle_Showcase;
+            break;
+        default:
+            sprite = spr_Unknown_Gun;
+            break;
+    }
+    draw_sprite_ext(sprite,0,width / 2, hh - height / 2,draw_scale,draw_scale,0,c_white,1);
 }
 </string>
           </argument>

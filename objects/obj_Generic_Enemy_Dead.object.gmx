@@ -3,7 +3,7 @@
   <spriteName>spr_Generic_Enemy_Dead</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>1</depth>
+  <depth>10</depth>
   <persistent>0</persistent>
   <parentName>obj_permanence</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -28,6 +28,10 @@
             <string>event_inherited();
 image_blend= c_red;
 friction = 1;
+if(!global.persistant_debris)
+{
+    alarm[0] = 60 * room_speed;
+}
 </string>
           </argument>
         </arguments>

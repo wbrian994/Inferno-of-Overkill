@@ -31,7 +31,7 @@ damage = 5;
 
 range = 1000;
 distance = 0;
-knockback = 5;
+knockback = 8;
 </string>
           </argument>
         </arguments>
@@ -54,9 +54,31 @@ knockback = 5;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var dist = range_finder(x,y,direction,100,obj_collidable,false,true);
+            <string>var x_pos,y_pos;
+    
+var dist = range_finder(x,y,direction,100,obj_solid,false,true);
+x_pos = x + lengthdir_x(dist,direction);
+y_pos = y + lengthdir_y(dist,direction);
 if(dist != 100)
-    instance_create(x + lengthdir_x(dist,direction),y + lengthdir_y(dist,direction),obj_Bullet_Hit);
+{
+    instance_create(x_pos,y_pos,obj_Bullet_Hit);
+}
+
+dist = range_finder(x,y,direction,100,obj_Unit_Par,false,true);
+x_pos = x + lengthdir_x(dist,direction);
+y_pos = y + lengthdir_y(dist,direction);
+if(dist != 100 &amp;&amp; !place_meeting(x,y,owner))
+{
+    var hit = instance_create(x_pos,y_pos,obj_Bullet_Hit);
+    hit.sprite_index = choose(spr_blood_splatter1,spr_blood_splatter2,spr_blood_splatter3,spr_blood_splatter4);
+    hit.image_speed = 0.5;
+    hit.image_angle = image_angle + 180;
+    
+    x_pos = x + lengthdir_x(dist + speed,direction);
+    y_pos = y + lengthdir_y(dist + speed,direction);
+    var blood_spray = instance_create(x_pos,y_pos,obj_blood_spray);
+    blood_spray.image_angle = image_angle;
+}
 </string>
           </argument>
         </arguments>
@@ -144,7 +166,8 @@ if(distance &gt;= range)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(owner != other.id)
+            <string>///Damage Text
+if(owner != other.id)
 {
     other.hp -= damage;
     instance_destroy();
@@ -158,6 +181,35 @@ if(distance &gt;= range)
     {
         text.color = c_red;
         text.Text = "- " + string(damage);
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Knockback
+with(other)
+{
+    if(other.owner != self.id)
+    {
+        x += lengthdir_x(other.knockback,other.direction);
+        y += lengthdir_y(other.knockback,other.direction);
     }
 }
 </string>
@@ -183,6 +235,32 @@ if(distance &gt;= range)
           <argument>
             <kind>1</kind>
             <string>instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_door">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(!(other.is_open || other.image_speed != 0))
+{
+    instance_destroy();
+}
 </string>
           </argument>
         </arguments>
@@ -219,6 +297,35 @@ if(distance &gt;= range)
     {
         text.color = c_red;
         text.Text = "- " + string(damage);
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Knockback
+with(other)
+{
+    if(other.owner != self.id)
+    {
+        x += lengthdir_x(other.knockback,other.direction);
+        y += lengthdir_y(other.knockback,other.direction);
     }
 }
 </string>

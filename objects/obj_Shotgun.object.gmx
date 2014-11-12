@@ -40,6 +40,7 @@ max_ammo = 100; //-1 is infinite
 ammo = irandom_range(mag_size,max_ammo);
 can_fire = true;
 accuracy = 12; //Higher numbers are worse, 0 hits cursor every time
+recoil = 10;
 name = "Remmington M80";
 
 sound = snd_Shotgun;
@@ -74,20 +75,20 @@ pellets = 12;
           <argument>
             <kind>1</kind>
             <string>///Reload
-if(max_ammo != -1)
+if(ammo &gt; 0)
 {
-    if(ammo &gt; 0)
+    if(max_ammo != -1)
     {
         mag_ammo++;
     }
+    else
+    {
+        mag_ammo++;
+    }
+    
+    ammo--;
+    audio_play_sound(reload_sound,0.6,false);
 }
-else
-{
-    mag_ammo++;
-}
-
-ammo--;
-audio_play_sound(reload_sound,0.6,false);
 
 if(mag_ammo == mag_size)
 {
@@ -169,19 +170,24 @@ if(owner != -1)
         {
             
             offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-            var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
-            bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
-            bullet.speed = bullet_speed;
-            bullet.owner = owner;
-            bullet.damage = 4;
-            bullet.range /= 2;
-            bullet.sprite_index = -1;
+            if(collision_line(owner.x,owner.y,owner.x + offset[0],owner.y + offset[1],obj_solid,false,true) == noone)
+            {
+                var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
+                bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
+                bullet.speed = bullet_speed;
+                bullet.owner = owner;
+                bullet.damage = 4;
+                bullet.range /= 2;
+                bullet.sprite_index = -1;
+            }
         }
         cooled_down = false;
         alarm[0] = cooldown;
         show_muzzle_flash = true;
         owner.image_speed = 0.5;
         mag_ammo--;
+        owner.x += lengthdir_x(recoil,owner.image_angle + 180);
+        owner.y += lengthdir_y(recoil,owner.image_angle + 180);
         global.shake_camera_amount = 24;
         global.shake_camera = 2;
         

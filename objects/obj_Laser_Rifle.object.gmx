@@ -40,7 +40,7 @@ max_ammo = 500 //-1 is infinite
 ammo = irandom_range(mag_size,max_ammo);
 can_fire = true;
 accuracy = 0; //Higher numbers are worse, 0 hits cursor every time
-name = "Pulse Rifle";
+name = "Ray Gun";
 
 sound = snd_Laser;
 

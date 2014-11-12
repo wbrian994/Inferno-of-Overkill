@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>play_music(snd_Game_Music,true);
+global.player_max_lives = -1;
 if(global.is_christmas)
 {
     var light = instance_create(0,0,obj_lightmap);
@@ -68,7 +69,35 @@ if(global.is_christmas)
 
 if(keyboard_check_pressed(vk_escape))
 {
-    room_goto(rm_Menu);
+    pause_game();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// TEMP (DELETE ME)
+if(keyboard_check_pressed(vk_add))
+{
+    with(obj_Enemy)
+    {
+        has_nav = true;
+    }
 }
 </string>
           </argument>

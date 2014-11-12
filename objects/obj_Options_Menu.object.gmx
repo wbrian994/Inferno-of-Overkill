@@ -87,6 +87,12 @@ intro_checkbox.has_label = true;
 intro_checkbox.label_text = "Do NOT Show Opening Cutscene";
 intro_checkbox.checked = !global.show_intro;
 intro_checkbox.Init = true;
+
+persistant_checkbox = instance_create(ww / 2 - 250,hh / 2 + 140,obj_UI_Checkbox);
+persistant_checkbox.has_label = true;
+persistant_checkbox.label_text = "Persistant Debris";
+persistant_checkbox.checked = global.persistant_debris;
+persistant_checkbox.Init = true;
 </string>
           </argument>
         </arguments>
@@ -128,6 +134,14 @@ if(global.show_intro)
 else
 {
     ini_write_string(SECT_DATA,KEY_SHOW_INTRO,"false");
+}
+if(global.persistant_debris)
+{
+    ini_write_string(SECT_SCREEN,KEY_PERSISTANCE,"true");
+}
+else
+{
+    ini_write_string(SECT_SCREEN,KEY_PERSISTANCE,"false");
 }
 ini_close();
 
@@ -205,6 +219,10 @@ if(full_checkbox.state_changed)
 if(intro_checkbox.state_changed)
 {
     global.show_intro = !intro_checkbox.checked;
+}
+if(persistant_checkbox.state_changed)
+{
+    global.persistant_debris = persistant_checkbox.checked;
 }
 if(christmas_checkbox.state_changed)
 {

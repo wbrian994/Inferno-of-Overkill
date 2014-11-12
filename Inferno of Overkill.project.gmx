@@ -27,6 +27,7 @@
       <sound>sound\snd_Game_Music</sound>
       <sound>sound\snd_Cutscene_Music</sound>
       <sound>sound\snd_MainMenu_Music_Christmas</sound>
+      <sound>sound\snd_Credits_Music</sound>
     </sounds>
     <sounds name="Vehicles">
       <sounds name="Tank">
@@ -45,6 +46,7 @@
         <sprite>sprites\spr_Darius_Laser_Rifle</sprite>
         <sprite>sprites\spr_Darius_Shotgun</sprite>
         <sprite>sprites\spr_Darius_Mask</sprite>
+        <sprite>sprites\spr_Darius_Large_Gun</sprite>
       </sprites>
       <sprites name="Generic Twat">
         <sprite>sprites\spr_Generic_Enemy</sprite>
@@ -54,18 +56,28 @@
     <sprites name="Weapons">
       <sprites name="Pistol">
         <sprite>sprites\spr_Pistol_Muzzle_Flash</sprite>
+        <sprite>sprites\spr_Pistol_Showcase</sprite>
       </sprites>
       <sprites name="Machine Gun">
         <sprite>sprites\spr_Machine_Gun</sprite>
+        <sprite>sprites\spr_Machine_Gun_Showcase</sprite>
       </sprites>
       <sprites name="Shotgun">
         <sprite>sprites\spr_Shotgun</sprite>
+        <sprite>sprites\spr_Shotgun_Showcase</sprite>
       </sprites>
       <sprites name="Laser_Rifle">
         <sprite>sprites\spr_Laser_Emitter_Flash</sprite>
         <sprite>sprites\spr_Laser_Rifle</sprite>
+        <sprite>sprites\spr_Laser_Rifle_Showcase</sprite>
+      </sprites>
+      <sprites name="Crazy Gun">
+        <sprite>sprites\spr_Crazy_Gun</sprite>
+        <sprite>sprites\spr_Crazy_Gun_Showcase</sprite>
+        <sprite>sprites\spr_Large_Gun_Muzzle_Flash</sprite>
       </sprites>
       <sprite>sprites\spr_bullet_casing</sprite>
+      <sprite>sprites\spr_large_bullet_casing</sprite>
       <sprite>sprites\spr_small_bullet_casing</sprite>
       <sprite>sprites\spr_battery</sprite>
       <sprite>sprites\spr_shotgun_shell</sprite>
@@ -86,7 +98,6 @@
         </sprites>
       </sprites>
       <sprite>sprites\spr_bullet</sprite>
-      <sprite>sprites\spr_bullet_hit</sprite>
     </sprites>
     <sprites name="System">
       <sprite>sprites\spr_bullet_mask</sprite>
@@ -103,10 +114,30 @@
       <sprite>sprites\spr_wall</sprite>
       <sprite>sprites\spr_explosion</sprite>
       <sprite>sprites\spr_Health_Pack</sprite>
+      <sprite>sprites\spr_Respawn_Chamber</sprite>
+      <sprite>sprites\spr_bullet_hit</sprite>
+      <sprite>sprites\spr_door</sprite>
+      <sprites name="Blood">
+        <sprites name="blood_splatter">
+          <sprite>sprites\spr_blood_splatter1</sprite>
+          <sprite>sprites\spr_blood_splatter2</sprite>
+          <sprite>sprites\spr_blood_splatter3</sprite>
+          <sprite>sprites\spr_blood_splatter4</sprite>
+        </sprites>
+        <sprites name="blood_spray">
+          <sprite>sprites\spr_blood_spray</sprite>
+          <sprite>sprites\spr_blood_spray2</sprite>
+        </sprites>
+      </sprites>
     </sprites>
     <sprites name="HUD">
       <sprite>sprites\spr_Damage_Overlay</sprite>
       <sprite>sprites\spr_Crosshair</sprite>
+      <sprite>sprites\spr_Gun_Shower_Thing</sprite>
+      <sprite>sprites\spr_Unknown_Gun</sprite>
+      <sprite>sprites\spr_Nav_Point</sprite>
+      <sprite>sprites\spr_Nav_Marker</sprite>
+      <sprite>sprites\spr_Nav_Arrow</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -117,8 +148,11 @@
     <background>background\back_story_point_one</background>
     <background>background\back_story_point_two</background>
     <background>background\back_snow</background>
+    <background>background\back_fireproof_logo</background>
   </backgrounds>
-  <paths name="paths"/>
+  <paths name="paths">
+    <path>paths\path0</path>
+  </paths>
   <scripts name="scripts">
     <scripts name="System">
       <script>scripts\Initialize.gml</script>
@@ -146,6 +180,7 @@
       <script>scripts\init_particles.gml</script>
       <script>scripts\clear_particles.gml</script>
       <script>scripts\draw_circle_border.gml</script>
+      <script>scripts\pause_game.gml</script>
     </scripts>
     <scripts name="AI">
       <script>scripts\scr_AI_Find_Target.gml</script>
@@ -178,6 +213,7 @@
     </scripts>
     <scripts name="Cutscenes">
       <script>scripts\play_cutscene.gml</script>
+      <script>scripts\show_cutscene.gml</script>
       <scripts name="Management">
         <script>scripts\cut_add_image.gml</script>
         <script>scripts\cut_add_text.gml</script>
@@ -188,6 +224,30 @@
       </scripts>
       <script>scripts\cut_test.gml</script>
       <script>scripts\cut_intro.gml</script>
+      <script>scripts\cut_credits.gml</script>
+    </scripts>
+    <scripts name="Networking">
+      <script>scripts\Net_Setup.gml</script>
+      <script>scripts\Net_TcpServer.gml</script>
+      <script>scripts\Net_TcpClientRaw.gml</script>
+      <script>scripts\Net_TcpClient.gml</script>
+      <script>scripts\Net_UdpServer.gml</script>
+      <script>scripts\Net_UdpDestroy.gml</script>
+      <script>scripts\Net_TcpDestroy.gml</script>
+      <script>scripts\Net_Handle.gml</script>
+      <script>scripts\Net_TcpCast.gml</script>
+      <script>scripts\Net_UdpCast.gml</script>
+      <script>scripts\Net_Bytes.gml</script>
+      <script>scripts\Net_Analyze.gml</script>
+      <script>scripts\Net_Inquire.gml</script>
+      <script>scripts\Net_Enqueue.gml</script>
+      <script>scripts\Net_Requeue.gml</script>
+      <script>scripts\Net_Dequeue.gml</script>
+      <script>scripts\Net_TcpAssets.gml</script>
+      <script>scripts\Net_UdpAssets.gml</script>
+      <scripts name="Client Messages">
+        <script>scripts\net_client_messages.gml</script>
+      </scripts>
     </scripts>
     <script>scripts\notes.gml</script>
     <script>scripts\exit_vehicle.gml</script>
@@ -208,6 +268,10 @@
     <objects name="Environment">
       <object>objects\obj_wall</object>
       <object>objects\obj_Health_Pack</object>
+      <object>objects\obj_Respawn_Chamber</object>
+      <object>objects\obj_door</object>
+      <object>objects\obj_Bullet_Hit</object>
+      <object>objects\obj_blood_spray</object>
     </objects>
     <objects name="Weapons">
       <objects name="Ammo">
@@ -216,7 +280,6 @@
         <object>objects\obj_Explosion</object>
         <object>objects\obj_Tank_Shell</object>
         <object>objects\obj_Laser</object>
-        <object>objects\obj_Bullet_Hit</object>
       </objects>
       <objects name="Pistol">
         <object>objects\obj_Pistol</object>
@@ -233,6 +296,10 @@
         <object>objects\obj_Laser_Rifle</object>
         <object>objects\obj_Laser_Rifle_Pickup</object>
       </objects>
+      <objects name="Crazy Gun">
+        <object>objects\obj_Crazy_Gun</object>
+        <object>objects\obj_Crazy_Pickup</object>
+      </objects>
       <object>objects\obj_bullet_casing</object>
     </objects>
     <objects name="System">
@@ -243,9 +310,9 @@
       <objects name="Controllers">
         <object>objects\obj_Game_Controller</object>
         <object>objects\obj_Test_Controller</object>
-        <object>objects\obj_Tank_Test_Controller</object>
+        <object>objects\obj_Firefight_Controller</object>
         <object>objects\obj_MainMenu_Controller</object>
-        <object>objects\obj_test_cutscene_controller</object>
+        <object>objects\obj_cutscene_controller</object>
       </objects>
       <objects name="UI">
         <object>objects\obj_UI</object>
@@ -255,12 +322,16 @@
         <object>objects\obj_UI_Label</object>
         <object>objects\obj_UI_Slider</object>
         <object>objects\obj_UI_Checkbox</object>
+        <object>objects\obj_UI_Input</object>
         <object>objects\obj_Showcase</object>
       </objects>
       <objects name="Menus">
         <object>objects\obj_Options_Menu</object>
-        <object>objects\obj_Play_Menu</object>
+        <object>objects\obj_Singleplayer_Menu</object>
         <object>objects\obj_Main_Menu</object>
+        <object>objects\obj_Play_Menu</object>
+        <object>objects\obj_Multiplayer_Menu</object>
+        <object>objects\obj_Multiplayer_Lobby</object>
       </objects>
       <object>objects\obj_spawner</object>
       <objects name="Lighting">
@@ -277,6 +348,7 @@
       <objects name="Guns">
         <object>objects\obj_Enemy_Pistol</object>
       </objects>
+      <object>objects\obj_Nav_Point</object>
     </objects>
     <objects name="Vehicles">
       <object>objects\obj_Vehicle</object>
@@ -288,14 +360,17 @@
       </objects>
     </objects>
     <objects name="Cutscenes">
+      <object>objects\obj_curscene_object</object>
       <object>objects\obj_cutscene_manager</object>
       <object>objects\obj_cutscene_text</object>
       <object>objects\obj_cutscene_image</object>
     </objects>
+    <objects name="Networking">
+      <object>objects\obj_client</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_Init</room>
-    <room>rooms\rm_cutscene</room>
     <rooms name="Menus">
       <room>rooms\rm_Menu</room>
     </rooms>
@@ -303,15 +378,16 @@
       <room>rooms\rm_Test</room>
     </rooms>
     <room>rooms\rm_Firefight</room>
+    <room>rooms\rm_cutscene</room>
   </rooms>
-  <constants number="21">
-    <constant name="GM_build_date">41934.8576452083</constant>
+  <constants number="48">
+    <constant name="GM_build_date">41955.8975660648</constant>
     <constant name="GM_version">'1.0.0.3'</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>
     <constant name="SECT_DATA">"DATA"</constant>
     <constant name="SECT_AUDIO">"AUDIO"</constant>
-    <constant name="SECT_SCREEN">"SCREEN"</constant>
+    <constant name="SECT_SCREEN">"VIDEO"</constant>
     <constant name="KEY_SHOW_INTRO">"ShowIntro"</constant>
     <constant name="KEY_FIRST_RUN">"FirstRun"</constant>
     <constant name="KEY_VOLUME">"MasterVolume"</constant>
@@ -322,10 +398,37 @@
     <constant name="KEY_X_FRES">"FullscreenXResolution"</constant>
     <constant name="KEY_Y_FRES">"FullscreenYResolution"</constant>
     <constant name="KEY_FULLSCREEN">"Fullscreen"</constant>
+    <constant name="KEY_PERSISTANCE">"Persistance"</constant>
     <constant name="TEAM_FRIENDLY">0</constant>
     <constant name="TEAM_ENEMY">1</constant>
     <constant name="TEAM_FREE_FOR_ALL">2</constant>
     <constant name="TEAM_NONE">3</constant>
+    <constant name="network_error">-1</constant>
+    <constant name="network_noerror">1</constant>
+    <constant name="msg_disconnect">0</constant>
+    <constant name="msg_chat">1</constant>
+    <constant name="msg_queue">253</constant>
+    <constant name="msg_broadcast">254</constant>
+    <constant name="msg_analyze">255</constant>
+    <constant name="tcp_asset_sck">0</constant>
+    <constant name="tcp_asset_bfr">1</constant>
+    <constant name="tcp_asset_con">2</constant>
+    <constant name="tcp_asset_dis">3</constant>
+    <constant name="tcp_asset_ipa">4</constant>
+    <constant name="tcp_asset_prt">5</constant>
+    <constant name="tcp_asset_lst">6</constant>
+    <constant name="tcp_asset_que">7</constant>
+    <constant name="tcp_asset_lsz">8</constant>
+    <constant name="tcp_asset_qsz">9</constant>
+    <constant name="udp_asset_sck">0</constant>
+    <constant name="udp_asset_hst">1</constant>
+    <constant name="udp_asset_bfr">2</constant>
+    <constant name="udp_asset_ipa">3</constant>
+    <constant name="udp_asset_prt">4</constant>
+    <constant name="udp_asset_map">5</constant>
+    <constant name="udp_asset_msz">6</constant>
+    <constant name="triggered_tcp">0</constant>
+    <constant name="triggered_udp">1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

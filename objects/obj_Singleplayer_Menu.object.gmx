@@ -25,19 +25,87 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var a = application_get_position();
+            <string>destroy = false;
+recreate = false;
+
+var a = application_get_position();
 var xx = a[0];
 var yy = a[1];
-var ww = a[2] - a[0];
-var hh = a[3] - a[1];
+
+var ww = view_wview[0];
+var hh = view_hview[0];
+if(global.is_christmas)
+{
+    christmas_story_button = instance_create(20,yy + hh / 2 + 150,obj_UI_Button);
+    christmas_story_button.Text = "Christmas Campaign";
+    christmas_story_button.grow_scale = 0.1;
+    christmas_story_button.enabled = false;
+    christmas_story_button.Init = true;
+}
 story_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
-story_button.Text = "Story";
+story_button.Text = "Test Level";
+story_button.grow_scale = 0.1;
 story_button.Init = true;
 fire_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
 fire_button.Text = "Firefight";
+fire_button.grow_scale = 0.1;
 fire_button.Init = true;
-
-play_music(snd_MainMenu_Music,true);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(recreate)
+{
+    var new = instance_create(0,0,obj_Singleplayer_Menu);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(destroy)
+{
+    with(obj_UI)
+    {
+        instance_destroy();
+    }
+    instance_destroy();
+}
 </string>
           </argument>
         </arguments>
@@ -60,66 +128,38 @@ play_music(snd_MainMenu_Music,true);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(story_button.leftreleased)
+            <string>if(global.is_christmas)
+{
+    if(christmas_story_button.leftreleased)
+    {
+        show_debug_message("Christmas Story Button Pushed");
+    }
+}
+
+if(story_button.leftreleased)
 {
     room_goto(rm_Test);
 }
 if(fire_button.leftreleased)
 {
-    
+    room_goto(rm_Firefight);
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="5">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>stop_all_music();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="64">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>var a = application_get_position();
-var xx = a[0];
-var yy = a[1];
-var ww = a[2] - a[0];
-var hh = a[3] - a[1];
-var scale = 0.75;
-draw_sprite_ext(spr_Title,0,xx + ww / 2 - ((sprite_get_width(spr_Title) * scale) / 2), yy + 5,scale,scale,0,c_white,1);
+
+if(global.fullscreen_changed)
+{
+    destroy = true;
+    recreate = true;
+}
+
+if(keyboard_check_pressed(vk_escape))
+{
+    with(obj_UI)
+    {
+        instance_destroy();
+    }
+    instance_create(0,0,obj_Play_Menu);
+    instance_destroy();
+}
 </string>
           </argument>
         </arguments>

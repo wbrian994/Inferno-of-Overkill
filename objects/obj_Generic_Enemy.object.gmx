@@ -34,6 +34,7 @@ gun.owner = self.id;
 see_player = false;
 target = -1;
 in_vehicle = noone;
+on_vehicle = false;
 
 //States
 wandering = 0;
@@ -86,6 +87,29 @@ counter = 0;
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// NAV INIT
+has_nav = false;
+nav = noone;
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="1" enumb="0">
       <action>
@@ -111,6 +135,34 @@ event_inherited(); //Run Parent Event
 if(irandom(100) &lt;= 4)
 {
     instance_create(x,y,obj_Health_Pack);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// NAV
+if(nav != noone)
+{
+    with(nav)
+    {
+        instance_destroy();
+    }
 }
 </string>
           </argument>
@@ -181,18 +233,19 @@ currentState = wandering;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var range = 20;
+            <string>//DIE
+if(hp &lt;= 0)
+{
+    var body = instance_create(x,y,obj_Generic_Enemy_Dead);
+    body.image_angle = image_angle + 180;
+    body.direction = direction;
+    body.speed = speed;
+    instance_destroy();
+}
+
+var range = 200;
 if(x &gt; view_xview[0] - range &amp;&amp; x &lt; view_xview[0] + view_wview[0] + range &amp;&amp; y &gt; view_yview[0] - range &amp;&amp; y &lt; view_yview[0] + view_hview[0] + range)
 {
-    //DIE
-    if(hp &lt;= 0)
-    {
-        var body = instance_create(x,y,obj_Generic_Enemy_Dead);
-        body.image_angle = image_angle + 180;
-        body.direction = direction;
-        body.speed = speed;
-        instance_destroy();
-    }
     var detect = false;
     for(var i = range_of_sight; i &gt;= -range_of_sight; i--)
     {
@@ -255,6 +308,63 @@ if(x &gt; view_xview[0] - range &amp;&amp; x &lt; view_xview[0] + view_wview[0] 
             scr_AI_Shoot_Target();
             break;
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string></string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// NAV
+if(nav != noone)
+{
+    nav.x = x;
+    nav.y = y;
+}
+if(nav != noone &amp;&amp; !has_nav)
+{
+    with(nav)
+    {
+        instance_destroy();
+    }
+}
+if(nav == noone &amp;&amp; has_nav)
+{
+    nav = instance_create(x,y,obj_Nav_Point);
 }
 </string>
           </argument>
@@ -329,15 +439,14 @@ y += lengthdir_y(6,point_direction(other.x+16,other.y+16,x,y)-5+random(10));
           <argument>
             <kind>1</kind>
             <string>///look towards bullet direction
-var dir = point_direction(x,y,other.x,other.y);
+var dir = other.direction + 180;
 if(currentState == wandering)
 {
     image_angle = dir;
 }
+
 if(other.owner != self.id)
 {
-    x += lengthdir_x(other.knockback,dir + 180);
-    y += lengthdir_y(other.knockback,dir + 180);
     image_blend = c_white;
     alarm[1] = 1;
 }

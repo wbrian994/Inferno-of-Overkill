@@ -3,7 +3,7 @@
   <spriteName>spr_Tank_Hull</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>2</depth>
   <persistent>0</persistent>
   <parentName>obj_Vehicle</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -40,9 +40,11 @@ turn_speed = 45 / room_speed;
 turret_offset_x = 2 * image_xscale;
 turret_offset_y = -2 * image_yscale;
 direction = image_angle;
+show_muzzle_flash = false;
 
 team = TEAM_NONE;
 driver = noone;
+armor = 6.25;
 can_drive = false;
 
 turret_locked = false;
@@ -435,6 +437,7 @@ if(!pre_rot &amp;&amp; post_rot)
         if(place_meeting(x,y,obj_wall))
         {
             direction = i - 1;
+            break;
         }
     }
 }
@@ -514,10 +517,29 @@ if(background_index[0] == back_desert)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(other.id != driver &amp;&amp; abs(speed) &gt; 0)
+            <string>if(other.id != driver &amp;&amp; abs(speed) &gt; 2 &amp;&amp; !other.on_vehicle)
 {
     other.hp = 0;
     other.direction = point_direction(other.x,other.y,x,y);
+    repeat(30)
+    {
+        var blood = instance_create(other.x + (random(40) - random(40)),other.y + (random(40) - random(40)),obj_blood_spray);
+        var dir;
+        if(speed &gt; 0)
+        {
+            dir = direction;
+        }
+        else
+        {
+            dir = direction + 180;
+        }
+        blood.image_angle = random_range(dir - 90,dir + 90);
+    }
+}
+
+if(!other.on_vehicle &amp;&amp; speed == 0)
+{
+    other.on_vehicle = true;
 }
 </string>
           </argument>

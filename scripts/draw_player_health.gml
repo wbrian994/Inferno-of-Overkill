@@ -13,8 +13,7 @@ yPos = yy + 5;
 draw_set_color(c_black);
 
 draw_roundrect(xPos - 2,yPos - 2,xPos + Width + 2,yPos + Height + 2,false);
-draw_set_color(color_lerp(c_red,c_lime,clamp(obj_Player.hp / obj_Player.max_hp,0,1)));
-draw_roundrect(xPos,yPos,xPos + clamp(obj_Player.hp / obj_Player.max_hp,0,1) * Width,yPos + Height,false);
+draw_roundrect_colour(xPos,yPos,xPos + clamp(obj_Player.hp / obj_Player.max_hp,0,1) * Width,yPos + Height,color_lerp(c_red,c_lime,clamp(obj_Player.hp / obj_Player.max_hp,0,1)),c_green,false);
 if(obj_Player.god_mode)
 {
     draw_set_color(c_blue);
@@ -41,8 +40,7 @@ if(obj_Player.in_vehicle != noone)
     draw_set_color(c_black);
 
     draw_roundrect(xPos - 2,yPos - 2,xPos + Width + 2,yPos + Height + 2,false);
-    draw_set_color(color_lerp(c_red,c_blue,clamp(obj_Player.in_vehicle.hp / obj_Player.in_vehicle.max_hp,0,1)));
-    draw_roundrect(xPos,yPos,xPos + clamp(obj_Player.in_vehicle.hp / obj_Player.in_vehicle.max_hp,0,1) * Width,yPos + Height,false);
+    draw_roundrect_colour(xPos,yPos,xPos + clamp(obj_Player.in_vehicle.hp / obj_Player.in_vehicle.max_hp,0,1) * Width,yPos + Height,color_lerp(c_red,c_aqua,clamp(obj_Player.in_vehicle.hp / obj_Player.in_vehicle.max_hp,0,1)),c_blue,false);
     if(clamp(obj_Player.in_vehicle.hp / obj_Player.in_vehicle.max_hp,0,1) == 0)
     {
         draw_set_halign(fa_center);

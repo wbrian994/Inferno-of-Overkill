@@ -37,6 +37,7 @@ if(!ini_section_exists(SECT_SCREEN))
     ini_write_real(SECT_SCREEN,KEY_Y_WRES,720);
     ini_write_real(SECT_SCREEN,KEY_X_FRES,display_get_width());
     ini_write_real(SECT_SCREEN,KEY_Y_FRES,display_get_height());
+    ini_write_string(SECT_SCREEN,KEY_PERSISTANCE,"true");
 }
 if(!ini_section_exists(SECT_AUDIO))
 {
@@ -55,6 +56,7 @@ global.WXres = round(ini_read_real(SECT_SCREEN,KEY_X_WRES,1280));
 global.WYres = round(ini_read_real(SECT_SCREEN,KEY_Y_WRES,720));
 global.FXres = round(ini_read_real(SECT_SCREEN,KEY_X_FRES,display_get_width()));
 global.FYres = round(ini_read_real(SECT_SCREEN,KEY_Y_FRES,display_get_height()));
+global.persistant_debris = (ini_read_string(SECT_SCREEN,KEY_PERSISTANCE,"true") == "true");
 
 ini_close();
 
@@ -86,5 +88,20 @@ audio_falloff_set_model(audio_falloff_linear_distance);
 audio_listener_orientation(0,0,100,0,-1,0);
 global.currentMusic = -1;
 
+//Player Lives
+global.player_max_lives = -1;
+global.player_lives = global.player_max_lives;
+
+//Cutscene
+global.current_cutscene = -1;
+global.cutscene_next_room = -1;
+
 //Exit Init Screen
-room_goto_next();
+if(global.show_intro)
+{
+    play_cutscene("intro",rm_Menu);
+}
+else
+{
+    room_goto_next();
+}

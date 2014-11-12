@@ -89,9 +89,9 @@ exploded = false;
         if(dist &lt;= other.explosion_radius)
         {
             hp -= damage;
-            if(hp &lt;= 0)
+            if(driver != noone)
             {
-                direction = point_direction(x,y,other.x,other.y);
+                driver.hp -= damage / armor;
             }
         }
     }

@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>gun = -1;
+on_vehicle = false;
 </string>
           </argument>
         </arguments>

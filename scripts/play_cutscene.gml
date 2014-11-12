@@ -1,25 +1,6 @@
-/// play_cutscene(name)
+/// play_cutscene (name, next_room)
 var name = argument0;
-
-var controller = instance_create(0,0,obj_cutscene_manager);
-controller.cutscene_name = name;
-
-var script = asset_get_index("cut_" + string(name));
-if(script_exists(script))
-{
-    with(controller)
-    {
-        script_execute(script);
-    }
-}
-else
-{
-    show_debug_message("Couldn't play cutscene " + name);
-    with(controller)
-    {
-        instance_destroy();
-    }
-    return -1;
-}
-
-return controller;
+var next_room = argument1;
+global.current_cutscene = name;
+global.cutscene_next_room = next_room;
+room_goto(rm_cutscene);
