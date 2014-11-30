@@ -32,17 +32,44 @@ var a = application_get_position();
 var xx = a[0];
 var yy = a[1];
 
-var ww = view_wview[0];
-var hh = view_hview[0];
+var ww,hh;
+if(global.fullscreen)
+{
+    ww = global.FXres;
+    hh = global.FYres;
+}
+else
+{
+    ww = global.WXres;
+    hh = global.WYres;
+}
 
 single_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
 single_button.Text = "Singleplayer";
-single_button.grow_scale = 0.1;
+if(!global.is_christmas)
+    single_button.sprite = spr_Singleplayer_Button;
+else
+    single_button.sprite = spr_Christmas_Singleplayer_Button;
+single_button.xScale = 0.3;
+single_button.yScale = 0.3;
+if(!global.is_christmas)
+    single_button.grow_scale = 0.05;
+else
+    single_button.grow_scale = 0.03;
 single_button.Init = true;
 
 multi_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
 multi_button.Text = "Multiplayer";
-multi_button.grow_scale = 0.1;
+if(!global.is_christmas)
+    multi_button.sprite = spr_Multiplayer_Button;
+else
+    multi_button.sprite = spr_Christmas_Multiplayer_Button;
+multi_button.xScale = 0.3;
+multi_button.yScale = 0.3;
+if(!global.is_christmas)
+    multi_button.grow_scale = 0.1;
+else
+    multi_button.grow_scale = 0.03;
 multi_button.enabled = false;
 multi_button.Init = true;
 </string>

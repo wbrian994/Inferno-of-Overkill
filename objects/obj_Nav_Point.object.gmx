@@ -115,10 +115,22 @@ if(destroy_when_near)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var xPos,yPos;
-xPos = ((x - view_xview[0]) * global.default_camera_zoom) * global.camera_zoom;
-yPos = ((y - view_yview[0]) * global.default_camera_zoom) * global.camera_zoom;
-if((xPos &gt;= 0 &amp;&amp; xPos &lt;= view_wview[0]) &amp;&amp; (yPos &gt;= 0 &amp;&amp; yPos &lt;= view_hview[0]))
+            <string>var ww,hh;
+if(global.fullscreen)
+{
+    ww = global.FXres;
+    hh = global.FYres;
+}
+else
+{
+    ww = global.WXres;
+    hh = global.WYres;
+}
+
+var xPos,yPos;
+xPos = x - view_xview[0];
+yPos = y - view_yview[0];
+if((xPos &gt;= 0 &amp;&amp; xPos &lt;= ww) &amp;&amp; (yPos &gt;= 0 &amp;&amp; yPos &lt;= hh))
 {
     //draw inner circle
     draw_sprite_ext(spr_Nav_Point,0,xPos,yPos,scale,scale,inner_rot,inner_color,1);
@@ -130,8 +142,8 @@ if((xPos &gt;= 0 &amp;&amp; xPos &lt;= view_wview[0]) &amp;&amp; (yPos &gt;= 0 &
 else
 {
     var centerX, centerY, angle, xpoint, ypoint;
-    centerX =(view_wview[0] / 2);
-    centerY = (view_hview[0] / 2);
+    centerX =(ww / 2);
+    centerY = (hh / 2);
     angle = point_direction(view_xview[0] + centerX,view_yview[0] + centerY,x,y);
     xpoint = centerX + lengthdir_x(300,angle);
     ypoint = centerY + lengthdir_y(300,angle);

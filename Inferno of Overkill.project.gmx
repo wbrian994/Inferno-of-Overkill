@@ -36,6 +36,7 @@
         <sound>sound\snd_Tank_Engine</sound>
       </sounds>
     </sounds>
+    <sound>sound\snd_Text_Fall</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="Characters">
@@ -106,9 +107,34 @@
         <sprite>sprites\spr_Play_Button</sprite>
         <sprite>sprites\spr_Quit_Button</sprite>
         <sprite>sprites\spr_Options_Button</sprite>
+        <sprite>sprites\spr_Back_Button</sprite>
+        <sprite>sprites\spr_Singleplayer_Button</sprite>
+        <sprite>sprites\spr_Multiplayer_Button</sprite>
+        <sprite>sprites\spr_Story_Button</sprite>
+        <sprite>sprites\spr_Firefight_Button</sprite>
+        <sprite>sprites\spr_Resume_Button</sprite>
+        <sprite>sprites\spr_MainMenu_Button</sprite>
+        <sprite>sprites\spr_PAUSED</sprite>
         <sprite>sprites\spr_Cursor</sprite>
         <sprite>sprites\spr_Christmas_Title</sprite>
+        <sprite>sprites\spr_Fireproof_Logo</sprite>
+        <sprite>sprites\spr_Christmas_Play_Button</sprite>
+        <sprite>sprites\spr_Christmas_Options_Button</sprite>
+        <sprite>sprites\spr_Christmas_Quit_Button</sprite>
+        <sprite>sprites\spr_Christmas_Back_Button</sprite>
+        <sprite>sprites\spr_Christmas_Singleplayer_Button</sprite>
+        <sprite>sprites\spr_Christmas_Multiplayer_Button</sprite>
+        <sprite>sprites\spr_Christmas_Campaign_Button</sprite>
+        <sprite>sprites\spr_Christmas_Story_Button</sprite>
+        <sprite>sprites\spr_Christmas_Firefight_Button</sprite>
+        <sprite>sprites\spr_Christmas_Resume_Button</sprite>
+        <sprite>sprites\spr_Christmas_MainMenu_Button</sprite>
+        <sprite>sprites\spr_Christmas_PAUSED</sprite>
       </sprites>
+      <sprite>sprites\spr_Keyboard_Key_Sprite</sprite>
+      <sprite>sprites\spr_Mouse_Move</sprite>
+      <sprite>sprites\spr_Mouse_Click</sprite>
+      <sprite>sprites\spr_Arrow</sprite>
     </sprites>
     <sprites name="Environment">
       <sprite>sprites\spr_wall</sprite>
@@ -129,6 +155,9 @@
           <sprite>sprites\spr_blood_spray2</sprite>
         </sprites>
       </sprites>
+      <sprites name="Particles">
+        <sprite>sprites\spr_fireParticles</sprite>
+      </sprites>
     </sprites>
     <sprites name="HUD">
       <sprite>sprites\spr_Damage_Overlay</sprite>
@@ -138,6 +167,7 @@
       <sprite>sprites\spr_Nav_Point</sprite>
       <sprite>sprites\spr_Nav_Marker</sprite>
       <sprite>sprites\spr_Nav_Arrow</sprite>
+      <sprite>sprites\spr_loading_bar_segment</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -149,6 +179,7 @@
     <background>background\back_story_point_two</background>
     <background>background\back_snow</background>
     <background>background\back_fireproof_logo</background>
+    <background>background\back_floor_tiles</background>
   </backgrounds>
   <paths name="paths">
     <path>paths\path0</path>
@@ -164,6 +195,7 @@
           <script>scripts\draw_text_outline_color.gml</script>
           <script>scripts\draw_text_outline_color_transformed.gml</script>
         </scripts>
+        <script>scripts\draw_text_glow.gml</script>
       </scripts>
       <scripts name="Resolution">
         <script>scripts\reset_window.gml</script>
@@ -181,6 +213,11 @@
       <script>scripts\clear_particles.gml</script>
       <script>scripts\draw_circle_border.gml</script>
       <script>scripts\pause_game.gml</script>
+      <script>scripts\unpause_game.gml</script>
+      <script>scripts\save_statistics.gml</script>
+      <script>scripts\save_player_state.gml</script>
+      <script>scripts\load_player_state.gml</script>
+      <script>scripts\string_extract.gml</script>
     </scripts>
     <scripts name="AI">
       <script>scripts\scr_AI_Find_Target.gml</script>
@@ -209,7 +246,9 @@
       <script>scripts\light_update.gml</script>
       <script>scripts\light_draw.gml</script>
       <script>scripts\caster_init.gml</script>
+      <script>scripts\caster_draw.gml</script>
       <script>scripts\cleanup_lighting.gml</script>
+      <script>scripts\init_light_sprite.gml</script>
     </scripts>
     <scripts name="Cutscenes">
       <script>scripts\play_cutscene.gml</script>
@@ -310,6 +349,8 @@
       <objects name="Controllers">
         <object>objects\obj_Game_Controller</object>
         <object>objects\obj_Test_Controller</object>
+        <object>objects\obj_Light_Test_Controller</object>
+        <object>objects\obj_Tutorial_Controller</object>
         <object>objects\obj_Firefight_Controller</object>
         <object>objects\obj_MainMenu_Controller</object>
         <object>objects\obj_cutscene_controller</object>
@@ -323,7 +364,11 @@
         <object>objects\obj_UI_Slider</object>
         <object>objects\obj_UI_Checkbox</object>
         <object>objects\obj_UI_Input</object>
+        <object>objects\obj_loading_bar</object>
         <object>objects\obj_Showcase</object>
+        <object>objects\obj_Keyboard_Key</object>
+        <object>objects\obj_Mouse_Move</object>
+        <object>objects\obj_Mouse_Click</object>
       </objects>
       <objects name="Menus">
         <object>objects\obj_Options_Menu</object>
@@ -332,12 +377,17 @@
         <object>objects\obj_Play_Menu</object>
         <object>objects\obj_Multiplayer_Menu</object>
         <object>objects\obj_Multiplayer_Lobby</object>
+        <object>objects\obj_Pause_Menu</object>
+        <object>objects\obj_Pause_Options_Menu</object>
+        <object>objects\obj_Loading_Screen</object>
       </objects>
       <object>objects\obj_spawner</object>
       <objects name="Lighting">
         <object>objects\obj_lightmap</object>
         <object>objects\obj_light</object>
         <object>objects\obj_twinkle_light</object>
+        <object>objects\obj_shadowcaster</object>
+        <object>objects\obj_shadowcaster_solid</object>
       </objects>
       <object>objects\obj_permanence</object>
     </objects>
@@ -375,19 +425,30 @@
       <room>rooms\rm_Menu</room>
     </rooms>
     <rooms name="Story">
+      <room>rooms\rm_Tutorial</room>
       <room>rooms\rm_Test</room>
+      <room>rooms\rm_Light_Test</room>
     </rooms>
     <room>rooms\rm_Firefight</room>
     <room>rooms\rm_cutscene</room>
+    <room>rooms\rm_Loading</room>
   </rooms>
-  <constants number="48">
-    <constant name="GM_build_date">41955.8975660648</constant>
-    <constant name="GM_version">'1.0.0.3'</constant>
+  <constants number="56">
+    <constant name="GM_build_date">41973.0547721759</constant>
+    <constant name="GM_version">'1.0.0.4'</constant>
+    <constant name="PLAYER_SAVE">"Player.sav"</constant>
     <constant name="DIR_DATA">"Game Data\"</constant>
     <constant name="INI_SETTINGS">"Settings.ini"</constant>
+    <constant name="INI_STATS">"Statistics.ini"</constant>
+    <constant name="SECT_SINGLEPLAYER">"SINGLEPLAYER"</constant>
     <constant name="SECT_DATA">"DATA"</constant>
     <constant name="SECT_AUDIO">"AUDIO"</constant>
     <constant name="SECT_SCREEN">"VIDEO"</constant>
+    <constant name="KEY_KILLS">"Kills"</constant>
+    <constant name="KEY_DEATHS">"Deaths"</constant>
+    <constant name="KEY_BULLETS_FIRED">"BulletsFired"</constant>
+    <constant name="KEY_DMG_TAKEN">"DamageTaken"</constant>
+    <constant name="KEY_DMG_DEALT">"DamageDealt"</constant>
     <constant name="KEY_SHOW_INTRO">"ShowIntro"</constant>
     <constant name="KEY_FIRST_RUN">"FirstRun"</constant>
     <constant name="KEY_VOLUME">"MasterVolume"</constant>

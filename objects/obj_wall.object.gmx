@@ -3,9 +3,9 @@
   <spriteName>spr_wall</spriteName>
   <solid>-1</solid>
   <visible>-1</visible>
-  <depth>1</depth>
+  <depth>2</depth>
   <persistent>0</persistent>
-  <parentName>obj_solid</parentName>
+  <parentName>obj_shadowcaster_solid</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events/>
   <PhysicsObject>0</PhysicsObject>

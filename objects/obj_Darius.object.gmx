@@ -217,6 +217,28 @@ hlt_flash = false;
             <string>/// Image Angle / Check if dead / cheats
 image_angle += turn_towards(image_angle,look_target,45);
 
+if(keyboard_check_pressed(ord('K')))
+{
+    hp = 0;
+    repeat(300)
+    {
+        var blood = instance_create(other.x + (random(40) - random(40)),other.y + (random(40) - random(40)),obj_blood_spray);
+        blood.image_angle = random(360);
+    }
+}
+
+if(keyboard_check(ord('J')))
+{
+    hp -= 0.5;
+    var blood = instance_create(other.x + (random(40) - random(40)),other.y + (random(40) - random(40)),obj_blood_spray);
+    blood.image_angle = random(360);
+}
+
+if(keyboard_check(ord('L')))
+{
+    hp += 0.5;
+}
+
 if(hp &lt;= 0 &amp;&amp; !god_mode)
 {
     //Dead
@@ -486,7 +508,7 @@ if(in_vehicle == noone)
     }
 }
 //Slot Changed
-if(inv_prev_slot != inv_current_slot)
+if(inv_prev_slot != inv_current_slot &amp;&amp; in_vehicle == noone)
 {
     switch(inv_current_slot)
     {
@@ -633,7 +655,7 @@ if(v_exiting)
     
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up Badassery";
+    text.Text = "Picked Up Large Gun";
     text.color = c_lime;
 }
 else
@@ -690,7 +712,7 @@ else
     
     //text
     var text = instance_create(x,y,obj_Pickup_Text);
-    text.Text = "Picked Up Laser Pistol";
+    text.Text = "Picked Up Ray Gun";
     text.color = c_lime;
 }
 else

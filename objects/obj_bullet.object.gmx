@@ -28,6 +28,9 @@
             <string>owner = -1;
 color = c_black;
 damage = 5;
+is_player = false;
+
+caster_init();
 
 range = 1000;
 distance = 0;
@@ -170,6 +173,10 @@ if(distance &gt;= range)
 if(owner != other.id)
 {
     other.hp -= damage;
+    if(is_player &amp;&amp; other.hp &lt;= 0)
+    {
+        global.ss_kills++;
+    }
     instance_destroy();
     var text = instance_create(x,y,obj_Generic_Text);
     if(damage &lt; 0)
@@ -181,6 +188,10 @@ if(owner != other.id)
     {
         text.color = c_red;
         text.Text = "- " + string(damage);
+        if(is_player)
+        {
+            global.ss_damage_dealt += damage;
+        }
     }
 }
 </string>
@@ -257,7 +268,7 @@ with(other)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(!(other.is_open || other.image_speed != 0))
+            <string>if(!(other.is_open || (other.image_speed != 0 &amp;&amp; other.image_index != 0)))
 {
     instance_destroy();
 }
@@ -297,6 +308,7 @@ with(other)
     {
         text.color = c_red;
         text.Text = "- " + string(damage);
+        global.ss_damage_taken += damage;
     }
 }
 </string>

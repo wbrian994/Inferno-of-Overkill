@@ -28,6 +28,8 @@
             <string>owner = noone;
 damage = 2;
 
+is_player = false;
+
 color = c_red;
 min_width = 1;
 max_width = 5;
@@ -75,6 +77,10 @@ instance_activate_object(owner);
 if(obj != noone &amp;&amp; obj != owner)
 {
     obj.hp -= damage;
+    if(obj.hp &lt;= 0 &amp;&amp; is_player)
+    {
+        global.ss_kills++;
+    }
     var text = instance_create(obj.x,obj.y,obj_Generic_Text);
     if(damage &lt; 0)
     {
@@ -85,6 +91,10 @@ if(obj != noone &amp;&amp; obj != owner)
     {
         text.color = c_red;
         text.Text = "- " + string(damage);
+        if(is_player)
+        {
+            global.ss_damage_dealt += damage;
+        }
     }
 }
 </string>

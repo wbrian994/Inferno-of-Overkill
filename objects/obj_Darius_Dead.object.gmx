@@ -27,6 +27,8 @@
             <kind>1</kind>
             <string>image_blend = c_green;
 
+global.ss_deaths++;
+
 waiting = 0;
 fading = 1;
 text_show = 3;
@@ -46,6 +48,12 @@ change_sound_volume(0,wait_time + fade_time);
 timer = 0;
 alpha = 0;
 text_alpha = 0;
+
+label = instance_create(view_wview[0] / 2,view_hview[0] / 2 + 50,obj_UI_Label);
+label.halign = fa_center;
+label.valign = fa_top;
+label.color = c_white;
+label.Text = "PRESS 'ENTER' TO CONTINUE";
 </string>
           </argument>
         </arguments>
@@ -118,7 +126,7 @@ switch(currentState)
         timer++;
         if(timer &gt;= show_time)
         {
-            if(global.player_lives &gt; 0 || global.player_lives == -1)
+            if(global.player_lives &gt; 0 || global.player_max_lives == -1)
             {
                 currentState = -1;
             }
@@ -197,7 +205,7 @@ change_sound_volume(global.snd_volume,0);
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="75">
+    <event eventtype="8" enumb="74">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -224,6 +232,7 @@ draw_set_alpha(alpha);
 draw_set_color(c_black);
 draw_rectangle(xx,yy,xx + ww,yy + hh,false);
 draw_set_alpha(text_alpha);
+label.alpha = text_alpha;
 draw_set_color(c_red);
 draw_set_font(fnt_Main_Large);
 draw_set_halign(fa_center);

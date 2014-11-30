@@ -99,6 +99,29 @@ turret.image_angle = image_angle;
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Setup Particle Emitters
+on_fire = false;
+fire_emitter = part_emitter_create(global.part_system_above);
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="1" enumb="0">
       <action>
@@ -117,7 +140,7 @@ turret.image_angle = image_angle;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Take care of sound
+            <string>/// Cleanup
 if(engine_sound != -1)
 {
     audio_stop_sound(engine_sound);
@@ -234,6 +257,16 @@ if(hp &lt;= 0)
         driver.in_vehicle = noone;
     }
     instance_change(obj_Tank_Destroyed,true);
+}
+
+if(!on_fire &amp;&amp; hp &lt;= max_hp * 0.2)
+{
+    on_fire = true;
+}
+
+if(on_fire &amp;&amp; hp &gt;= max_hp * 0.2)
+{
+    on_fire = false;
 }
 </string>
           </argument>
@@ -499,6 +532,37 @@ if(background_index[0] == back_desert)
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Handle Particles
+if(on_fire)
+{
+    var offset = get_offset(direction,-80 * image_xscale,0);
+    var fire_size = 20 * image_xscale;
+    var ember_size = 50 * image_xscale;
+    part_emitter_region(global.part_system_above,fire_emitter,(x + offset[0]) - fire_size,(x + offset[0])+fire_size,(y + offset[1])-fire_size,(y + offset[1])+fire_size,ps_shape_ellipse,ps_distr_linear);
+    part_emitter_burst(global.part_system_above,fire_emitter,global.part_fire,2);
+    part_emitter_region(global.part_system_above,fire_emitter,(x + offset[0]) - ember_size,(x + offset[0])+ember_size,(y + offset[1])-ember_size,(y + offset[1])+ember_size,ps_shape_ellipse,ps_distr_linear);
+    part_emitter_burst(global.part_system_above,fire_emitter,global.part_ember,1);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="4" ename="obj_Unit_Par">
       <action>
@@ -519,9 +583,18 @@ if(background_index[0] == back_desert)
             <kind>1</kind>
             <string>if(other.id != driver &amp;&amp; abs(speed) &gt; 2 &amp;&amp; !other.on_vehicle)
 {
+    if(instance_exists(obj_Player) &amp;&amp; driver == obj_Player.id)
+    {
+        global.ss_kills++;
+        global.ss_damage_dealt += other.hp;
+    }
+    if(instance_exists(obj_Player) &amp;&amp; other.id == obj_Player.id)
+    {
+        global.ss_damage_taken += other.hp;
+    }
     other.hp = 0;
     other.direction = point_direction(other.x,other.y,x,y);
-    repeat(30)
+    repeat(10)
     {
         var blood = instance_create(other.x + (random(40) - random(40)),other.y + (random(40) - random(40)),obj_blood_spray);
         var dir;

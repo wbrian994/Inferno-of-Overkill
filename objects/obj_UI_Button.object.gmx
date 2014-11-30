@@ -307,8 +307,15 @@ if(enabled &amp;&amp; inFocus)
 }
 else
 {
-    draw_set_color(color_disabled);
-    draw_text_outline_transformed(xPos,yPos,Text,border_thickness,xScale,yScale,image_angle);
+    if(sprite != -1)
+    {
+        draw_sprite_ext(sprite,1,xPos,yPos,xScale,yScale,0,c_white,image_alpha);
+    }
+    else
+    {
+        draw_set_color(color_disabled);
+        draw_text_outline_transformed(xPos,yPos,Text,border_thickness,xScale,yScale,image_angle);
+    }
     anim_counter = 1;
 }
 </string>

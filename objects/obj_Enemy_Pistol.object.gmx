@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>///Initialize
 bullet_speed = 25;
-bullet_x_offset = 50;
+bullet_x_offset = 61;
 bullet_y_offset = 0;
 show_muzzle_flash = false;
 cooldown = 0.25 * room_speed; //seconds cooldown between shots

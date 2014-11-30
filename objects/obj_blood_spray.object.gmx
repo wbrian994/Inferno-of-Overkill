@@ -26,10 +26,46 @@
           <argument>
             <kind>1</kind>
             <string>sprite_index = choose(spr_blood_spray,spr_blood_spray2);
-image_speed = random_range(0.7,1.25);
+image_speed = 0;
+target_xscale = 1 + random_range(-0.15,0.5);
+image_xscale = 0;
+grow_time = (target_xscale * 0.25 * room_speed) + random_range(-0.1,0.1);
+counter = 0;
 if(!global.persistant_debris)
 {
     alarm[0] = 5 * room_speed;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(counter &lt; grow_time)
+{
+    if(sprite_width &gt; 0)
+    {
+        var max_size = range_finder(x,y,image_angle,sprite_width,obj_solid,false,true);
+        target_xscale = max_size / sprite_width;
+    }
+    image_xscale = lerp(0,target_xscale,(counter / grow_time));
+    counter++;
 }
 </string>
           </argument>

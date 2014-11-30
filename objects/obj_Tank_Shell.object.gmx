@@ -28,6 +28,7 @@
             <string>/// Default Stuff
 explosion_power = 150;
 explosion_radius = 200;
+is_player = true;
 
 distance = 0;
 range = 1000;
@@ -57,6 +58,7 @@ range = 1000;
 explosion.image_xscale = 4;
 explosion.image_yscale = 4;
 explosion.explosion_radius *= 2;
+explosion.is_player = is_player;
 </string>
           </argument>
         </arguments>

@@ -32,29 +32,59 @@ var a = application_get_position();
 var xx = a[0];
 var yy = a[1];
 
-var ww = view_wview[0];
-var hh = max(view_hview[0],a[3] - a[1]);
+var ww,hh;
+if(global.fullscreen)
+{
+    ww = global.FXres;
+    hh = global.FYres;
+}
+else
+{
+    ww = global.WXres;
+    hh = global.WYres;
+}
+
 play_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
 play_button.Text = "Play";
-play_button.sprite = spr_Play_Button;
+if(!global.is_christmas)
+    play_button.sprite = spr_Play_Button;
+else
+    play_button.sprite = spr_Christmas_Play_Button;
 play_button.xScale = 0.3;
 play_button.yScale = 0.3;
-play_button.grow_scale = 0.05;
+if(!global.is_christmas)
+    play_button.grow_scale = 0.05;
+else
+    play_button.grow_scale = 0.03;
 play_button.Init = true;
+
 options_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
 options_button.Text = "Options";
-options_button.sprite = spr_Options_Button;
+if(!global.is_christmas)
+    options_button.sprite = spr_Options_Button;
+else
+    options_button.sprite = spr_Christmas_Options_Button;    
 options_button.xScale = 0.3;
 options_button.yScale = 0.3;
-options_button.grow_scale = 0.05;
+if(!global.is_christmas)
+    options_button.grow_scale = 0.05;
+else
+    options_button.grow_scale = 0.03;
 options_button.enabled = true;
 options_button.Init = true;
+
 quit_button = instance_create(20,yy + hh / 2 + 150,obj_UI_Button);
 quit_button.Text = "Quit";
-quit_button.sprite = spr_Quit_Button;
+if(!global.is_christmas)
+    quit_button.sprite = spr_Quit_Button;
+else
+    quit_button.sprite = spr_Christmas_Quit_Button;
 quit_button.xScale = 0.3;
 quit_button.yScale = 0.3;
-quit_button.grow_scale = 0.05;
+if(!global.is_christmas)
+    quit_button.grow_scale = 0.05;
+else
+    quit_button.grow_scale = 0.03;
 quit_button.Init = true;
 </string>
           </argument>

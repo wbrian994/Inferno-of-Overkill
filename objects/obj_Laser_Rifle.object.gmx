@@ -201,30 +201,6 @@ if(owner != -1)
         reloading = true;
     }
     
-    /*
-    if(can_fire &amp;&amp; mouse_check_button(owner.mouse_fire))
-    {
-        var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-        var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
-        bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
-        bullet.speed = bullet_speed;
-        bullet.owner = owner;
-        bullet.sprite_index = -1;
-        bullet.color = make_color_hsv(irandom(255),255,255);
-        bullet.damage = 10;
-        cooled_down = false;
-        alarm[0] = cooldown;
-        show_muzzle_flash = true;
-        owner.image_speed = 1;
-        mag_ammo--;
-        
-        if(sound != -1)
-        {
-            var snd = audio_play_sound(sound,0.6,false);
-            audio_sound_pitch(snd,random_range(1,1.25));
-        }
-    }
-    */
     if(can_fire &amp;&amp; mouse_check_button(mb_left))
     {
         if(laser == noone)
@@ -232,6 +208,7 @@ if(owner != -1)
             var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
             laser = instance_create(owner.x + offset[0],owner.y + offset[1],obj_Laser);
             laser.owner = owner;
+            laser.is_player = true;
             show_muzzle_flash = true;
         }
     }

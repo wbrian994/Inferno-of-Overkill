@@ -52,7 +52,16 @@ sound_vol_label.Text = "Sound Volume:";
 back_button = instance_create(10,hh,obj_UI_Button);
 back_button.y -= back_button.Height;
 back_button.Text = "Back";
-back_button.grow_scale = 0.1;
+if(!global.is_christmas)
+    back_button.sprite = spr_Back_Button;
+else
+    back_button.sprite = spr_Christmas_Back_Button;
+back_button.xScale = 0.3;
+back_button.yScale = 0.3;
+if(!global.is_christmas)
+    back_button.grow_scale = 0.05;
+else
+    back_button.grow_scale = 0.03;
 back_button.init = true;
 
 save_label = instance_create(ww / 2,hh - 10,obj_UI_Label);

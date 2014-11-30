@@ -28,6 +28,7 @@
             <string>explosion_power = 600;
 explosion_radius = 200;
 image_speed = 0;
+is_player = false;
 
 exploded = false;
 </string>
@@ -64,10 +65,27 @@ exploded = false;
         if(dist &lt;= other.explosion_radius &amp;&amp; in_vehicle == noone)
         {
             hp -= damage;
+            if(other.is_player)
+            {
+                global.ss_damage_dealt += damage;
+            }
+            if(instance_exists(obj_Player) &amp;&amp; self.id == obj_Player.id)
+            {
+                global.ss_damage_taken += damage;
+            }
             if(hp &lt;= 0)
             {
+                if(other.is_player)
+                {
+                    global.ss_kills++;
+                }
                 direction = point_direction(other.x,other.y,x,y);
                 speed = (other.explosion_power / 20) * abs(power(dist / other.explosion_radius,2) - 1);
+                repeat(10)
+                {
+                    var blood = instance_create(x + (random(40) - random(40)),y + (random(40) - random(40)),obj_blood_spray);
+                    blood.image_angle = direction + random_range(-50,50);
+                }
             }
         }
     }

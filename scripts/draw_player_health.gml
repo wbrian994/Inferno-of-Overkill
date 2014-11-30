@@ -12,18 +12,19 @@ yPos = yy + 5;
 
 draw_set_color(c_black);
 
-draw_roundrect(xPos - 2,yPos - 2,xPos + Width + 2,yPos + Height + 2,false);
-draw_roundrect_colour(xPos,yPos,xPos + clamp(obj_Player.hp / obj_Player.max_hp,0,1) * Width,yPos + Height,color_lerp(c_red,c_lime,clamp(obj_Player.hp / obj_Player.max_hp,0,1)),c_green,false);
+var c1, c2, c3;
+c1 = c_red;
+c2 = c_green;
+c3 = c_lime;
 if(obj_Player.god_mode)
 {
-    draw_set_color(c_blue);
-    draw_set_halign(fa_center);
-    draw_set_valign(fa_middle);
-    draw_set_font(fnt_Main_Small);
-    draw_text(xPos + Width / 2,yPos + Height / 2,"God Mode Active");
-    draw_set_halign(fa_left);
-    draw_set_valign(fa_top);
+    c1 = c_red;
+    c2 = make_color_rgb(153,101,21);
+    c3 = make_color_rgb(255,215,0);
 }
+
+draw_roundrect(xPos - 2,yPos - 2,xPos + Width + 2,yPos + Height + 2,false);
+draw_roundrect_colour(xPos,yPos,xPos + clamp(obj_Player.hp / obj_Player.max_hp,0,1) * Width,yPos + Height,color_lerp(c1,c2,clamp(obj_Player.hp / obj_Player.max_hp,0,1)),c3,false);
 if(clamp(obj_Player.hp / obj_Player.max_hp,0,1) == 0)
 {
     draw_set_halign(fa_center);

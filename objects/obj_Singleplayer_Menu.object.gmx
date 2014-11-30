@@ -38,17 +38,39 @@ if(global.is_christmas)
 {
     christmas_story_button = instance_create(20,yy + hh / 2 + 150,obj_UI_Button);
     christmas_story_button.Text = "Christmas Campaign";
-    christmas_story_button.grow_scale = 0.1;
+    christmas_story_button.sprite = spr_Christmas_Campaign_Button;
+    christmas_story_button.xScale = 0.3;
+    christmas_story_button.yScale = 0.3;
+    christmas_story_button.grow_scale = 0.03;
     christmas_story_button.enabled = false;
     christmas_story_button.Init = true;
 }
 story_button = instance_create(20,yy + hh / 2 - 50,obj_UI_Button);
 story_button.Text = "Test Level";
-story_button.grow_scale = 0.1;
+if(!global.is_christmas)
+    story_button.sprite = spr_Story_Button;
+else
+    story_button.sprite = spr_Christmas_Story_Button;
+story_button.xScale = 0.3;
+story_button.yScale = 0.3;
+if(!global.is_christmas)
+    story_button.grow_scale = 0.05;
+else
+    story_button.grow_scale = 0.03;
 story_button.Init = true;
+
 fire_button = instance_create(20,yy + hh / 2 + 50,obj_UI_Button);
 fire_button.Text = "Firefight";
-fire_button.grow_scale = 0.1;
+if(!global.is_christmas)
+    fire_button.sprite = spr_Firefight_Button;
+else
+    fire_button.sprite = spr_Christmas_Firefight_Button;
+fire_button.xScale = 0.3;
+fire_button.yScale = 0.3;
+if(!global.is_christmas)
+    fire_button.grow_scale = 0.05;
+else
+    fire_button.grow_scale = 0.03;
 fire_button.Init = true;
 </string>
           </argument>
@@ -138,7 +160,7 @@ fire_button.Init = true;
 
 if(story_button.leftreleased)
 {
-    room_goto(rm_Test);
+    room_goto(rm_Tutorial);
 }
 if(fire_button.leftreleased)
 {

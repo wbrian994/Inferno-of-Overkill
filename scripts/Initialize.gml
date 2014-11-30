@@ -17,8 +17,8 @@ if(!directory_exists(working_directory + DIR_DATA))
 //INI
 ini_open(DIR_DATA + INI_SETTINGS);
 //First Run
-global.FirstRun = ini_read_string(SECT_DATA,KEY_FIRST_RUN,"true");
-if(global.FirstRun == "true")
+global.first_run = ini_read_string(SECT_DATA,KEY_FIRST_RUN,"true");
+if(global.first_run == "true")
 {
     ini_write_string(SECT_DATA,KEY_FIRST_RUN,"false");
 }
@@ -92,9 +92,21 @@ global.currentMusic = -1;
 global.player_max_lives = -1;
 global.player_lives = global.player_max_lives;
 
+//Singleplayer Statistics
+ini_open(DIR_DATA + INI_STATS);
+global.ss_bullets_fired = ini_read_real(SECT_SINGLEPLAYER,KEY_BULLETS_FIRED,0);
+global.ss_kills = ini_read_real(SECT_SINGLEPLAYER,KEY_KILLS,0);
+global.ss_deaths = ini_read_real(SECT_SINGLEPLAYER,KEY_DEATHS,0);
+global.ss_damage_taken = ini_read_real(SECT_SINGLEPLAYER,KEY_DMG_TAKEN,0);
+global.ss_damage_dealt = ini_read_real(SECT_SINGLEPLAYER,KEY_DMG_DEALT,0);
+ini_close()
+
 //Cutscene
 global.current_cutscene = -1;
 global.cutscene_next_room = -1;
+
+//Lighting Optimization
+init_light_sprite();
 
 //Exit Init Screen
 if(global.show_intro)

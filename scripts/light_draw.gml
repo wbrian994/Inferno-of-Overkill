@@ -1,2 +1,2 @@
 /// light_draw()
-draw_surface(lightsurface,x-radius-view_xview[0],y-radius-view_yview[0]);
+draw_surface(lightsurface,x-origin_x-view_xview[0],y-origin_y-view_yview[0]);

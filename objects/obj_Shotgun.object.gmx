@@ -43,6 +43,11 @@ accuracy = 12; //Higher numbers are worse, 0 hits cursor every time
 recoil = 10;
 name = "Remmington M80";
 
+show_muzzle_flash = false;
+muzzle_flash_sprite = spr_Pistol_Muzzle_Flash;
+muzzle_flash_frames = sprite_get_number(muzzle_flash_sprite);
+muzzle_flash_current_frame = 0;
+
 sound = snd_Shotgun;
 reload_sound = snd_Shotgun_Reload;
 
@@ -172,6 +177,7 @@ if(owner != -1)
             offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
             if(collision_line(owner.x,owner.y,owner.x + offset[0],owner.y + offset[1],obj_solid,false,true) == noone)
             {
+                global.ss_bullets_fired++;
                 var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
                 bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
                 bullet.speed = bullet_speed;
@@ -179,6 +185,7 @@ if(owner != -1)
                 bullet.damage = 4;
                 bullet.range /= 2;
                 bullet.sprite_index = -1;
+                bullet.is_player = true;
             }
         }
         cooled_down = false;
@@ -323,9 +330,17 @@ draw_sprite(crosshair,0,window_mouse_get_x(),window_mouse_get_y());
             <kind>1</kind>
             <string>if(show_muzzle_flash)
 {
-    var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-    draw_sprite_ext(spr_Pistol_Muzzle_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
-    show_muzzle_flash = false;
+    if(muzzle_flash_current_frame &lt; muzzle_flash_frames)
+    {
+        var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
+        draw_sprite_ext(muzzle_flash_sprite,muzzle_flash_current_frame,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
+        muzzle_flash_current_frame++;
+    }
+    else
+    {
+        muzzle_flash_current_frame = 0;
+        show_muzzle_flash = false;
+    }
 }
 </string>
           </argument>

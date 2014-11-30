@@ -29,7 +29,6 @@
 bullet_speed = 20;
 bullet_x_offset = 43;
 bullet_y_offset = 0;
-show_muzzle_flash = false;
 cooldown = 0.2 * room_speed; //seconds cooldown between shots
 cooled_down = true;
 reload_time = 1 * room_speed; //1 second to reload
@@ -42,6 +41,11 @@ can_fire = true;
 accuracy = 2; //Higher numbers are worse, 0 hits cursor every time
 recoil = 2;
 name = "M1911";
+
+show_muzzle_flash = false;
+muzzle_flash_sprite = spr_Pistol_Muzzle_Flash;
+muzzle_flash_frames = sprite_get_number(muzzle_flash_sprite);
+muzzle_flash_current_frame = 0;
 
 sound = snd_Pistol;
 reload_sound = snd_Pistol_Reload;
@@ -183,10 +187,12 @@ if(owner != -1)
             casing.sprite_index = spr_small_bullet_casing;
             offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
             var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
+            global.ss_bullets_fired++;
             bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
             bullet.speed = bullet_speed;
             bullet.owner = owner;
             bullet.damage = 7;
+            bullet.is_player = true;
         }
         cooled_down = false;
         alarm[0] = cooldown;
@@ -326,9 +332,17 @@ draw_sprite(crosshair,0,window_mouse_get_x(),window_mouse_get_y());
             <string>if(show_muzzle_flash)
 {
     var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-    draw_sprite_ext(spr_Pistol_Muzzle_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
-    show_muzzle_flash = false;
-    if(global.is_christmas)
+    if(muzzle_flash_current_frame &lt; muzzle_flash_frames)
+    {
+        draw_sprite_ext(muzzle_flash_sprite,muzzle_flash_current_frame,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
+        muzzle_flash_current_frame++;
+    }
+    else
+    {
+        muzzle_flash_current_frame = 0;
+        show_muzzle_flash = false;
+    }
+    if(global.is_christmas &amp;&amp; muzzle_flash_current_frame == 1)
     {
         light = instance_create(owner.x + offset[0],owner.y + offset[1],obj_light);
         light.color = c_yellow;

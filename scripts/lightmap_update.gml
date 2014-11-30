@@ -22,7 +22,10 @@ else
 //Update Lights
 with(obj_light)
 {
-    light_update();
+    if((x + radius >= 0 || x - radius <= other.ww) && (y + radius >= 0 || y - radius <= other.hh))
+    {
+        light_update();
+    }
 }
 
 //Draw to lightmap

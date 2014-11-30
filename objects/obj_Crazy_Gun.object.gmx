@@ -29,7 +29,6 @@
 bullet_speed = 25;
 bullet_x_offset = 124;
 bullet_y_offset = -13;
-show_muzzle_flash = false;
 cooldown = 0.2 * room_speed; //seconds cooldown between shots
 cooled_down = true;
 reload_time = 2 * room_speed; //1 second to reload
@@ -42,6 +41,11 @@ can_fire = true;
 accuracy = 30; //Higher numbers are worse, 0 hits cursor every time
 recoil = 12;
 name = "Really Large Weapon";
+
+show_muzzle_flash = false;
+muzzle_flash_sprite = spr_Large_Gun_Muzzle_Flash;
+muzzle_flash_frames = sprite_get_number(muzzle_flash_sprite);
+muzzle_flash_current_frame = 0;
 
 sound = snd_Pistol;
 reload_sound = snd_Pistol_Reload;
@@ -190,6 +194,7 @@ if(owner != -1)
                 offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
                 if(collision_line(owner.x,owner.y,owner.x + offset[0],owner.y + offset[1],obj_solid,false,true) == noone)
                 {
+                    global.ss_bullets_fired++;
                     var bullet = instance_create(owner.x + offset[0],owner.y + offset[1],obj_bullet);
                     bullet.direction = owner.look_target + random_range(-accuracy,accuracy);
                     bullet.speed = bullet_speed;
@@ -198,6 +203,7 @@ if(owner != -1)
                     bullet.knockback = 15;
                     bullet.owner = owner;
                     bullet.damage = 10;
+                    bullet.is_player = true;
                 }
                 mag_ammo--;
             }
@@ -342,15 +348,16 @@ draw_sprite(crosshair,0,window_mouse_get_x(),window_mouse_get_y());
             <kind>1</kind>
             <string>if(show_muzzle_flash)
 {
-    var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
-    draw_sprite_ext(spr_Large_Gun_Muzzle_Flash,0,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
-    show_muzzle_flash = false;
-    if(global.is_christmas)
+    if(muzzle_flash_current_frame &lt; muzzle_flash_frames)
     {
-        light = instance_create(owner.x + offset[0],owner.y + offset[1],obj_light);
-        light.color = c_yellow;
-        light.radius = 30;
-        alarm[2] = 3;
+        var offset = get_offset(owner.look_target,bullet_x_offset,bullet_y_offset);
+        draw_sprite_ext(muzzle_flash_sprite,muzzle_flash_current_frame,owner.x + offset[0],owner.y + offset[1],1,1,owner.look_target,c_white,1);
+        muzzle_flash_current_frame++;
+    }
+    else
+    {
+        muzzle_flash_current_frame = 0;
+        show_muzzle_flash = false;
     }
 }
 </string>

@@ -11,3 +11,6 @@ add_sound(snd_Shotgun_Reload);
 add_sound(snd_Tank_Fire);
 add_sound(snd_Tank_Start);
 add_sound(snd_Tank_Engine);
+
+//UI Sounds
+add_sound(snd_Text_Fall);
